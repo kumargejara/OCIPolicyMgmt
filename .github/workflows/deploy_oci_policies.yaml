@@ -19,6 +19,8 @@ jobs:
       run: |
         echo hello world
         ls -lt
+        cd 
+        pwd
         echo ${{ secrets.OCI_USER_ID }}
         echo ${{ secrets.OCI_TENANCY_ID }}
         echo ${{ vars.OCI_REGION }}

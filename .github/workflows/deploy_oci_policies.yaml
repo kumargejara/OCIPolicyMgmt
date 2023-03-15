@@ -21,8 +21,8 @@ jobs:
         pwd
         cat config
         sed -i "s/OCI_USER_ID/${{vars.OCI_USER_ID}}/g" "config"
-        sed -i "s/OCI_FINGER_PRINT_ID/${{vars.secrets.OCI_FINGER_PRINT_ID}}/g" "config"
-        sed -i "s/OCI_TENANCY_ID/${{vars.secrets.OCI_TENANCY_ID}}/g" "config"
+        sed -i "s/OCI_FINGER_PRINT_ID/${{vars.OCI_FINGER_PRINT_ID}}/g" "config"
+        sed -i "s/OCI_TENANCY_ID/${{vars.OCI_TENANCY_ID}}/g" "config"
         sed -i "s/OCI_REGION/${{vars.OCI_REGION}}/g" "config"
         cat config
         #echo ${{ secrets.OCI_PRIVATE_KEY_DATA }}

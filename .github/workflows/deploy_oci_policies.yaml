@@ -14,7 +14,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
   
-    - name: simple command line test
+    - name: setup
       run: |
         echo hello world
         ls -lt
@@ -25,14 +25,23 @@ jobs:
         sed -i "s/OCI_TENANCY_ID/${{vars.OCI_TENANCY_ID}}/g" "config"
         sed -i "s/OCI_REGION/${{vars.OCI_REGION}}/g" "config"
         cat config
-        #echo ${{ secrets.OCI_PRIVATE_KEY_DATA }}
-        #sudo apt update && sudo apt upgrade -y
-        #sudo apt install python3
-        #pip install oci-cli
-        #wget https://releases.hashicorp.com/terraform/1.4.1/terraform_1.4.1_linux_amd64.zip
-        #sudo unzip terraform_1.4.1_linux_amd64.zip -d /usr/local/bin <<< "y"
-        #oci --help
-        #terraform --help
-        #terraform --version
-        #oci --version
-        #python --version
+        sudo apt update && sudo apt upgrade -y
+        sudo apt install python3
+        pip install oci-cli
+        wget https://releases.hashicorp.com/terraform/1.4.1/terraform_1.4.1_linux_amd64.zip
+        sudo unzip terraform_1.4.1_linux_amd64.zip -d /usr/local/bin <<< "y"
+        oci --help
+        terraform --help
+        terraform --version
+        oci --version
+        python --version
+   
+    - name: check oci
+      env:
+        OCI_CLI_USER: ${{vars.OCI_USER_ID}}
+        OCI_CLI_FINGERPRINT: ${{ vars.OCI_FINGER_PRINT_ID }}
+        OCI_CLI_TENANCY: ${{ vars.OCI_TENANCY_ID }}
+        OCI_CLI_REGION: ${{ vars.OCI_REGION }}
+        OCI_CLI_KEY_CONTENT: "${{ secrets.OCI_CLI_KEY_CONTENT }}"
+      run: |
+        oci os ns get

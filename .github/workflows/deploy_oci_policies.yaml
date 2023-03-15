@@ -20,14 +20,16 @@ jobs:
         echo hello world
         ls -lt
         pwd
-        sed -i "s/OCI_USER_ID/${{secrets.OCI_USER_ID}}/g" "./config"
-        sed -i "s/OCI_FINGER_PRINT_ID/${{secrets.secrets.OCI_FINGER_PRINT_ID}}/g" "./config"
-        sed -i "s/OCI_TENANCY_ID/${{secrets.secrets.OCI_TENANCY_ID}}/g" "./config"
-        sed -i "s/OCI_REGION/${{vars.OCI_REGION}}/g" "./config"
-        echo ${{ secrets.OCI_PRIVATE_KEY_DATA }}
-        echo ${{ secrets.OCI_USER_ID }}
-        echo ${{ secrets.OCI_TENANCY_ID }}
-        echo ${{ vars.OCI_REGION }}
+        cat config
+        sed -i "s/OCI_USER_ID/${{secrets.OCI_USER_ID}}/g" "config"
+        sed -i "s/OCI_FINGER_PRINT_ID/${{secrets.secrets.OCI_FINGER_PRINT_ID}}/g" "config"
+        sed -i "s/OCI_TENANCY_ID/${{secrets.secrets.OCI_TENANCY_ID}}/g" "config"
+        sed -i "s/OCI_REGION/${{vars.OCI_REGION}}/g" "config"
+        cat config
+        #echo ${{ secrets.OCI_PRIVATE_KEY_DATA }}
+        #echo ${{ secrets.OCI_USER_ID }}
+        #echo ${{ secrets.OCI_TENANCY_ID }}
+        #echo ${{ vars.OCI_REGION }}
         #sudo apt update && sudo apt upgrade -y
         #sudo apt install python3
         #pip install oci-cli

@@ -20,3 +20,4 @@ jobs:
         ls -lt
         sudo apt update && sudo apt upgrade -y
         sudo apt install python3
+        bash -c "$(curl -L https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh)

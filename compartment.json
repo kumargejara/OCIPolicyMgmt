@@ -1,0 +1,48 @@
+{
+    "compartment-policy-document": {
+       "name": "development policies",
+       "version": "1.0.1",
+       "group-based-policies": {
+           "group": [
+            "sandbox_group",
+            "dev_group",
+            "prod_group"
+            ],
+            "compartment": [
+                "sandbox",
+                "development",
+                "production"
+            ],
+           "policy": [
+                "Allow group TNET_GROUP to use instances in compartment TNET_COMPARTMENT",
+                "Allow group TNET_GROUP to use instance-images in compartment TNET_COMPARTMENT",
+                "Allow group TNET_GROUP to use object-family in compartment TNET_COMPARTMENT",
+                "Allow group TNET_GROUP to use volume-family in compartment TNET_COMPARTMENT",
+                "Allow group TNET_GROUP to inspect instance-images in compartment TNET_COMPARTMENT"
+            ]
+        },
+        "dynamic-group-based-policies": {
+            "group": [
+             "sandbox_group1",
+             "dev_group1"
+             ],
+             "compartment": [
+                 "sandbox",
+                 "development"
+             ],
+            "policy": [
+                 "Allow dynamic-group TNET_DGROUP to use instances in compartment TNET_COMPARTMENT",
+                 "Allow dynamic-group TNET_DGROUP to use instance-images in compartment TNET_COMPARTMENT",
+                 "Allow dynamic-group TNET_DGROUP to use object-family in compartment TNET_COMPARTMENT",
+                 "Allow dynamic-group TNET_DGROUP to use volume-family in compartment TNET_COMPARTMENT",
+                 "Allow dynamic-group TNET_DGROUP to inspect instance-images in compartment TNET_COMPARTMENT"
+             ]
+         },
+         "general-compartment-based-policies": {
+            "policy": [
+               "Allow group sandbox_group to use tag-namespaces in compartment development",
+               "Allow group any-user to use tag-namespaces in compartment development"
+            ]
+         }
+    }
+ }

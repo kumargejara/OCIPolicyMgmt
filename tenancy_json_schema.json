@@ -1,0 +1,162 @@
+{
+	"definitions": {},
+	"$schema": "http://json-schema.org/draft-07/schema#", 
+	"$id": "https://example.com/object1678852342.json", 
+	"title": "Root", 
+	"type": "object",
+	"required": [
+		"tenancy-policy-document"
+	],
+	"properties": {
+		"tenancy-policy-document": {
+			"$id": "#root/tenancy-policy-document", 
+			"title": "Tenancy-policy-document", 
+			"type": "object",
+			"required": [
+				"name",
+				"version",
+				"group-based-policies",
+				"dynamic-group-based-policies",
+				"general-tenancy-based-policies"
+			],
+			"properties": {
+				"name": {
+					"$id": "#root/tenancy-policy-document/name", 
+					"title": "Name", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"tenancy policies"
+					],
+					"pattern": "^.*$"
+				},
+				"version": {
+					"$id": "#root/tenancy-policy-document/version", 
+					"title": "Version", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"1.0.1"
+					],
+					"pattern": "^.*$"
+				},
+				"group-based-policies": {
+					"$id": "#root/tenancy-policy-document/group-based-policies", 
+					"title": "Group-based-policies", 
+					"type": "object",
+					"required": [
+						"group",
+						"policy"
+					],
+					"properties": {
+						"group": {
+							"$id": "#root/tenancy-policy-document/group-based-policies/group", 
+							"title": "Group", 
+							"type": "array",
+							"default": [],
+							"items":{
+								"$id": "#root/tenancy-policy-document/group-based-policies/group/items", 
+								"title": "Items", 
+								"type": "string",
+								"default": "",
+								"examples": [
+									"sandbox_group"
+								],
+								"pattern": "^.*$"
+							}
+						},
+						"policy": {
+							"$id": "#root/tenancy-policy-document/group-based-policies/policy", 
+							"title": "Policy", 
+							"type": "array",
+							"default": [],
+							"items":{
+								"$id": "#root/tenancy-policy-document/group-based-policies/policy/items", 
+								"title": "Items", 
+								"type": "string",
+								"default": "",
+								"examples": [
+									"Allow group TNET_GROUP to use tag-namespaces in tenancy"
+								],
+								"pattern": "^.*$"
+							}
+						}
+					}
+				}
+,
+				"dynamic-group-based-policies": {
+					"$id": "#root/tenancy-policy-document/dynamic-group-based-policies", 
+					"title": "Dynamic-group-based-policies", 
+					"type": "object",
+					"required": [
+						"group",
+						"policy"
+					],
+					"properties": {
+						"group": {
+							"$id": "#root/tenancy-policy-document/dynamic-group-based-policies/group", 
+							"title": "Group", 
+							"type": "array",
+							"default": [],
+							"items":{
+								"$id": "#root/tenancy-policy-document/dynamic-group-based-policies/group/items", 
+								"title": "Items", 
+								"type": "string",
+								"default": "",
+								"examples": [
+									"dynamic_group_a"
+								],
+								"pattern": "^.*$"
+							}
+						},
+						"policy": {
+							"$id": "#root/tenancy-policy-document/dynamic-group-based-policies/policy", 
+							"title": "Policy", 
+							"type": "array",
+							"default": [],
+							"items":{
+								"$id": "#root/tenancy-policy-document/dynamic-group-based-policies/policy/items", 
+								"title": "Items", 
+								"type": "string",
+								"default": "",
+								"examples": [
+									"Allow dynamic-group TNET_DGROUP to use tag-namespaces in tenancy"
+								],
+								"pattern": "^.*$"
+							}
+						}
+					}
+				}
+,
+				"general-tenancy-based-policies": {
+					"$id": "#root/tenancy-policy-document/general-tenancy-based-policies", 
+					"title": "General-tenancy-based-policies", 
+					"type": "object",
+					"required": [
+						"policy"
+					],
+					"properties": {
+						"policy": {
+							"$id": "#root/tenancy-policy-document/general-tenancy-based-policies/policy", 
+							"title": "Policy", 
+							"type": "array",
+							"default": [],
+							"items":{
+								"$id": "#root/tenancy-policy-document/general-tenancy-based-policies/policy/items", 
+								"title": "Items", 
+								"type": "string",
+								"default": "",
+								"examples": [
+									"Allow group sandbox_group to use tag-namespaces in tenancy"
+								],
+								"pattern": "^.*$"
+							}
+						}
+					}
+				}
+
+			}
+		}
+
+	}
+}

@@ -1,0 +1,36 @@
+{
+    "tenancy-policy-document": {
+       "name": "tenancy policies",
+       "version": "1.0.1",
+       "group-based-policies": {
+          "group": [
+             "sandbox_group",
+             "dev_group"
+          ],
+          "policy": [
+             "Allow group TNET_GROUP to use tag-namespaces in tenancy",
+             "Allow group TNET_GROUP to inspect tag-namespaces in tenancy",
+             "Allow group TNET_GROUP to read tag-namespaces in tenancy",
+             "Allow group TNET_GROUP to read app-catalog-listing in tenancy"
+          ]
+       },
+      "dynamic-group-based-policies": {
+        "group": [
+           "dynamic_group_a",
+           "dynamic_group_b"
+        ],
+        "policy": [
+           "Allow dynamic-group TNET_DGROUP to use tag-namespaces in tenancy",
+           "Allow dynamic-group TNET_DGROUP to inspect tag-namespaces in tenancy",
+           "Allow dynamic-group TNET_DGROUP to read tag-namespaces in tenancy",
+           "Allow dynamic-group TNET_DGROUP to read app-catalog-listing in tenancy"
+        ]
+       },
+       "general-tenancy-based-policies": {
+          "policy": [
+             "Allow group sandbox_group1 to use tag-namespaces in tenancy",
+             "Allow group dev_group2 to inspect tag-namespaces in tenancy"
+          ]
+       }
+    }
+ }

@@ -37,11 +37,5 @@ jobs:
         python --version
    
     - name: check oci
-      env:
-        OCI_CLI_USER: ${{vars.OCI_USER_ID}}
-        OCI_CLI_FINGERPRINT: ${{ vars.OCI_FINGER_PRINT_ID }}
-        OCI_CLI_TENANCY: ${{ vars.OCI_TENANCY_ID }}
-        OCI_CLI_REGION: ${{ vars.OCI_REGION }}
-        OCI_CLI_KEY_CONTENT: '${{ secrets.OCI_CLI_KEY_CONTENT }}'
       run: |
         oci os ns get --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug 

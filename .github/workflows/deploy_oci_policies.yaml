@@ -18,13 +18,14 @@ jobs:
       run: |
         echo hello world
         ls -lt
-        sudo apt update && sudo apt upgrade -y
-        sudo apt install python3
-        pip install oci-cli
-        wget https://releases.hashicorp.com/terraform/1.4.1/terraform_1.4.1_linux_amd64.zip
-        sudo unzip terraform_1.4.1_linux_amd64.zip -d /usr/local/bin <<< "y"
-        oci --help
-        terraform --help
-        terraform --version
-        oci --version
-        python --version
+        echo "${{ vars.OCI_REGION }}"
+        #sudo apt update && sudo apt upgrade -y
+        #sudo apt install python3
+        #pip install oci-cli
+        #wget https://releases.hashicorp.com/terraform/1.4.1/terraform_1.4.1_linux_amd64.zip
+        #sudo unzip terraform_1.4.1_linux_amd64.zip -d /usr/local/bin <<< "y"
+        #oci --help
+        #terraform --help
+        #terraform --version
+        #oci --version
+        #python --version

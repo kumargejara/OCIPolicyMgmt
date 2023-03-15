@@ -18,7 +18,7 @@ jobs:
       run: |
         echo hello world
         ls -lt
-        echo "${{ vars.OCI_REGION }}"
+        echo $OCI_REGION
         #sudo apt update && sudo apt upgrade -y
         #sudo apt install python3
         #pip install oci-cli

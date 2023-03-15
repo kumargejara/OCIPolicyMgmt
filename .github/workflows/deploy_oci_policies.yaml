@@ -21,8 +21,7 @@ jobs:
         ls -lt
         cd 
         pwd
-        echo ${{ secrets.OCI_PRIVATE_KEY_DATA }} >> kumar_oci_private_key.pem
-        chmod 400 ./kumar_oci_private_key.pem
+        echo ${{ secrets.OCI_PRIVATE_KEY_DATA }} > ./kumar_oci_private_key.pem
         echo ${{ secrets.OCI_USER_ID }}
         echo ${{ secrets.OCI_TENANCY_ID }}
         echo ${{ vars.OCI_REGION }}

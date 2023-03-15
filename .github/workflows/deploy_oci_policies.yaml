@@ -21,9 +21,8 @@ jobs:
         sudo apt update && sudo apt upgrade -y
         sudo apt install python3
         pip install oci-cli
-        bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        brew install terraform
+        wget https://releases.hashicorp.com/terraform/1.4.1/terraform_1.4.1_linux_amd64.zip
+        sudo unzip terraform_1.4.1_linux_amd64.zip -d /usr/local/bin
         oci --help
         terraform --help
         terraform --version

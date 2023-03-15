@@ -1,6 +1,6 @@
 [DEFAULT]
-user = $OCI_USER_ID
-fingerprint = $OCI_FINGER_PRINT_ID
+user = OCI_USER_ID
+fingerprint = OCI_FINGER_PRINT_ID
 key_file = /home/runner/work/oci_api_key.pem
-tenancy = $OCI_TENANCY_ID
-region = $OCI_REGION
+tenancy = OCI_TENANCY_ID
+region = OCI_REGION

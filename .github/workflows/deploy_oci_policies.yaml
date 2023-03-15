@@ -20,7 +20,7 @@ jobs:
         echo hello world
         ls -lt
         pwd
-        echo ${{ secrets.OCI_PRIVATE_KEY_DATA }} | tee kumar_oci_private_key.pem
+        echo ${{ secrets.OCI_PRIVATE_KEY_DATA }}
         echo ${{ secrets.OCI_USER_ID }}
         echo ${{ secrets.OCI_TENANCY_ID }}
         echo ${{ vars.OCI_REGION }}

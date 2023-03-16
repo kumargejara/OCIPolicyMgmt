@@ -129,5 +129,5 @@ for i in range(len(policy_list)):
 
 print(f"Existing Policies List = {existing_policy_count-1}")
 print(f"New Policies Will Be Added  = {new_policy_count}")
-print(f"Total Policies List = {len(policy_list)}")
+print(f"Total Policies List = {existing_policy_count-1+new_policy_count}")
 write_new_policies("new_policy_state.json", new_policy_list)

@@ -1,0 +1,18 @@
+{
+	"definitions": {},
+	"$schema": "http://json-schema.org/draft-07/schema#", 
+	"$id": "https://example.com/object1678992242.json", 
+	"title": "Root", 
+	"type": "array",
+	"default": [],
+	"items":{
+		"$id": "#root/items", 
+		"title": "Items", 
+		"type": "string",
+		"default": "",
+		"examples": [
+			"Allow group sandbox_group to inspect instance-images in compartment development"
+		],
+		"pattern": "^.*$"
+	}
+}

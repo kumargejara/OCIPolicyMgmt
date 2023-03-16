@@ -1,3 +1,10 @@
-["Allow group sandbox_group to inspect instance-images in compartment development",
- "Allow group sandbox_group to use instances in compartment development"
+[
+  "Allow group sandbox_group to use tag-namespaces in tenancy",
+  "Allow group sandbox_group to inspect tag-namespaces in tenancy",
+  "Allow group sandbox_group to read tag-namespaces in tenancy",
+  "Allow group sandbox_group to read app-catalog-listing in tenancy",
+  "Allow group dev_group to use tag-namespaces in tenancy",
+  "Allow group dev_group to inspect tag-namespaces in tenancy",
+  "Allow group dev_group to read tag-namespaces in tenancy",
+  "Allow group dev_group to read app-catalog-listing in tenancy"
 ]

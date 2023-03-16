@@ -1,6 +1,7 @@
 import json
 import jsonschema
 from jsonschema import validate
+import os
 
 def get_schema(file_name):
     with open(file_name, 'r') as file:
@@ -25,17 +26,35 @@ def validate_json(json_data, json_schema):
     return True, message
 
 def check_policy(policy, policydata):
-    for existing_policy in policydata['policy']:
+    for existing_policy in policydata:
         if existing_policy.lower() == policy.lower():
             return True
     return False
 
+def write_new_policies(filename, policy_list):
+    try:
+        os.remove(filename)
+    except OSError as e:
+        print("Error: %s - %s." % (e.filename, e.strerror))
+
+    file1 = open(filename, 'w')
+    file1.write('[\n')
+    for existing_policy in existing_policy_document:
+        file1.write('"'+existing_policy+'",\n')
+    for i in range(len(policy_list)):
+        if (i+1) == len(policy_list):
+            file1.write('"'+policy_list[i]+'"\n')
+        else:
+            file1.write('"'+policy_list[i]+'",\n')
+    file1.write(']')
+    file1.close()
 
 tenancy_policy_schema = get_schema('tenancy_json_schema.json')
 compartment_policy_schema = get_schema('compartment_json_schema.json')
+policy_state_schema = get_schema('policy_state_schema.json')
 tenancy_policy_document = get_json_data('tenancy.json')
 compartment_policy_document = get_json_data('compartment.json')
-existing_policy_document = get_json_data('current_policies_list.json')
+existing_policy_document = get_json_data('policy_state.json')
 print("schema successfully loaded")
 print("**********************************************************************************")
 print(tenancy_policy_schema)
@@ -51,6 +70,9 @@ is_valid, msg = validate_json(tenancy_policy_document, tenancy_policy_schema)
 print(msg) 
 is_valid, msg = validate_json(compartment_policy_document, compartment_policy_schema)
 print(msg)
+is_valid, msg = validate_json(existing_policy_document, policy_state_schema)
+print(msg)
+
 policy_list = []
 
 for group in tenancy_policy_document['tenancy-policy-document']['group-based-policies']['group']:
@@ -90,6 +112,11 @@ for policy in compartment_policy_document['compartment-policy-document']['genera
     policy_list.append(policy)
     print(policy)
 
+print("**********************************************************************************")
+
+for item in existing_policy_document:
+    print(item)
+
 existing_policy_count=0
 new_policy_count = 0
 new_policy_list = []
@@ -100,6 +127,8 @@ for i in range(len(policy_list)):
         new_policy_list.append(policy_list[i])
         new_policy_count = new_policy_count+1
 
-print(len(policy_list))
-print(existing_policy_count)
-print(new_policy_count)
+
+print(f"Existing Policies List = {existing_policy_count-1}")
+print(f"New Policies Will Be Added  = {new_policy_count}")
+print(f"Total Policies List = {len(policy_list)}")
+write_new_policies("new_policy_state.json", new_policy_list)

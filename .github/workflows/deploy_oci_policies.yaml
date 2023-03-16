@@ -41,4 +41,4 @@ jobs:
     - name: check oci
       run: |
         oci os ns get --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
-        oci os bucket list --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
+        oci os bucket list --namespace ${{vars.OCI_NAMESPACE}} --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug

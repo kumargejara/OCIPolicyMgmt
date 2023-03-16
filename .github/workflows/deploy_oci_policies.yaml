@@ -37,6 +37,7 @@ jobs:
         oci setup repair-file-permissions --file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config
         oci setup repair-file-permissions --file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/oci_api_key.pem 
         python --version
+        python validate_generate_policies.py
    
     - name: check oci
       run: |

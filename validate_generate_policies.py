@@ -106,13 +106,11 @@ for group in compartment_policy_document['compartment-policy-document']['group-b
             stmt = stmt.replace("TNET_COMPARTMENT", compartment)
             policy_list.append(stmt)
             print(stmt)
-
+'''
 
 for policy in compartment_policy_document['compartment-policy-document']['general-compartment-based-policies']['policy']:
     policy_list.append(policy)
     print(policy)
-'''
-
 
 print("**********************************************************************************")
 

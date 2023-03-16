@@ -99,14 +99,13 @@ for group in compartment_policy_document['compartment-policy-document']['group-b
             policy_list.append(stmt)
             print(stmt)
 
-'''for group in compartment_policy_document['compartment-policy-document']['dynamic-group-based-policies']['group']:
+for group in compartment_policy_document['compartment-policy-document']['dynamic-group-based-policies']['group']:
     for compartment in compartment_policy_document['compartment-policy-document']['dynamic-group-based-policies']['compartment']:
         for policy in compartment_policy_document['compartment-policy-document']['dynamic-group-based-policies']['policy']:
             stmt = policy.replace("TNET_DGROUP", group)
             stmt = stmt.replace("TNET_COMPARTMENT", compartment)
             policy_list.append(stmt)
             print(stmt)
-'''
 
 for policy in compartment_policy_document['compartment-policy-document']['general-compartment-based-policies']['policy']:
     policy_list.append(policy)

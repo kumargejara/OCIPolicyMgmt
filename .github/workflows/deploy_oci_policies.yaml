@@ -43,4 +43,4 @@ jobs:
       run: |
         oci os ns get --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
         oci os bucket list -c ocid1.compartment.oc1..aaaaaaaaoorr4zezczh4zsq2kcngjbeic7d66eh5xfifkid2gth4kcxwirra --namespace ${{vars.OCI_NAMESPACE}} --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
-        oci iam policy create --compartment-id ocid1.tenancy.oc1..aaaaaaaad3m5voewraokiw5gede3t3ahaz3zsuy7bs5iqecxujvedfzv3cea --description "test description 1" --name "test_policies_automation" --statements file://policy_statements.json --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
+        oci iam policy update --compartment-id ocid1.tenancy.oc1..aaaaaaaad3m5voewraokiw5gede3t3ahaz3zsuy7bs5iqecxujvedfzv3cea --description "test description 1" --name "test_policies_automation" --statements file://policy_statements.json --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug

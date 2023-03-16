@@ -1,3 +1,3 @@
-["Allow group to use instances in compartment sandbox1",
- "Allow group to inspect instance-images in compartment sandbox"
+["Allow group sandbox_group to inspect instance-images in compartment sandbox",
+ "Allow group sandbox_group to use instances in compartment development"
 ]

@@ -23,11 +23,9 @@
         },
         "dynamic-group-based-policies": {
             "group": [
-             "sandbox_group1",
-             "dev_group1"
+             "dev_dynamic_group1"
              ],
              "compartment": [
-                 "sandbox",
                  "development"
              ],
             "policy": [

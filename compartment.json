@@ -9,7 +9,8 @@
             "prod_group"
             ],
             "compartment": [
-                "sandbox"
+                "sandbox",
+                "kumar_qbe"
             ],
            "policy": [
                 "Allow group TNET_GROUP to use instances in compartment TNET_COMPARTMENT",

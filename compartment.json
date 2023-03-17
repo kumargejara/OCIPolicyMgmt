@@ -4,13 +4,10 @@
        "version": "1.0.1",
        "group-based-policies": {
            "group": [
-            "sandbox_group",
-            "dev_group",
-            "prod_group"
+            "sandbox_group"
             ],
             "compartment": [
-                "sandbox",
-                "kumar_qbe"
+                "sandbox"
             ],
            "policy": [
                 "Allow group TNET_GROUP to use instances in compartment TNET_COMPARTMENT",

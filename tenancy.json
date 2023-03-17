@@ -10,9 +10,7 @@
           ],
           "policy": [
              "Allow group TNET_GROUP to use tag-namespaces in tenancy",
-             "Allow group TNET_GROUP to inspect tag-namespaces in tenancy",
-             "Allow group TNET_GROUP to read tag-namespaces in tenancy",
-             "Allow group TNET_GROUP to read app-catalog-listing in tenancy"
+             "Allow group TNET_GROUP to inspect tag-namespaces in tenancy"
           ]
        },
       "dynamic-group-based-policies": {

@@ -35,7 +35,7 @@ def write_new_policies(filename, policy_list):
     try:
         os.remove(filename)
     except OSError as e:
-        print("Error: %s - %s." % (e.filename, e.strerror))
+        error_message = e
 
     file1 = open(filename, 'w')
     file1.write('[\n')

@@ -46,4 +46,7 @@ jobs:
         oci iam policy get --policy-id ocid1.policy.oc1..aaaaaaaa4bdnoglzmbaguftcb5wzzjuar3fc6fepfwplxpay3gosbbavovjq --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug >> current1_policy_state.json
         ls -lt
         cat current1_policy_state.json
+        oci iam policy list -c ocid1.compartment.oc1..aaaaaaaaoorr4zezczh4zsq2kcngjbeic7d66eh5xfifkid2gth4kcxwirra --name test_policies_automation --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug >> current1_policy_list.json
+        ls -lt
+        cat current1_policy_list.json
         #yes | oci iam policy update --description "test description and update1" --policy-id ocid1.policy.oc1..aaaaaaaa4bdnoglzmbaguftcb5wzzjuar3fc6fepfwplxpay3gosbbavovjq --statements file://new_policy_state.json --version-date "2023-03-17" --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug

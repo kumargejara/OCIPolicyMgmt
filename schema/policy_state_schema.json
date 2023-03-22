@@ -1,0 +1,234 @@
+{
+	"definitions": {},
+	"$schema": "http://json-schema.org/draft-07/schema#", 
+	"$id": "https://example.com/object1679415132.json", 
+	"title": "Root", 
+	"type": "object",
+	"required": [
+		"data",
+		"etag"
+	],
+	"properties": {
+		"data": {
+			"$id": "#root/data", 
+			"title": "Data", 
+			"type": "object",
+			"required": [
+				"compartment-id",
+				"defined-tags",
+				"description",
+				"freeform-tags",
+				"id",
+				"inactive-status",
+				"lifecycle-state",
+				"name",
+				"statements",
+				"time-created",
+				"version-date"
+			],
+			"properties": {
+				"compartment-id": {
+					"$id": "#root/data/compartment-id", 
+					"title": "Compartment-id", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"ocid1.tenancy.oc1..aaaaaaaad3m5voewraokiw5gede3t3ahaz3zsuy7bs5iqecxujvedfzv3cea"
+					],
+					"pattern": "^.*$"
+				},
+				"defined-tags": {
+					"$id": "#root/data/defined-tags", 
+					"title": "Defined-tags", 
+					"type": "object",
+					"required": [
+						"Oracle-Tags",
+						"compartment",
+						"operation"
+					],
+					"properties": {
+						"Oracle-Tags": {
+							"$id": "#root/data/defined-tags/Oracle-Tags", 
+							"title": "Oracle-tags", 
+							"type": "object",
+							"required": [
+								"CreatedBy",
+								"CreatedOn"
+							],
+							"properties": {
+								"CreatedBy": {
+									"$id": "#root/data/defined-tags/Oracle-Tags/CreatedBy", 
+									"title": "Createdby", 
+									"type": "string",
+									"default": "",
+									"examples": [
+										"default/kumar.gejara@gmail.com"
+									],
+									"pattern": "^.*$"
+								},
+								"CreatedOn": {
+									"$id": "#root/data/defined-tags/Oracle-Tags/CreatedOn", 
+									"title": "Createdon", 
+									"type": "string",
+									"default": "",
+									"examples": [
+										"2023-03-16T14:41:30.760Z"
+									],
+									"pattern": "^.*$"
+								}
+							}
+						}
+,
+						"compartment": {
+							"$id": "#root/data/defined-tags/compartment", 
+							"title": "Compartment", 
+							"type": "object",
+							"required": [
+								"compartment_type"
+							],
+							"properties": {
+								"compartment_type": {
+									"$id": "#root/data/defined-tags/compartment/compartment_type", 
+									"title": "Compartment_type", 
+									"type": "string",
+									"default": "",
+									"examples": [
+										"shared"
+									],
+									"pattern": "^.*$"
+								}
+							}
+						}
+,
+						"operation": {
+							"$id": "#root/data/defined-tags/operation", 
+							"title": "Operation", 
+							"type": "object",
+							"required": [
+								"name"
+							],
+							"properties": {
+								"name": {
+									"$id": "#root/data/defined-tags/operation/name", 
+									"title": "Name", 
+									"type": "string",
+									"default": "",
+									"examples": [
+										"security"
+									],
+									"pattern": "^.*$"
+								}
+							}
+						}
+
+					}
+				}
+,
+				"description": {
+					"$id": "#root/data/description", 
+					"title": "Description", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"test description and update1"
+					],
+					"pattern": "^.*$"
+				},
+				"freeform-tags": {
+					"$id": "#root/data/freeform-tags", 
+					"title": "Freeform-tags", 
+					"type": "object",
+					"required": [
+					],
+					"properties": {
+					}
+				}
+,
+				"id": {
+					"$id": "#root/data/id", 
+					"title": "Id", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"ocid1.policy.oc1..aaaaaaaa4bdnoglzmbaguftcb5wzzjuar3fc6fepfwplxpay3gosbbavovjq"
+					],
+					"pattern": "^.*$"
+				},
+				"inactive-status": {
+					"$id": "#root/data/inactive-status", 
+					"title": "Inactive-status", 
+					"type": "null",
+					"default": null
+				},
+				"lifecycle-state": {
+					"$id": "#root/data/lifecycle-state", 
+					"title": "Lifecycle-state", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"ACTIVE"
+					],
+					"pattern": "^.*$"
+				},
+				"name": {
+					"$id": "#root/data/name", 
+					"title": "Name", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"test_policies_automation"
+					],
+					"pattern": "^.*$"
+				},
+				"statements": {
+					"$id": "#root/data/statements", 
+					"title": "Statements", 
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/data/statements/items", 
+						"title": "Items", 
+						"type": "string",
+						"default": "",
+						"examples": [
+							"Allow group sandbox_group to use tag-namespaces in tenancy"
+						],
+						"pattern": "^.*$"
+					}
+				},
+				"time-created": {
+					"$id": "#root/data/time-created", 
+					"title": "Time-created", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"2023-03-16T14:41:30.863000+00:00"
+					],
+					"pattern": "^.*$"
+				},
+				"version-date": {
+					"$id": "#root/data/version-date", 
+					"title": "Version-date", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"2023-03-17T00:00:00+00:00"
+					],
+					"pattern": "^.*$"
+				}
+			}
+		}
+,
+		"etag": {
+			"$id": "#root/etag", 
+			"title": "Etag", 
+			"type": "string",
+			"default": "",
+			"examples": [
+				"512b9b32aa8dbaf6c5d3d9be771f9a767c2ade2f"
+			],
+			"pattern": "^.*$"
+		}
+	}
+}
+

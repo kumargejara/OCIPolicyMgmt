@@ -37,40 +37,47 @@ def prepareJsonForCurrentPolicies(filename):
     Lines = read_file.readlines()
     write_file = open(os.getcwd()+'/policies/policy_state.json', 'w')
     write_flag = 0
+    total_current_policy_count = 0
     for line in Lines:
         if (write_flag == 0):
             if "header: Content-Length:" in line:
                 write_flag = 1
         else:
             write_file.write(line)
+            total_current_policy_count = total_current_policy_count + 1
     read_file.close()
     write_file.close()
+    print(f'Total Current Policies Count = {total_current_policy_count}')
 
 
 def write_new_policies(filename, policy_list):
-    try:
-        os.remove(filename)
-    except OSError as e:
-        print("Error: %s - %s." % (e.filename, e.strerror))
-
     file1 = open(filename, 'w')
     file1.write('[\n')
     print("\nCurrent Policy List")
     print("**********************************************************************************")
+    total_current_policy_count1 = 0
     for existing_policy in existing_policy_document['data']['statements']:
         file1.write('"'+existing_policy+'",\n')
         print(existing_policy)
+        total_current_policy_count1 = total_current_policy_count1 + 1
+    
+    print(f'Second check: Total Current Policies Count = {total_current_policy_count1}')
     print("**********************************************************************************\n")
     print("\nNew Policy List")
     print("**********************************************************************************")
+    total_new_policy_count = 0
     for i in range(len(policy_list)):
         if (i+1) == len(policy_list):
             file1.write('"'+policy_list[i]+'"\n')
+            total_new_policy_count = total_new_policy_count + 1
         else:
             file1.write('"'+policy_list[i]+'",\n')
+            total_new_policy_count = total_new_policy_count + 1
         print(policy_list[i])
+    
     file1.write(']')
     file1.close()
+    print(f'Total New Policies Count = {total_new_policy_count}')
     print("**********************************************************************************\n")
 
 print("\n**********************************************************************************")
@@ -159,4 +166,3 @@ print(f"Existing Policies List = {existing_policy_count-1}")
 print(f"New Policies Will Be Added  = {new_policy_count}")
 print(f"Total Policies List = {existing_policy_count-1+new_policy_count}")
 print("**********************************************************************************\n")
-

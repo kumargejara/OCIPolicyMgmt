@@ -31,6 +31,22 @@ def check_policy(policy, policydata):
             return True
     return False
 
+def prepareJsonForCurrentPolicies(filename):
+    print("\nCurrent Policy List")
+    read_file = open(filename, 'r')
+    Lines = read_file.readlines()
+    write_file = open(os.getcwd()+'/policies/policy_state.json', 'w')
+    write_flag = 0
+    for line in Lines:
+        if (write_flag == 0):
+            if "header: Content-Length:" in line:
+                write_flag = 1
+        else:
+            write_file.write(line)
+    read_file.close()
+    write_file.close()
+
+
 def write_new_policies(filename, policy_list):
     try:
         os.remove(filename)
@@ -65,6 +81,7 @@ compartment_policy_schema = get_schema('./schema/compartment_json_schema.json')
 policy_state_schema = get_schema('./schema/policy_state_schema.json')
 tenancy_policy_document = get_json_data(os.getcwd()+'/policies/tenancy/tenancy.json')
 compartment_policy_document = get_json_data(os.getcwd()+'/policies/development/compartment.json')
+prepareJsonForCurrentPolicies(os.getcwd()+'/policies/policy_state_data.txt')
 existing_policy_document = get_json_data(os.getcwd()+'/policies/policy_state.json')
 
 print("\n**********************************************************************************")
@@ -140,6 +157,6 @@ print("Policy Summary Report")
 print("**********************************************************************************")
 print(f"Existing Policies List = {existing_policy_count-1}")
 print(f"New Policies Will Be Added  = {new_policy_count}")
-print(f"Total Policy List = {existing_policy_count-1+new_policy_count}")
+print(f"Total Policies List = {existing_policy_count-1+new_policy_count}")
 print("**********************************************************************************\n")
 

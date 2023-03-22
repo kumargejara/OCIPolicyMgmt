@@ -140,6 +140,6 @@ print("Policy Summary Report")
 print("**********************************************************************************")
 print(f"Existing Policies List = {existing_policy_count-1}")
 print(f"New Policies Will Be Added  = {new_policy_count}")
-print(f"Total Policies List = {existing_policy_count-1+new_policy_count}")
+print(f"Total Policy List = {existing_policy_count-1+new_policy_count}")
 print("**********************************************************************************\n")
 

@@ -13,20 +13,20 @@ def get_json_data(file_name):
         json_data = json.load(file)
     return json_data
 
-def validate_json(json_data, json_schema):
+def validate_json(json_data, json_schema, schemaType):
 
     try:
         validate(instance=json_data, schema=json_schema)
     except jsonschema.exceptions.ValidationError as err:
         print(err)
-        err = "Given JSON data is InValid"
+        err = "Given Json Policy data is InValid with "+ schemaType
         return False, err
 
-    message = "Given JSON data is Valid"
+    message = "Given Json Policy data is Valid with "+ schemaType
     return True, message
 
 def check_policy(policy, policydata):
-    for existing_policy in policydata:
+    for existing_policy in policydata['data']['statements']:
         if existing_policy.lower() == policy.lower():
             return True
     return False
@@ -35,44 +35,53 @@ def write_new_policies(filename, policy_list):
     try:
         os.remove(filename)
     except OSError as e:
-        error_message = e
+        print("Error: %s - %s." % (e.filename, e.strerror))
 
     file1 = open(filename, 'w')
     file1.write('[\n')
-    for existing_policy in existing_policy_document:
+    print("\nCurrent Policy List")
+    print("**********************************************************************************")
+    for existing_policy in existing_policy_document['data']['statements']:
         file1.write('"'+existing_policy+'",\n')
+        print(existing_policy)
+    print("**********************************************************************************\n")
+    print("\nNew Policy List")
+    print("**********************************************************************************")
     for i in range(len(policy_list)):
         if (i+1) == len(policy_list):
             file1.write('"'+policy_list[i]+'"\n')
         else:
             file1.write('"'+policy_list[i]+'",\n')
+        print(policy_list[i])
     file1.write(']')
     file1.close()
+    print("**********************************************************************************\n")
 
-tenancy_policy_schema = get_schema('tenancy_json_schema.json')
-compartment_policy_schema = get_schema('compartment_json_schema.json')
-policy_state_schema = get_schema('policy_state_schema.json')
-tenancy_policy_document = get_json_data('tenancy.json')
-compartment_policy_document = get_json_data('compartment.json')
-existing_policy_document = get_json_data('policy_state.json')
-print("schema successfully loaded")
-print("**********************************************************************************")
-print(tenancy_policy_schema)
-print("**********************************************************************************")
-print(compartment_policy_schema)
-print("**********************************************************************************")
-print(tenancy_policy_document)
-print("**********************************************************************************")
-print(compartment_policy_document)
-print("**********************************************************************************")
-print(existing_policy_document)
-is_valid, msg = validate_json(tenancy_policy_document, tenancy_policy_schema)
+print("\n**********************************************************************************")
+print("Policy Data Loaded Successfully From Source Code")
+print("**********************************************************************************\n")
+tenancy_policy_schema = get_schema('./schema/tenancy_json_schema.json')
+compartment_policy_schema = get_schema('./schema/compartment_json_schema.json')
+policy_state_schema = get_schema('./schema/policy_state_schema.json')
+tenancy_policy_document = get_json_data(os.getcwd()+'/policies/tenancy/tenancy.json')
+compartment_policy_document = get_json_data(os.getcwd()+'/policies/development/compartment.json')
+existing_policy_document = get_json_data(os.getcwd()+'/policies/policy_state.json')
+
+print("\n**********************************************************************************")
+print("Policy Schema Loaded Successfully From Json Schema Files")
+print("**********************************************************************************\n")
+
+
+is_valid, msg = validate_json(tenancy_policy_document, tenancy_policy_schema, "Tenancy Schema")
 print(msg) 
-is_valid, msg = validate_json(compartment_policy_document, compartment_policy_schema)
+is_valid, msg = validate_json(compartment_policy_document, compartment_policy_schema, "Environment Schema")
 print(msg)
-is_valid, msg = validate_json(existing_policy_document, policy_state_schema)
+is_valid, msg = validate_json(existing_policy_document, policy_state_schema, "Policy State Schema")
 print(msg)
 
+print("\n**********************************************************************************")
+print("Policy Validation Process Completed Successfully")
+print("**********************************************************************************\n")
 policy_list = []
 
 for group in tenancy_policy_document['tenancy-policy-document']['group-based-policies']['group']:
@@ -112,9 +121,8 @@ for policy in compartment_policy_document['compartment-policy-document']['genera
     print(policy)
 
 print("**********************************************************************************")
-
-for item in existing_policy_document:
-    print(item)
+print("Policy Build Process Completed Successfully")
+print("**********************************************************************************\n")
 
 existing_policy_count=0
 new_policy_count = 0
@@ -127,7 +135,11 @@ for i in range(len(policy_list)):
         new_policy_count = new_policy_count+1
 
 
+write_new_policies(os.getcwd()+'/policies/new_policy_state.json', new_policy_list)
+print("Policy Summary Report")
+print("**********************************************************************************")
 print(f"Existing Policies List = {existing_policy_count-1}")
 print(f"New Policies Will Be Added  = {new_policy_count}")
 print(f"Total Policies List = {existing_policy_count-1+new_policy_count}")
-write_new_policies("new_policy_state.json", new_policy_list)
+print("**********************************************************************************\n")
+

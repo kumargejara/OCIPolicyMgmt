@@ -1,0 +1,17 @@
+{
+    "Version": "1.0.0",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Domain": <domain>
+            "SubjectType": <[group | group id | dynamic-group | dynamic-group id ]>
+            "SubjectValue": <[<group value> | <group id value> | <dynamic-group value> | <dynamic-group id value> | any-user]>
+            "Action": [ inspect| read | use | manage ]
+            "ResourceType": all-resources | cluster-family | compute-management-family | data-catalog-family | database-family | datasafe-family-resources | dns | email-family | file-family | instance-agent-comman | instance-agent-family instance-family | object-family | optimizer-api-family | virtual-network-family | volume-family
+            "Location": tenancy | compartment <compartment_name> | compartment id <compartment_ocid>
+            "Condition": <conditions>
+        }
+    ]
+}
+
+

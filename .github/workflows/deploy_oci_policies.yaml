@@ -42,7 +42,7 @@ jobs:
       run: |
         #oci os ns get --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
         #oci os bucket list -c ocid1.compartment.oc1..aaaaaaaaoorr4zezczh4zsq2kcngjbeic7d66eh5xfifkid2gth4kcxwirra --namespace ${{vars.OCI_NAMESPACE}} --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
-        oci iam policy list -c ocid1.compartment.oc1..aaaaaaaaoorr4zezczh4zsq2kcngjbeic7d66eh5xfifkid2gth4kcxwirra --output json --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
+        #oci iam policy list -c ocid1.compartment.oc1..aaaaaaaaoorr4zezczh4zsq2kcngjbeic7d66eh5xfifkid2gth4kcxwirra --output json --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
         ls -lt
         echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
         cat ./policies/policy_state_data.txt
@@ -50,4 +50,4 @@ jobs:
         python validate_generate_policies.py
         cd ./policies
         ls -lt
-        #oci iam policy create --description "test description and update1" --policy-id ocid1.policy.oc1..aaaaaaaa4bdnoglzmbaguftcb5wzzjuar3fc6fepfwplxpay3gosbbavovjq --statements file://new_policy_state.json --version-date '' --force --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
+        oci iam policy create --description "test description and update1" --policy-id ocid1.policy.oc1..aaaaaaaa4bdnoglzmbaguftcb5wzzjuar3fc6fepfwplxpay3gosbbavovjq --statements file://new_policy_state.json --version-date '' --force --output json --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug

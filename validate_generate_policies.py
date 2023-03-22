@@ -37,7 +37,6 @@ def prepareJsonForCurrentPolicies(filename):
     Lines = read_file.readlines()
     write_file = open(os.getcwd()+'/policies/policy_state.json', 'w')
     write_flag = 0
-    total_current_policy_count = 0
     for line in Lines:
         if (write_flag == 0):
             if "header: Content-Length:" in line:
@@ -47,7 +46,6 @@ def prepareJsonForCurrentPolicies(filename):
             total_current_policy_count = total_current_policy_count + 1
     read_file.close()
     write_file.close()
-    print(f'Total Current Policies Count = {total_current_policy_count}')
 
 
 def write_new_policies(filename, policy_list):
@@ -55,13 +53,13 @@ def write_new_policies(filename, policy_list):
     file1.write('[\n')
     print("\nCurrent Policy List")
     print("**********************************************************************************")
-    total_current_policy_count1 = 0
+    total_current_policy_count = 0
     for existing_policy in existing_policy_document['data']['statements']:
         file1.write('"'+existing_policy+'",\n')
         print(existing_policy)
-        total_current_policy_count1 = total_current_policy_count1 + 1
+        total_current_policy_count = total_current_policy_count + 1
     
-    print(f'Second check: Total Current Policies Count = {total_current_policy_count1}')
+    print(f'Second check: Total Current Policies Count = {total_current_policy_count}')
     print("**********************************************************************************\n")
     print("\nNew Policy List")
     print("**********************************************************************************")

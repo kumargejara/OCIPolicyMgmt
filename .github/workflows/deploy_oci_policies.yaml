@@ -43,7 +43,8 @@ jobs:
       run: |
         oci os ns get --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
         oci os bucket list -c ocid1.compartment.oc1..aaaaaaaaoorr4zezczh4zsq2kcngjbeic7d66eh5xfifkid2gth4kcxwirra --namespace ${{vars.OCI_NAMESPACE}} --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
-        oci iam policy list -c ocid1.compartment.oc1..aaaaaaaaoorr4zezczh4zsq2kcngjbeic7d66eh5xfifkid2gth4kcxwirra --name test_policies_automation --output json --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
+        oci iam policy list -c ocid1.compartment.oc1..aaaaaaaaoorr4zezczh4zsq2kcngjbeic7d66eh5xfifkid2gth4kcxwirra --name test_policies_automation --output table --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
+        oci iam compartment list --all --query "data[]" --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
         ls -lt
         #python validate_generate_policies.py
         #cd ./policies

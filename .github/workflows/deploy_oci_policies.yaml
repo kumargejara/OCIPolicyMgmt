@@ -39,14 +39,14 @@ jobs:
         oci setup repair-file-permissions --file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/oci_api_key.pem 
         python --version
    
-    - name: check oci
-      run: |
-        oci os ns get --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
-        oci os bucket list -c ocid1.compartment.oc1..aaaaaaaaoorr4zezczh4zsq2kcngjbeic7d66eh5xfifkid2gth4kcxwirra --namespace ${{vars.OCI_NAMESPACE}} --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
-        oci iam policy list -c ocid1.compartment.oc1..aaaaaaaaoorr4zezczh4zsq2kcngjbeic7d66eh5xfifkid2gth4kcxwirra --name test_policies_automation --output table --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
-        oci iam compartment list --all --query "data[]" --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
-        ls -lt
-        #python validate_generate_policies.py
-        #cd ./policies
-        #ls -lt
-        #oci iam policy create --description "test description and update1" --policy-id ocid1.policy.oc1..aaaaaaaa4bdnoglzmbaguftcb5wzzjuar3fc6fepfwplxpay3gosbbavovjq --statements file://new_policy_state.json --version-date '' --force --output json --config-file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config --profile "DEFAULT" --debug
+    - name: Terraform Init
+      run: terraform init
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.CLIENT_SECRET }}
+        FINGERPRINT: ${{ vars.OCI_FINGER_PRINT_ID }}
+        PRIVATE_KEY_PATH: ${{ vars.OCI_PRIVATE_KEY_PATH }}
+        USER_OCID: ${{ vars.OCI_USER_ID }}
+        TENANCY_OCID: ${{ vars.OCI_TENANCY_ID }}
+        COMPARTMENT_OCID: ${{ vars.OCI_COMPARTMENT_ID }}
+      working-directory: ./terraform

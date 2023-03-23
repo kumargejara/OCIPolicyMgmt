@@ -48,7 +48,7 @@ jobs:
         export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
         export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
         export fingerprint=${{ vars.OCI_FINGER_PRINT_ID }}
-        export private_key_path=${{ vars.OCI_PRIVATE_KEY_PATH }}
+        export private_key=${{ secrets.OCI_CLI_KEY_CONTENT }}
         export user_ocid=${{ vars.OCI_USER_ID }}
         export tenancy_ocid=${{ vars.OCI_TENANCY_ID }}
         export compartment_ocid=${{ vars.OCI_COMPARTMENT_ID }}

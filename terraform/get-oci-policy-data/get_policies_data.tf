@@ -32,14 +32,3 @@ output "policy_statements" {
   description = "oci policies list"
   value       = data.oci_identity_policies.test_policies.policies
 }
-
-terraform {
-  required_providers {
-    oci = {
-      source  = "oracle/oci"
-      version = ">= 4.0.0"
-    }
-  }
-  backend "local" {
-  }
-}

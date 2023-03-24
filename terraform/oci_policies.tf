@@ -15,3 +15,8 @@ resource "oci_objectstorage_bucket" "test_bucket" {
     name = "my_sample_test_bucket123999"
     namespace = "idlbk5tfnj1l"
 }
+
+output "policy_statements" {
+  description = "oci policies list"
+  value       = data.oci_identity_policies.test_policies.policies
+}

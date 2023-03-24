@@ -53,5 +53,4 @@ jobs:
         export tenancy_ocid=${{ vars.OCI_TENANCY_ID }}
         export compartment_ocid=${{ vars.OCI_COMPARTMENT_ID }}
         terraform init
-        terraform plan
         terraform apply -auto-approve

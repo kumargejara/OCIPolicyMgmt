@@ -43,7 +43,3 @@ terraform {
   backend "local" {
   }
 }
-
-provider "oci" {
-  region  = "us-ashburn-1"
-}

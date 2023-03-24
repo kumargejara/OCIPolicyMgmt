@@ -33,7 +33,7 @@ variable policy_statements {
 
 output "policy_statements" {
   description = "oci policies list"
-  value       = data.oci_identity_policies.test_policies.statements
+  value       = data.oci_identity_policies.test_policies.policies
 }
 
 provider oci {

@@ -1,8 +1,5 @@
 data "oci_identity_policies" "test_policies" {
-    #Required
     compartment_id = var.tenancy_ocid
-
-    #Optional
     name = var.policy_name
 }
 
@@ -36,15 +33,17 @@ output "policy_statements" {
   value       = data.oci_identity_policies.test_policies.policies
 }
 
-provider oci {
-	region = var.region
-}
-
 terraform {
   required_providers {
     oci = {
       source  = "oracle/oci"
-      version = ">= 4.103.0"
+      version = ">= 4.0.0"
     }
   }
+  backend "local" {
+  }
+}
+
+provider "oci" {
+  region  = "us-ashburn-1"
 }

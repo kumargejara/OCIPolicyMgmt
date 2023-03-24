@@ -52,6 +52,6 @@ jobs:
         export TF_VAR_tenancy_ocid=${{ vars.OCI_TENANCY_ID }}
         export TF_VAR_compartment_ocid=${{ vars.OCI_COMPARTMENT_ID }}
         terraform init
-        terraform plan -out=tfplan
+        terraform plan >> tfpan.txt
         ls -lt
-        cat tfplan
+        cat tfplan.txt

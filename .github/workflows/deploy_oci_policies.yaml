@@ -57,8 +57,6 @@ jobs:
     - name: Check Files
       run: |
         echo *************************************
-        ls -lt
-        echo *************************************
         cat /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/terraform/tfpan.txt
         echo *************************************
 

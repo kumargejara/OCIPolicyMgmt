@@ -44,7 +44,6 @@ jobs:
         ls -lt
         rm -rf .terraform
         echo *************************************
-        export TF_LOG="DEBUG"
         export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
         export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
         export TF_VAR_fingerprint=${{ vars.OCI_FINGER_PRINT_ID }}
@@ -55,4 +54,6 @@ jobs:
         terraform init
         terraform plan >> /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/terraform/tfpan.txt
         ls -lt
+        echo *************************************
         cat /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/terraform/tfpan.txt
+        echo *************************************

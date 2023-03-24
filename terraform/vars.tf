@@ -26,7 +26,7 @@ variable policy_description {
 variable policy_statements {
     type    = list(string)
     default = ["Allow group sandbox_group to inspect tag-namespaces in tenancy", "Allow group sandbox_group to use tag-namespaces in compartment development",
-"Allow group sandbox_group to use instances in compartment sandbox"]
+"Allow group sandbox_group to use instances in compartment sandbox", "Allow group dev_group to read app-catalog-listing in tenancy"]
 }
 
 variable policy_list {

@@ -28,3 +28,8 @@ variable policy_statements {
     default = ["Allow group sandbox_group to inspect tag-namespaces in tenancy", "Allow group sandbox_group to use tag-namespaces in compartment development",
 "Allow group sandbox_group to use instances in compartment sandbox"]
 }
+
+variable policy_list {
+    type    = list(string)
+    default = ["test", "test123"]
+}

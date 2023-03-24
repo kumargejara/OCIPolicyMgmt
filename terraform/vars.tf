@@ -25,8 +25,39 @@ variable policy_description {
 
 variable policy_statements {
     type    = list(string)
-    default = ["Allow group sandbox_group to inspect tag-namespaces in tenancy", "Allow group sandbox_group to use tag-namespaces in compartment development",
-"Allow group sandbox_group to use instances in compartment sandbox", "Allow group dev_group to read app-catalog-listing in tenancy"]
+    default = [
+"Allow group sandbox_group to use tag-namespaces in tenancy",
+"Allow group sandbox_group to inspect tag-namespaces in tenancy",
+"Allow group sandbox_group to read tag-namespaces in tenancy",
+"Allow group sandbox_group to read app-catalog-listing in tenancy",
+"Allow group dev_group to use tag-namespaces in tenancy",
+"Allow group dev_group to inspect tag-namespaces in tenancy",
+"Allow group dev_group to read tag-namespaces in tenancy",
+"Allow group dev_group to read app-catalog-listing in tenancy",
+"Allow group prod_group to use tag-namespaces in tenancy",
+"Allow group prod_group to inspect tag-namespaces in tenancy",
+"Allow group prod_group to read tag-namespaces in tenancy",
+"Allow group prod_group to read app-catalog-listing in tenancy",
+"Allow dynamic-group dev_dynamic_group1 to use tag-namespaces in tenancy",
+"Allow dynamic-group dev_dynamic_group1 to inspect tag-namespaces in tenancy",
+"Allow dynamic-group dev_dynamic_group1 to read tag-namespaces in tenancy",
+"Allow dynamic-group dev_dynamic_group1 to read app-catalog-listing in tenancy",
+"Allow group sandbox_group to use tag-namespaces in tenancy",
+"Allow group sandbox_group to use instances in compartment sandbox",
+"Allow group sandbox_group to use instance-images in compartment sandbox",
+"Allow group sandbox_group to inspect instance-images in compartment sandbox",
+"Allow group dev_group to use instances in compartment sandbox",
+"Allow group dev_group to use instance-images in compartment sandbox",
+"Allow group dev_group to inspect instance-images in compartment sandbox",
+"Allow group prod_group to use instances in compartment sandbox",
+"Allow group prod_group to use instance-images in compartment sandbox",
+"Allow group prod_group to inspect instance-images in compartment sandbox",
+"Allow dynamic-group dev_dynamic_group1 to use instances in compartment development",
+"Allow dynamic-group dev_dynamic_group1 to use instance-images in compartment development",
+"Allow dynamic-group dev_dynamic_group1 to inspect instance-images in compartment development",
+"Allow group sandbox_group to use tag-namespaces in compartment development",
+"Allow any-user to use tag-namespaces in compartment development"
+]
 }
 
 variable policy_list {

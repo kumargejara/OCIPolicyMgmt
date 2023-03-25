@@ -2,6 +2,7 @@ import json
 import jsonschema
 from jsonschema import validate
 import os
+from fileinput import FileInput
 
 def get_schema(file_name):
     with open(file_name, 'r') as file:
@@ -25,42 +26,44 @@ def validate_json(json_data, json_schema, schemaType):
     message = "Given Json Policy data is Valid with "+ schemaType
     return True, message
 
-def check_policy(policy, policydata):
-    for existing_policy in policydata['data']['statements']:
-        if existing_policy.lower() == policy.lower():
+def check_policy(policy, policylist):
+    for j in range(len(policylist)):
+        if policylist[j].lower() == policy.lower():
             return True
     return False
 
-def prepareJsonForCurrentPolicies(filename):
+def prepare_current_policy_list(filename):
     print("\nCurrent Policy List")
+    existing_policy_list = []
     read_file = open(filename, 'r')
     Lines = read_file.readlines()
-    write_file = open(os.getcwd()+'/policies/policy_state.json', 'w')
     write_flag = 0
+    data_flag = 0
     for line in Lines:
-        if (write_flag == 0):
-            if "header: Content-Length:" in line:
-                write_flag = 1
-        else:
-            write_file.write(line)
-            total_current_policy_count = total_current_policy_count + 1
+        if "+ policy_list" in line:
+            data_flag = 1
+
+        if (data_flag == 1):
+            if (write_flag == 0):
+                if "+ statements" in line:
+                    write_flag = 1
+            else:
+                if "]" in line:
+                    write_flag = 0
+                else:
+                    line = line.replace("+", "")
+                    line = line.replace('"', "")
+                    line = line.replace(',', "")
+                    line = line.strip()
+                    existing_policy_list.append(line)
+
     read_file.close()
-    write_file.close()
+    return existing_policy_list
 
 
 def write_new_policies(filename, policy_list):
     file1 = open(filename, 'w')
     file1.write('[\n')
-    print("\nCurrent Policy List")
-    print("**********************************************************************************")
-    total_current_policy_count = 0
-    for existing_policy in existing_policy_document['data']['statements']:
-        file1.write('"'+existing_policy+'",\n')
-        print(existing_policy)
-        total_current_policy_count = total_current_policy_count + 1
-    
-    print(f'Second check: Total Current Policies Count = {total_current_policy_count}')
-    print("**********************************************************************************\n")
     print("\nNew Policy List")
     print("**********************************************************************************")
     total_new_policy_count = 0
@@ -78,6 +81,21 @@ def write_new_policies(filename, policy_list):
     print(f'Total New Policies Count = {total_new_policy_count}')
     print("**********************************************************************************\n")
 
+def replace_policy_list_in_tftemplate(filename):
+    read_file = open(filename, 'r')
+    Lines = read_file.readlines()
+    policy_list_string=""
+    for line in Lines:
+        policy_list_string = policy_list_string + line
+    read_file.close()
+    print(policy_list_string)
+
+    with FileInput(os.getcwd()+'/policies/vars.tf.template', inplace=True, backup='.bak') as f:
+        for line in f:
+            print(line.replace("REPLACE_POLICIES_LIST", policy_list_string), end='')
+
+
+
 print("\n**********************************************************************************")
 print("Policy Data Loaded Successfully From Source Code")
 print("**********************************************************************************\n")
@@ -86,8 +104,9 @@ compartment_policy_schema = get_schema('./schema/compartment_json_schema.json')
 policy_state_schema = get_schema('./schema/policy_state_schema.json')
 tenancy_policy_document = get_json_data(os.getcwd()+'/policies/tenancy/tenancy.json')
 compartment_policy_document = get_json_data(os.getcwd()+'/policies/development/compartment.json')
-prepareJsonForCurrentPolicies(os.getcwd()+'/policies/policy_state_data.txt')
-existing_policy_document = get_json_data(os.getcwd()+'/policies/policy_state.json')
+existing_policy_list = prepare_current_policy_list(os.getcwd()+'/terraform/tfplan.txt')
+print(existing_policy_list)
+
 
 print("\n**********************************************************************************")
 print("Policy Schema Loaded Successfully From Json Schema Files")
@@ -98,8 +117,7 @@ is_valid, msg = validate_json(tenancy_policy_document, tenancy_policy_schema, "T
 print(msg) 
 is_valid, msg = validate_json(compartment_policy_document, compartment_policy_schema, "Environment Schema")
 print(msg)
-is_valid, msg = validate_json(existing_policy_document, policy_state_schema, "Policy State Schema")
-print(msg)
+
 
 print("\n**********************************************************************************")
 print("Policy Validation Process Completed Successfully")
@@ -150,17 +168,30 @@ existing_policy_count=0
 new_policy_count = 0
 new_policy_list = []
 for i in range(len(policy_list)):
-    if check_policy(policy_list[i], existing_policy_document):
+    if check_policy(policy_list[i], existing_policy_list):
         existing_policy_count = existing_policy_count+1
     else:
         new_policy_list.append(policy_list[i])
         new_policy_count = new_policy_count+1
 
+remove_policy_list = []
+policy_not_changed_count=0
+policy_removed_updated_count = 0
+for k in range(len(existing_policy_list)):
+    if check_policy(existing_policy_list[k], policy_list):
+        policy_not_changed_count = policy_not_changed_count+1
+    else:
+        remove_policy_list.append(existing_policy_list[k])
+        policy_removed_updated_count = policy_removed_updated_count+1
 
-write_new_policies(os.getcwd()+'/policies/new_policy_state.json', new_policy_list)
+
+write_new_policies(os.getcwd()+'/policies/new_policy_state.json', policy_list)
 print("Policy Summary Report")
 print("**********************************************************************************")
-print(f"Existing Policies List = {existing_policy_count-1}")
+print(f"Current Policies Not Changed = {policy_not_changed_count}")
+print(f"Current Policies Removed/Altered = {policy_removed_updated_count}")
 print(f"New Policies Will Be Added  = {new_policy_count}")
-print(f"Total Policies List = {existing_policy_count-1+new_policy_count}")
+print(f"Total Policies List = {existing_policy_count+new_policy_count}")
+print(f"Total Policies List Recheck = {len(policy_list)}")
 print("**********************************************************************************\n")
+replace_policy_list_in_tftemplate(os.getcwd()+'/policies/new_policy_state.json')

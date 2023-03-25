@@ -1,0 +1,29 @@
+
+variable region { 
+    type    = string
+    default = "us-ashburn-1" 
+}
+variable compartment_ocid { 
+    type    = string
+    default = "ocid1.tenancy.oc1..aaaaaaaad3m5voewraokiw5gede3t3ahaz3zsuy7bs5iqecxujvedfzv3cea" 
+}
+
+variable tenancy_ocid {
+    type    = string
+    default = "ocid1.tenancy.oc1..aaaaaaaad3m5voewraokiw5gede3t3ahaz3zsuy7bs5iqecxujvedfzv3cea"
+}
+
+variable policy_name {
+    type    = string
+    default = "oci_developer_policies"
+}
+
+variable policy_description {
+    type    = string
+    default = "This policy set defined for oci developer"
+}
+
+variable policy_statements {
+    type    = list(string)
+    default = REPLACE_POLICIES_LIST
+}

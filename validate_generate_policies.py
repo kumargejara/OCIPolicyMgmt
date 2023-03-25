@@ -40,6 +40,7 @@ def prepare_current_policy_list(filename):
     write_flag = 0
     data_flag = 0
     for line in Lines:
+        line = line.strip()
         print(f'****** line: {line}')
         if "+ policy_list" in line:
             print("policy list tag found in tfplan")

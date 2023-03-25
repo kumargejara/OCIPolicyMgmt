@@ -33,7 +33,8 @@
          "general-compartment-based-policies": {
             "policy": [
                "Allow group sandbox_group to use tag-namespaces in compartment development",
-               "Allow any-user to use tag-namespaces in compartment development"
+               "Allow any-user to use tag-namespaces in compartment development",
+               "Allow any-user to use tag-namespaces in compartment kg_new_test_policy_comp"
             ]
          }
     }

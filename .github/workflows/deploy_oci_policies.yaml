@@ -54,10 +54,26 @@ jobs:
         terraform init
         terraform plan >> tfplan.txt
   
-    - name: Check Files
+    - name: Check Terraform Plan
       run: |
         echo *************************************
+        ls -lt
         cd terraform
         cat tfplan.txt
+        echo *************************************
+    
+    - name: Execute Policy Build Tool
+      run: |
+        echo *************************************
+        ls -lt
+        python validate_generate_policies.py
+        echo *************************************
+        
+    - name: Check Vars TF Template
+      run: |
+        echo *************************************
+        ls -lt
+        cd policies
+        cat vars.tf.template
         echo *************************************
 

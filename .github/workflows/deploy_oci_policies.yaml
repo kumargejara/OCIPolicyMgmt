@@ -52,11 +52,11 @@ jobs:
         export TF_VAR_tenancy_ocid=${{ vars.OCI_TENANCY_ID }}
         export TF_VAR_compartment_ocid=${{ vars.OCI_COMPARTMENT_ID }}
         terraform init
-        terraform plan >> /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/terraform/tfpan.txt
+        terraform plan >> /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/polices/tfpan.txt
   
     - name: Check Files
       run: |
         echo *************************************
-        cat /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/terraform/tfpan.txt
+        cat /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/polices/tfpan.txt
         echo *************************************
 

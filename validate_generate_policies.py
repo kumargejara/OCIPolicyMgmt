@@ -40,12 +40,15 @@ def prepare_current_policy_list(filename):
     write_flag = 0
     data_flag = 0
     for line in Lines:
+        print(f'****** line: {line}')
         if "+ policy_list" in line:
+            print("policy list tag found in tfplan")
             data_flag = 1
 
         if (data_flag == 1):
             if (write_flag == 0):
                 if "+ statements" in line:
+                    print("+ statements tag found in tfplan")
                     write_flag = 1
             else:
                 if "]" in line:
@@ -56,6 +59,7 @@ def prepare_current_policy_list(filename):
                     line = line.replace(',', "")
                     line = line.strip()
                     existing_policy_list.append(line)
+                    print(f'{ line } : policy found in tfplan')
 
     read_file.close()
     return existing_policy_list

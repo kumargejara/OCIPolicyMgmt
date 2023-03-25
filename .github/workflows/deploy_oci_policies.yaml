@@ -75,5 +75,15 @@ jobs:
         ls -lt
         cd policies
         cat vars.tf.template
+        cd ..
+        mv ./policies/vars.tf.template ./terraform/vars.tf
+        echo *************************************
+        
+    - name: Check Vars TF File
+      run: |
+        echo *************************************
+        ls -lt
+        cd terraform
+        cat vars.tf
         echo *************************************
 

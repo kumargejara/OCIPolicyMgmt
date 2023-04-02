@@ -1,99 +1,109 @@
 {
 	"definitions": {},
 	"$schema": "http://json-schema.org/draft-07/schema#", 
-	"$id": "https://example.com/object1678852122.json", 
+	"$id": "https://example.com/object1680246390.json", 
 	"title": "Root", 
 	"type": "object",
 	"required": [
-		"compartment-policy-document"
+		"oci-role-based-policy-document"
 	],
 	"properties": {
-		"compartment-policy-document": {
-			"$id": "#root/compartment-policy-document", 
-			"title": "Compartment-policy-document", 
+		"oci-role-based-policy-document": {
+			"$id": "#root/oci-role-based-policy-document", 
+			"title": "Oci-role-based-policy-document", 
 			"type": "object",
 			"required": [
 				"name",
+				"description",
 				"version",
+				"role",
+				"environment",
+				"domain",
 				"group-based-policies",
 				"dynamic-group-based-policies",
-				"general-compartment-based-policies"
+				"other-compartment-based-policies"
 			],
 			"properties": {
 				"name": {
-					"$id": "#root/compartment-policy-document/name", 
+					"$id": "#root/oci-role-based-policy-document/name", 
 					"title": "Name", 
 					"type": "string",
 					"default": "",
 					"examples": [
-						"development policies"
+						"OCI-Auditor-<ENVIRONMENT>_policies"
+					],
+					"pattern": "^.*$"
+				},
+				"description": {
+					"$id": "#root/oci-role-based-policy-document/description", 
+					"title": "Description", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"The policy set defined for role OCI-Auditor includes group, and dynamic group based policies"
 					],
 					"pattern": "^.*$"
 				},
 				"version": {
-					"$id": "#root/compartment-policy-document/version", 
+					"$id": "#root/oci-role-based-policy-document/version", 
 					"title": "Version", 
 					"type": "string",
 					"default": "",
 					"examples": [
-						"1.0.1"
+						"1.0.0"
+					],
+					"pattern": "^.*$"
+				},
+				"role": {
+					"$id": "#root/oci-role-based-policy-document/role", 
+					"title": "Role", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"OCI-Auditor"
+					],
+					"pattern": "^.*$"
+				},
+				"environment": {
+					"$id": "#root/oci-role-based-policy-document/environment", 
+					"title": "Environment", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"ENVIRONMENT"
+					],
+					"pattern": "^.*$"
+				},
+				"domain": {
+					"$id": "#root/oci-role-based-policy-document/domain", 
+					"title": "Domain", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"DOMAIN"
 					],
 					"pattern": "^.*$"
 				},
 				"group-based-policies": {
-					"$id": "#root/compartment-policy-document/group-based-policies", 
+					"$id": "#root/oci-role-based-policy-document/group-based-policies", 
 					"title": "Group-based-policies", 
 					"type": "object",
 					"required": [
-						"group",
-						"compartment",
 						"policy"
 					],
 					"properties": {
-						"group": {
-							"$id": "#root/compartment-policy-document/group-based-policies/group", 
-							"title": "Group", 
-							"type": "array",
-							"default": [],
-							"items":{
-								"$id": "#root/compartment-policy-document/group-based-policies/group/items", 
-								"title": "Items", 
-								"type": "string",
-								"default": "",
-								"examples": [
-									"sandbox_group"
-								],
-								"pattern": "^.*$"
-							}
-						},
-						"compartment": {
-							"$id": "#root/compartment-policy-document/group-based-policies/compartment", 
-							"title": "Compartment", 
-							"type": "array",
-							"default": [],
-							"items":{
-								"$id": "#root/compartment-policy-document/group-based-policies/compartment/items", 
-								"title": "Items", 
-								"type": "string",
-								"default": "",
-								"examples": [
-									"sandbox"
-								],
-								"pattern": "^.*$"
-							}
-						},
 						"policy": {
-							"$id": "#root/compartment-policy-document/group-based-policies/policy", 
+							"$id": "#root/oci-role-based-policy-document/group-based-policies/policy", 
 							"title": "Policy", 
 							"type": "array",
 							"default": [],
 							"items":{
-								"$id": "#root/compartment-policy-document/group-based-policies/policy/items", 
+								"$id": "#root/oci-role-based-policy-document/group-based-policies/policy/items", 
 								"title": "Items", 
 								"type": "string",
 								"default": "",
 								"examples": [
-									"Allow group TNET_GROUP to use instances in compartment TNET_COMPARTMENT"
+									"Allow group OCI-Auditor-<DOMAIN> to inspect all-resources in <ENVIRONMENT>"
 								],
 								"pattern": "^.*$"
 							}
@@ -102,59 +112,25 @@
 				}
 ,
 				"dynamic-group-based-policies": {
-					"$id": "#root/compartment-policy-document/dynamic-group-based-policies", 
+					"$id": "#root/oci-role-based-policy-document/dynamic-group-based-policies", 
 					"title": "Dynamic-group-based-policies", 
 					"type": "object",
 					"required": [
-						"group",
-						"compartment",
 						"policy"
 					],
 					"properties": {
-						"group": {
-							"$id": "#root/compartment-policy-document/dynamic-group-based-policies/group", 
-							"title": "Group", 
-							"type": "array",
-							"default": [],
-							"items":{
-								"$id": "#root/compartment-policy-document/dynamic-group-based-policies/group/items", 
-								"title": "Items", 
-								"type": "string",
-								"default": "",
-								"examples": [
-									"sandbox_group"
-								],
-								"pattern": "^.*$"
-							}
-						},
-						"compartment": {
-							"$id": "#root/compartment-policy-document/dynamic-group-based-policies/compartment", 
-							"title": "Compartment", 
-							"type": "array",
-							"default": [],
-							"items":{
-								"$id": "#root/compartment-policy-document/dynamic-group-based-policies/compartment/items", 
-								"title": "Items", 
-								"type": "string",
-								"default": "",
-								"examples": [
-									"sandbox"
-								],
-								"pattern": "^.*$"
-							}
-						},
 						"policy": {
-							"$id": "#root/compartment-policy-document/dynamic-group-based-policies/policy", 
+							"$id": "#root/oci-role-based-policy-document/dynamic-group-based-policies/policy", 
 							"title": "Policy", 
 							"type": "array",
 							"default": [],
 							"items":{
-								"$id": "#root/compartment-policy-document/dynamic-group-based-policies/policy/items", 
+								"$id": "#root/oci-role-based-policy-document/dynamic-group-based-policies/policy/items", 
 								"title": "Items", 
 								"type": "string",
 								"default": "",
 								"examples": [
-									"Allow dynamic-group TNET_DGROUP to use instances in compartment TNET_COMPARTMENT"
+									"Allow dynamic-group OCI-Auditor-DG-<ENVIRONMENT> to use instances in compartment <ENVIRONMENT>"
 								],
 								"pattern": "^.*$"
 							}
@@ -162,26 +138,26 @@
 					}
 				}
 ,
-				"general-compartment-based-policies": {
-					"$id": "#root/compartment-policy-document/general-compartment-based-policies", 
-					"title": "General-compartment-based-policies", 
+				"other-compartment-based-policies": {
+					"$id": "#root/oci-role-based-policy-document/other-compartment-based-policies", 
+					"title": "Other-compartment-based-policies", 
 					"type": "object",
 					"required": [
 						"policy"
 					],
 					"properties": {
 						"policy": {
-							"$id": "#root/compartment-policy-document/general-compartment-based-policies/policy", 
+							"$id": "#root/oci-role-based-policy-document/other-compartment-based-policies/policy", 
 							"title": "Policy", 
 							"type": "array",
 							"default": [],
 							"items":{
-								"$id": "#root/compartment-policy-document/general-compartment-based-policies/policy/items", 
+								"$id": "#root/oci-role-based-policy-document/other-compartment-based-policies/policy/items", 
 								"title": "Items", 
 								"type": "string",
 								"default": "",
 								"examples": [
-									"Allow group sandbox_group to use tag-namespaces in compartment development"
+									"Allow group OCI-Auditor-<ENVIRONMENT> to use virtual-network-family in compartment network"
 								],
 								"pattern": "^.*$"
 							}

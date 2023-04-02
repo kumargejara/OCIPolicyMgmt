@@ -2,7 +2,7 @@
     "oci-tenancy-based-policy-document": {
        "name": "Tenancy-OCI-MonitoringAdministrator-Policies",
        "description": "The policy set defined for role OCI-Administrator at tenancy level for different groups",
-       "version": "1.9.9",
+       "version": "2.9.9",
             "policy": [
                 "Allow group OCI-MonitorAdmin-Global to inspect all-resources in tenancy",
                 "Allow group OCI-MonitorAdmin-Global to read instances in tenancy",

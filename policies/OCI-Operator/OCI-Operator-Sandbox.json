@@ -1,0 +1,58 @@
+{
+    "oci-role-based-policy-document": {
+       "name": "OCI-Operator-<ENVIRONMENT>_policies",
+       "description": "The policy set defined for role OCI-Operator includes group, dynamic group and sub compartment based policies",
+       "version": "1.0.1",
+       "role": "OCI-Operator",
+       "environment": "ENVIRONMENT",
+       "domain": "DOMAIN",
+       "group-based-policies": {
+            "compartment": [
+                "peo-qe"
+            ],
+            "policy": [
+               "Allow group OCI-Operator-<DOMAIN> to inspect all-resources in <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to read instances in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to read audit-events in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to inspect alarms in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to read metrics in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use ons-topics in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use streams in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use ons-subscriptions in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use cloud-shell in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use repos in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to read objectstorage-namespaces in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to inspect logging-family in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use functions-family in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use apm-domains in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to read vaults in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use keys in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to inspect cloudevents-rules in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use buckets in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use objects in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use file-family in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to read mount-targets in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use volume-family in compartment <ENVIRONMENT>e",
+               "Allow group OCI-Operator-<DOMAIN> to use instance-family in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use instance-console-connection in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use instances in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use auto-scaling-configurations in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use instance-pools in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use instance-images in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to read app-catalog-listing in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to use load-balancers in compartment <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to read announcements in compartment <ENVIRONMENT>"
+            ]
+        },
+        "dynamic-group-based-policies": {
+            "policy": [
+                 "Allow dynamic-group OCI-Operator-DG-<DOMAIN> to use instances in compartment <ENVIRONMENT>"
+             ]
+         },
+         "other-compartment-based-policies": {
+            "policy": [
+                "Allow group OCI-Operator-<DOMAIN> to use virtual-network-family in compartment network"
+            ]
+         }
+    }
+ }

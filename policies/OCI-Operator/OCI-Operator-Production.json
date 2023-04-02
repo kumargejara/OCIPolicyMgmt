@@ -8,7 +8,7 @@
        "domain": "DOMAIN",
        "group-based-policies": {
             "policy": [
-               "Allow group OCI-Operator-<DOMAIN> to inspect all-resources in <ENVIRONMENT>",
+               "Allow group OCI-Operator-<DOMAIN> to inspect all-resources in compartment <ENVIRONMENT>",
                "Allow group OCI-Operator-<DOMAIN> to read instances in compartment <ENVIRONMENT>",
                "Allow group OCI-Operator-<DOMAIN> to read audit-events in compartment <ENVIRONMENT>",
                "Allow group OCI-Operator-<DOMAIN> to inspect alarms in compartment <ENVIRONMENT>",

@@ -8,7 +8,7 @@
        "domain": "DOMAIN",
        "group-based-policies": {
             "policy": [
-               "Allow group OCI-Auditor-<DOMAIN> to inspect all-resources in <ENVIRONMENT>",
+               "Allow group OCI-Auditor-<DOMAIN> to inspect all-resources in compartment <ENVIRONMENT>",
                "Allow group OCI-Auditor-<DOMAIN> to read instances in compartment <ENVIRONMENT>",
                "Allow group OCI-Auditor-<DOMAIN> to read audit-events in compartment <ENVIRONMENT>",
                "Allow group OCI-Auditor-<DOMAIN> to inspect alarms in compartment <ENVIRONMENT>",
@@ -29,7 +29,7 @@
                "Allow group OCI-Auditor-<DOMAIN> to use objects in compartment <ENVIRONMENT>",
                "Allow group OCI-Auditor-<DOMAIN> to use file-family in compartment <ENVIRONMENT>",
                "Allow group OCI-Auditor-<DOMAIN> to read mount-targets in compartment <ENVIRONMENT>",
-               "Allow group OCI-Auditor-<DOMAIN> to use volume-family in compartment <ENVIRONMENT>e",
+               "Allow group OCI-Auditor-<DOMAIN> to use volume-family in compartment <ENVIRONMENT>",
                "Allow group OCI-Auditor-<DOMAIN> to use instance-family in compartment <ENVIRONMENT>",
                "Allow group OCI-Auditor-<DOMAIN> to use instance-console-connection in compartment <ENVIRONMENT>",
                "Allow group OCI-Auditor-<DOMAIN> to use instances in compartment <ENVIRONMENT>",
@@ -43,7 +43,7 @@
         },
         "dynamic-group-based-policies": {
             "policy": [
-                 "Allow dynamic-group OCI-Auditor-DG-<ENVIRONMENT> to use instances in compartment <ENVIRONMENT>"
+                 "Allow dynamic-group OCI-Auditor-DG-<DOMAIN> to use instances in compartment <ENVIRONMENT>"
              ]
          },
          "other-compartment-based-policies": {

@@ -2,7 +2,7 @@
     "oci-tenancy-based-policy-document": {
        "name": "Tenancy-OCI-NetworkAdminGlobal-Policies",
        "description": "The policy set defined for role Global Network Administrator at tenancy level for different groups",
-       "version": "1.9.2",
+       "version": "2.9.2",
             "policy": [
                 "Allow group OCI-NetworkAdmin-Global to inspect all-resources in compartment network",
                 "Allow group OCI-NetworkAdmin-Global to read instances in compartment network",

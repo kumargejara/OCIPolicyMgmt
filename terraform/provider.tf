@@ -1,5 +1,5 @@
 provider oci {
-  region = var.region
+	region = var.region
 }
 
 provider "aws" {
@@ -17,12 +17,9 @@ terraform {
       version = "~> 4.50.0"
     }
   }
+  
   backend "s3" {
-    bucket   = "oci-policies-tf-state"
-    encrypt = true
-    dynamodb_table = "oci-policies-tf-state-db"
-    key      = "oci-policies-terraform.tfstate"
-    region   = "us-east-1" 
   }
 }
+
 

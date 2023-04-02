@@ -42,7 +42,6 @@ def get_json_data(file_name):
     return json_data
 
 def validate_json(json_data, json_schema, schemaType):
-
     try:
         validate(instance=json_data, schema=json_schema)
     except jsonschema.exceptions.ValidationError as err:
@@ -67,19 +66,23 @@ def get_tenancy_policies(policy_document, policy_tag):
     policySet.policy_statements = policy_list
     return policySet
 
-def get_role_policies(policy_document, policy_tag, sub_policy_tag, domain, env):
+def get_role_policies(policy_document, policy_tag, domain, env):
     policy_list = []
+    sub_policy_tag_list = ["group-based-policies", "dynamic-group-based-policies", "other-compartment-based-policies"]
     name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env)
     description = policy_document[policy_tag]['description'].replace("<ENVIRONMENT>", env)
     version = policy_document[policy_tag]['version']
-    for policy in policy_document[policy_tag][sub_policy_tag]['policy']:
-        policy = policy.replace("<DOMAIN>", domain)
-        policy = policy.replace("<ENVIRONMENT>", env)
-        policy_list.append(policy)
+    for i in range(len(sub_policy_tag_list)):
+        for policy in policy_document[policy_tag][sub_policy_tag_list[i]]['policy']:
+            policy = policy.replace("<DOMAIN>", domain)
+            policy = policy.replace("<ENVIRONMENT>", env)
+            policy_list.append(policy)
     
-    description = description + ', version=' + version
-    return name, description, policy_list
-
+    policySet = PolicySetObj()
+    policySet.policy_name = name
+    policySet.policy_description = description + ', version=' + version
+    policySet.policy_statements = policy_list
+    return policySet
 
 def check_policy(policy, policylist):
     for j in range(len(policylist)):
@@ -91,7 +94,6 @@ def replace_policy_list_in_tftemplate(policy_data, tf_var_template):
     with FileInput(tf_var_template, inplace=True, backup='.bak') as f:
         for line in f:
             print(line.replace("POLICIES_OBJECT_LIST", policy_data), end='')
-
 
 
 print("\n**********************************************************************************")
@@ -148,7 +150,6 @@ print("\n***********************************************************************
 print("Policy Validation Process Completed Successfully")
 print("**********************************************************************************\n")
 
-
 tenancy_administrator_policy_list = get_tenancy_policies(tenancy_administrator_policy_document, "oci-tenancy-based-policy-document")
 tenancy_billingadministrator_policy_list = get_tenancy_policies(tenancy_billingadministrator_policy_document, "oci-tenancy-based-policy-document")
 tenancy_monitoringadministrator_policy_list = get_tenancy_policies(tenancy_monitoringadministrator_policy_document, "oci-tenancy-based-policy-document")
@@ -161,21 +162,22 @@ tenant_network_policy_data = '[\n'+tenancy_network_administrator_global_policy_l
 replace_policy_list_in_tftemplate(tenant_network_policy_data, os.getcwd()+'/policies/Tenancy/tenancy-network-policies.tfvars.template')
 print("**********************************************************************************")
 
+oci_auditor_environments_policy_list = get_role_policies(oci_auditor_environments_policy_document, "oci-role-based-policy-document", domain, env)
+oci_operator_environments_policy_list = get_role_policies(oci_operator_environments_policy_document, "oci-role-based-policy-document", domain, env)
+oci_environments_policy_data = '[\n'+oci_auditor_environments_policy_list.objtoString()+',\n'+oci_operator_environments_policy_list.objtoString()+'\n]'
+replace_policy_list_in_tftemplate(oci_environments_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
 
 
-
-'''oci_auditor_environments_policy_list = get_role_policies(oci_auditor_environments_policy_list, oci_auditor_environments_policy_document, domain, env)
-print(oci_auditor_environments_policy_list)
 print("**********************************************************************************")
-oci_auditor_sandbox_policy_list = get_role_policies(oci_auditor_sandbox_policy_list, oci_auditor_sandbox_policy_document, domain, env)
+'''oci_auditor_sandbox_policy_list = get_role_policies(oci_auditor_sandbox_policy_document, domain, env)
 print(oci_auditor_sandbox_policy_list)
 print("**********************************************************************************")
 oci_auditor_production_policy_list = get_role_policies(oci_auditor_production_policy_list, oci_auditor_production_policy_document, domain, env)
 print(oci_auditor_production_policy_list)
 print("**********************************************************************************")
 
-oci_operator_environments_policy_list = get_role_policies(oci_operator_environments_policy_list, oci_operator_environments_policy_document, domain, env)
-print(oci_operator_environments_policy_list)
+
+
 print("**********************************************************************************")
 oci_operator_sandbox_policy_list = get_role_policies(oci_operator_sandbox_policy_list, oci_operator_sandbox_policy_document, domain, env)
 print(oci_operator_sandbox_policy_list)
@@ -187,9 +189,9 @@ print("*************************************************************************
 
 print("**********************************************************************************")
 print("Policy Build Process Completed Successfully")
-print("**********************************************************************************\n")'''
+print("**********************************************************************************\n")
 
-'''existing_policy_count=0
+existing_policy_count=0
 new_policy_count = 0
 new_policy_list = []
 for i in range(len(policy_list)):

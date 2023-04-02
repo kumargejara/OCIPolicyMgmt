@@ -84,8 +84,8 @@ jobs:
         export TF_VAR_user_ocid=${{ vars.OCI_USER_ID }}
         export TF_VAR_tenancy_ocid=${{ vars.OCI_TENANCY_ID }}
         export TF_VAR_compartment_ocid=${{ vars.OCI_COMPARTMENT_ID }}
-        mv ./policies/Tenancy/tenancy-generic-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
-        terraform init -backend-config=./env/tenancy-generic-policies-backend.conf
+        mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
+        terraform init -backend-config=./env/tenancy-network-policies-backend.conf
         echo ********************* Terraform Init Complete ****************
         terraform apply -var-file=./env/tenancy-network-policies.tfvars -auto-approve
         echo ********************* Terraform Apply Complete ****************

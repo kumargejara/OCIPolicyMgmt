@@ -2,7 +2,7 @@
     "oci-tenancy-based-policy-document": {
        "name": "Tenancy-OCI-Administrator-Policies",
        "description": "The policy set defined for role OCI-Administrator at tenancy level for different groups",
-       "version": "1.8.1",
+       "version": "2.8.1",
        "policy": [
             "Allow group OCI-Administrator-CorpFunctions-Prod to use tag-namespaces in tenancy",
             "Allow group OCI-Administrator-CorpFunctions-Prod to read all-resources in tenancy",

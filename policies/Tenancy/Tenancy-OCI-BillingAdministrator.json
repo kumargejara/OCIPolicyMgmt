@@ -2,7 +2,7 @@
     "oci-tenancy-based-policy-document": {
        "name": "Tenancy-OCI-BillingAdministrator-Policies",
        "description": "The policy set defined for role OCI-Administrator at tenancy level for different groups",
-       "version": "1.9.5",
+       "version": "2.9.5",
             "policy": [
                 "Allow group OCI-BillingAdmin-Master to read computed-usages in tenancy",
                 "Allow group OCI-BillingAdmin-Master to read subscribed-services in tenancy",

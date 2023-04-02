@@ -39,17 +39,10 @@ jobs:
       run: |
         echo *************************************
         ls -lt
-        mv ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
+        cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
+        cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-network-policies.tfvars.template
+        cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
         python manage_policies.py PEO-LiteR peo-lite
-        echo *************************************
-        
-    - name: Check Vars TF Template
-      run: |
-        echo *************************************
-        ls -lta
-        cat ./policies/Tenancy/tenancy-generic-policies.tfvars.template
-        echo *************************************
-        cat ./policies/Tenancy/tenancy-network-policies.tfvars.template
         mv ./policies/Tenancy/tenancy-generic-policies.tfvars.template ./terraform/env/tenancy-generic-policies.tfvars
         mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
@@ -110,18 +103,19 @@ jobs:
         terraform apply -var-file=./env/oci_environments_policies.tfvars -auto-approve
         echo ********************* Terraform Apply Complete ****************
         
-    - name: Execute Policy Build Tool PEO-DEMO
+    - name: Execute Policy Build Tool PEO-Demo
       run: |
         echo *************************************
         ls -lt
-        mv ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
-        mv ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-network-policies.tfvars.template
-        mv ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
+        cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
+        cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-network-policies.tfvars.template
+        cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
         python manage_policies.py PEO-Demo peo-demo
+        mv ./policies/Tenancy/tenancy-generic-policies.tfvars.template ./terraform/env/tenancy-generic-policies.tfvars
+        mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
-        echo *************************************
         
-    - name: Deploy PEO-DEMO Level Policies
+    - name: Deploy PEO-Demo Level Policies
       run: |
         echo *************************************
         cd terraform

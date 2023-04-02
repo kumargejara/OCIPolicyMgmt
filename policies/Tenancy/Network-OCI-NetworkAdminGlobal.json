@@ -1,0 +1,18 @@
+{
+    "oci-tenancy-based-policy-document": {
+       "name": "Tenancy-OCI-NetworkAdminGlobal-Policies",
+       "description": "The policy set defined for role Global Network Administrator at tenancy level for different groups",
+       "version": "1.9.2",
+            "policy": [
+                "Allow group OCI-NetworkAdmin-Global to inspect all-resources in compartment network",
+                "Allow group OCI-NetworkAdmin-Global to read instances in compartment network",
+                "Allow group OCI-NetworkAdmin-Global to read audit-events in compartment network",
+                "Allow group OCI-NetworkAdmin-Global to manage virtual-network-family in compartment network",
+                "Allow group OCI-NetworkAdmin-Global to manage load-balancers in compartment network",
+                "Allow group OCI-NetworkAdmin-Global to manage instances in compartment network",
+                "Allow group OCI-NetworkAdmin-Global to manage volume-family in compartment network",
+                "Allow group OCI-NetworkAdmin-Global to manage buckets in compartment network",
+                "Allow group OCI-NetworkAdmin-Global to manage objects in compartment network"
+            ]
+    }
+}

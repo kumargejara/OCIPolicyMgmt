@@ -1,6 +1,3 @@
 # OCIPolicyMgmt
 
-This repo manages all OCI policies testing
-
-
-  
+This repo manages all OCI policies

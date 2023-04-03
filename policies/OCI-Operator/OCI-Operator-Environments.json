@@ -2,7 +2,7 @@
     "oci-role-based-policy-document": {
        "name": "OCI-Operator-<ENVIRONMENT>_policies",
        "description": "The policy set defined for role OCI-Operator includes group, and dynamic group based policies",
-       "version": "2.7.1",
+       "version": "2.7.9",
        "role": "OCI-Operator",
        "environment": "ENVIRONMENT",
        "domain": "DOMAIN",

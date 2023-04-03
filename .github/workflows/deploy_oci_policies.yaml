@@ -2,13 +2,54 @@ name: oci policy build & deploymnet
 
 on:
   push:
-    branches: 
-      - main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  oci:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Compile
+        run: echo Hello, world!
+    
+  DeployDev:
+    name: Deploy to Dev 
+    needs: [Build]
+    runs-on: ubuntu-latest
+    environment: 
+      name: development
+    steps:
+      - name: Deploy
+        run: echo I am deploying to Dev! 
+  
+  DeployQEB:
+    name: Deploy to QEB
+    needs: [DeployDev]
+    runs-on: ubuntu-latest
+    environment: 
+      name: qeb
+    steps:
+      - name: Deploy
+        run: echo I am deploying to QEB! 
+    
+  DeployStaging:
+    name: Deploy to Staging 
+    needs: [DeployQEB]
+    runs-on: ubuntu-latest
+    environment: 
+      name: staging
+    steps:
+      - name: Deploy
+        run: |
+          echo I am deploying to Staging!
+          ls -lta
+  
+  OCIPolicyBuild:
     name: 'oci_policies_validation'
+    needs: [DeployStaging]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout

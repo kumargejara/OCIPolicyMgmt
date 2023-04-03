@@ -2,7 +2,7 @@
     "oci-role-based-policy-document": {
        "name": "OCI-Auditor-<ENVIRONMENT>_policies",
        "description": "The policy set defined for role OCI-Auditor includes group, and dynamic group based policies",
-       "version": "2.2.9",
+       "version": "2.3.0",
        "role": "OCI-Auditor",
        "environment": "ENVIRONMENT",
        "domain": "DOMAIN",
@@ -50,14 +50,13 @@
                 "Allow group OCI-Auditor-<DOMAIN> to inspect waf-policy in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read waf-policy in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to inspect api-gateways in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to read api-gateways in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to inspect bastion-family in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to read bastion-family in compartment <ENVIRONMENT>"
+                "Allow group OCI-Auditor-<DOMAIN> to read api-gateways in compartment <ENVIRONMENT>"
             ]
         },
         "dynamic-group-based-policies": {
             "policy": [
-                 "Allow dynamic-group OCI-Auditor-DG-<DOMAIN> to use instances in compartment <ENVIRONMENT>"
+                 "Allow dynamic-group OCI-Auditor-DG-<DOMAIN> to use instances in compartment <ENVIRONMENT>",
+                 "Allow group OCI-Auditor-DG-<DOMAIN> to read api-gateways in compartment <ENVIRONMENT>"
              ]
          },
          "other-compartment-based-policies": {

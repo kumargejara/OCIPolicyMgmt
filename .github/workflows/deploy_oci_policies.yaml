@@ -8,142 +8,100 @@ on:
   workflow_dispatch:
 
 jobs:
-  Build:
+  BuildPolicies:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Compile
-        run: echo Hello, world!
-    
-  DeployDev:
-    name: Deploy to Dev 
-    needs: [Build]
+      - name: Setup Build Tools
+        run: |
+          ls -lta
+          pwd
+          cat config
+          sed -i "s/OCI_USER_ID/${{vars.OCI_USER_ID}}/g" "config"
+          sed -i "s/OCI_FINGER_PRINT_ID/${{vars.OCI_FINGER_PRINT_ID}}/g" "config"
+          sed -i "s/OCI_TENANCY_ID/${{vars.OCI_TENANCY_ID}}/g" "config"
+          sed -i "s/OCI_REGION/${{vars.OCI_REGION}}/g" "config"
+          cat config
+          sudo apt update && sudo apt upgrade -y
+          sudo apt install python3
+          pip install oci-cli
+          pip install oci
+          wget https://releases.hashicorp.com/terraform/1.4.1/terraform_1.4.1_linux_amd64.zip
+          sudo unzip terraform_1.4.1_linux_amd64.zip -d /usr/local/bin <<< "y"
+          oci setup repair-file-permissions --file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config
+          oci setup repair-file-permissions --file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/oci_api_key.pem 
+          python --version
+          
+      - name: Build & Validate
+        run: |
+          ls -lta
+          python --version
+          
+  DeployTenancyLevelPolicies:
+    name: Deploy Tenancy Policies
+    needs: [BuildPolicies]
     runs-on: ubuntu-latest
     environment: 
       name: development
     steps:
-      - name: Deploy
-        run: echo I am deploying to Dev! 
-  
-  DeployQEB:
-    name: Deploy to QEB
-    needs: [DeployDev]
-    runs-on: ubuntu-latest
-    environment: 
-      name: qeb
-    steps:
-      - name: Deploy
-        run: echo I am deploying to QEB! 
-    
-  DeployStaging:
-    name: Deploy to Staging 
-    needs: [DeployQEB]
-    runs-on: ubuntu-latest
-    environment: 
-      name: staging
-    steps:
-      - name: Deploy
+      - uses: actions/checkout@v2
+      - name: Execute Policy Build Tool For Tenancy Level Policies
         run: |
-          echo I am deploying to Staging!
+          echo *************************************
+          ls -lt
+          cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
+          cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-network-policies.tfvars.template
+          cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
+          python manage_policies.py tenancy tenancy
+          mv ./policies/Tenancy/tenancy-generic-policies.tfvars.template ./terraform/env/tenancy-generic-policies.tfvars
+          mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
+          mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
+    
+      - name: Deploy Tenancy Level Generic Policies
+        run: |
+          echo *************************************
+          cd terraform
+          rm -rf .terraform
+          echo *************************************
+          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          export TF_VAR_fingerprint=${{ vars.OCI_FINGER_PRINT_ID }}
+          export TF_VAR_private_key_path=${{ vars.OCI_PRIVATE_KEY_PATH }}
+          export TF_VAR_user_ocid=${{ vars.OCI_USER_ID }}
+          export TF_VAR_tenancy_ocid=${{ vars.OCI_TENANCY_ID }}
+          export TF_VAR_compartment_ocid=${{ vars.OCI_COMPARTMENT_ID }}
+          terraform init -backend-config=./env/tenancy-generic-policies-backend.conf
+          echo ********************* Terraform Init Complete ****************
+          terraform apply -var-file=./env/tenancy-generic-policies.tfvars -auto-approve
+          echo ********************* Terraform Apply Complete ****************
+        
+      - name: Deploy Tenancy Level Network Policies
+        run: |
+          echo *************************************
+          cd terraform
+          rm -rf .terraform
           ls -lta
-  
-  OCIPolicyBuild:
-    name: 'oci_policies_validation'
-    needs: [DeployStaging]
+          echo *************************************
+          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          export TF_VAR_fingerprint=${{ vars.OCI_FINGER_PRINT_ID }}
+          export TF_VAR_private_key_path=${{ vars.OCI_PRIVATE_KEY_PATH }}
+          export TF_VAR_user_ocid=${{ vars.OCI_USER_ID }}
+          export TF_VAR_tenancy_ocid=${{ vars.OCI_TENANCY_ID }}
+          export TF_VAR_compartment_ocid=${{ vars.OCI_COMPARTMENT_ID }}
+          terraform init -backend-config=./env/tenancy-network-policies-backend.conf
+          echo ********************* Terraform Init Complete ****************
+          terraform apply -var-file=./env/tenancy-network-policies.tfvars -auto-approve
+          echo ********************* Terraform Apply Complete ****************
+    
+  DeployDev:
+    name: Deploy to Dev 
+    needs: [DeployTenancyLevelPolicies]
     runs-on: ubuntu-latest
+    environment: 
+      name: development
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-  
-    - name: Setup Build Tools
-      run: |
-        echo hello world
-        ls -lta
-        pwd
-        cat config
-        sed -i "s/OCI_USER_ID/${{vars.OCI_USER_ID}}/g" "config"
-        sed -i "s/OCI_FINGER_PRINT_ID/${{vars.OCI_FINGER_PRINT_ID}}/g" "config"
-        sed -i "s/OCI_TENANCY_ID/${{vars.OCI_TENANCY_ID}}/g" "config"
-        sed -i "s/OCI_REGION/${{vars.OCI_REGION}}/g" "config"
-        cat config
-        sudo apt update && sudo apt upgrade -y
-        sudo apt install python3
-        pip install oci-cli
-        pip install oci
-        wget https://releases.hashicorp.com/terraform/1.4.1/terraform_1.4.1_linux_amd64.zip
-        sudo unzip terraform_1.4.1_linux_amd64.zip -d /usr/local/bin <<< "y"
-        oci setup repair-file-permissions --file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config
-        oci setup repair-file-permissions --file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/oci_api_key.pem 
-        python --version
-   
-    - name: Execute Policy Build Tool
-      run: |
-        echo *************************************
-        ls -lt
-        cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
-        cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-network-policies.tfvars.template
-        cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
-        python manage_policies.py PEO-LiteR peo-lite
-        mv ./policies/Tenancy/tenancy-generic-policies.tfvars.template ./terraform/env/tenancy-generic-policies.tfvars
-        mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
-        mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
-
-    - name: Deploy Tenancy Level Generic Policies
-      run: |
-        echo *************************************
-        cd terraform
-        rm -rf .terraform
-        echo *************************************
-        export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-        export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        export TF_VAR_fingerprint=${{ vars.OCI_FINGER_PRINT_ID }}
-        export TF_VAR_private_key_path=${{ vars.OCI_PRIVATE_KEY_PATH }}
-        export TF_VAR_user_ocid=${{ vars.OCI_USER_ID }}
-        export TF_VAR_tenancy_ocid=${{ vars.OCI_TENANCY_ID }}
-        export TF_VAR_compartment_ocid=${{ vars.OCI_COMPARTMENT_ID }}
-        terraform init -backend-config=./env/tenancy-generic-policies-backend.conf
-        echo ********************* Terraform INIT Complete ****************
-        terraform apply -var-file=./env/tenancy-generic-policies.tfvars -auto-approve
-        echo ********************* Terraform Apply Complete ****************
-        
-    - name: Deploy Tenancy Level Network Policies
-      run: |
-        echo *************************************
-        cd terraform
-        rm -rf .terraform
-        ls -lta
-        echo *************************************
-        export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-        export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        export TF_VAR_fingerprint=${{ vars.OCI_FINGER_PRINT_ID }}
-        export TF_VAR_private_key_path=${{ vars.OCI_PRIVATE_KEY_PATH }}
-        export TF_VAR_user_ocid=${{ vars.OCI_USER_ID }}
-        export TF_VAR_tenancy_ocid=${{ vars.OCI_TENANCY_ID }}
-        export TF_VAR_compartment_ocid=${{ vars.OCI_COMPARTMENT_ID }}
-        terraform init -backend-config=./env/tenancy-network-policies-backend.conf
-        echo ********************* Terraform Init Complete ****************
-        terraform apply -var-file=./env/tenancy-network-policies.tfvars -auto-approve
-        echo ********************* Terraform Apply Complete ****************
-        
-    - name: Deploy peo-lite Level Policies
-      run: |
-        echo *************************************
-        cd terraform
-        rm -rf .terraform
-        ls -lta
-        echo *************************************
-        export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-        export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        export TF_VAR_fingerprint=${{ vars.OCI_FINGER_PRINT_ID }}
-        export TF_VAR_private_key_path=${{ vars.OCI_PRIVATE_KEY_PATH }}
-        export TF_VAR_user_ocid=${{ vars.OCI_USER_ID }}
-        export TF_VAR_tenancy_ocid=${{ vars.OCI_TENANCY_ID }}
-        export TF_VAR_compartment_ocid=${{ vars.OCI_COMPARTMENT_ID }}
-        terraform init -backend-config=./env/oci-policies-peo-lite-backend.conf
-        echo ********************* Terraform Init Complete ****************
-        terraform apply -var-file=./env/oci_environments_policies.tfvars -auto-approve
-        echo ********************* Terraform Apply Complete ****************
-        
+    - uses: actions/checkout@v2
     - name: Execute Policy Build Tool PEO-Dev
       run: |
         echo *************************************
@@ -174,9 +132,17 @@ jobs:
         echo ********************* Terraform Init Complete ****************
         terraform apply -var-file=./env/oci_environments_policies.tfvars -auto-approve
         echo ********************* Terraform Apply Complete ****************
-    
-    - name: Execute Policy Build Tool PEO-QEB
-      run: |
+  
+  DeployQEB:
+    name: Deploy to QEB
+    needs: [DeployDev]
+    runs-on: ubuntu-latest
+    environment: 
+      name: qeb
+    steps:
+     - uses: actions/checkout@v2
+     - name: Execute Policy Build Tool PEO-QEB
+       run: |
         echo *************************************
         ls -lt
         cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
@@ -187,8 +153,8 @@ jobs:
         mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
         
-    - name: Deploy PEO-QEB Level Policies
-      run: |
+     - name: Deploy PEO-QEB Level Policies
+       run: |
         echo *************************************
         cd terraform
         rm -rf .terraform
@@ -205,7 +171,15 @@ jobs:
         echo ********************* Terraform Init Complete ****************
         terraform apply -var-file=./env/oci_environments_policies.tfvars -auto-approve
         echo ********************* Terraform Apply Complete ****************
-        
+    
+  DeployStaging:
+    name: Deploy to Staging 
+    needs: [DeployQEB]
+    runs-on: ubuntu-latest
+    environment: 
+      name: staging
+    steps:
+    - uses: actions/checkout@v2
     - name: Execute Policy Build Tool PEO-Stage
       run: |
         echo *************************************
@@ -236,20 +210,28 @@ jobs:
         echo ********************* Terraform Init Complete ****************
         terraform apply -var-file=./env/oci_environments_policies.tfvars -auto-approve
         echo ********************* Terraform Apply Complete ****************
-        
-    - name: Execute Policy Build Tool PEO-Demo
+  
+  DeployPeoLite:
+    name: Deploy to Peo-Lite
+    needs: [DeployStaging]
+    runs-on: ubuntu-latest
+    environment: 
+      name: staging
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Policy Build Tool for Peo-Lite
       run: |
         echo *************************************
         ls -lt
         cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
         cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-network-policies.tfvars.template
         cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
-        python manage_policies.py PEO-Demo peo-demo
+        python manage_policies.py PEO-LiteR peo-lite
         mv ./policies/Tenancy/tenancy-generic-policies.tfvars.template ./terraform/env/tenancy-generic-policies.tfvars
         mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
         
-    - name: Deploy PEO-Demo Level Policies
+    - name: Deploy peo-lite Level Policies
       run: |
         echo *************************************
         cd terraform
@@ -263,7 +245,46 @@ jobs:
         export TF_VAR_user_ocid=${{ vars.OCI_USER_ID }}
         export TF_VAR_tenancy_ocid=${{ vars.OCI_TENANCY_ID }}
         export TF_VAR_compartment_ocid=${{ vars.OCI_COMPARTMENT_ID }}
-        terraform init -backend-config=./env/oci-policies-peo-demo-backend.conf
+        terraform init -backend-config=./env/oci-policies-peo-lite-backend.conf
+        echo ********************* Terraform Init Complete ****************
+        terraform apply -var-file=./env/oci_environments_policies.tfvars -auto-approve
+        echo ********************* Terraform Apply Complete ****************
+  
+  DeployPeoDemo:
+    name: Deploy to Peo-Demo
+    needs: [DeployPeoLite]
+    runs-on: ubuntu-latest
+    environment: 
+      name: peo-demo
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Policy Build Tool for Peo-Demo
+      run: |
+        echo *************************************
+        ls -lt
+        cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
+        cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-network-policies.tfvars.template
+        cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
+        python manage_policies.py PEO-LiteR peo-lite
+        mv ./policies/Tenancy/tenancy-generic-policies.tfvars.template ./terraform/env/tenancy-generic-policies.tfvars
+        mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
+        mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
+        
+    - name: Deploy peo-lite Level Policies
+      run: |
+        echo *************************************
+        cd terraform
+        rm -rf .terraform
+        ls -lta
+        echo *************************************
+        export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+        export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        export TF_VAR_fingerprint=${{ vars.OCI_FINGER_PRINT_ID }}
+        export TF_VAR_private_key_path=${{ vars.OCI_PRIVATE_KEY_PATH }}
+        export TF_VAR_user_ocid=${{ vars.OCI_USER_ID }}
+        export TF_VAR_tenancy_ocid=${{ vars.OCI_TENANCY_ID }}
+        export TF_VAR_compartment_ocid=${{ vars.OCI_COMPARTMENT_ID }}
+        terraform init -backend-config=./env/oci-policies-peo-lite-backend.conf
         echo ********************* Terraform Init Complete ****************
         terraform apply -var-file=./env/oci_environments_policies.tfvars -auto-approve
         echo ********************* Terraform Apply Complete ****************

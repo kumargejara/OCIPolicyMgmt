@@ -95,7 +95,7 @@ jobs:
           echo ********************* Terraform Apply Complete ****************
     
   DeployDev:
-    name: Deploy to Dev 
+    name: Deploy to Dev Policies
     needs: [DeployTenancyLevelPolicies]
     runs-on: ubuntu-latest
     environment: 
@@ -134,7 +134,7 @@ jobs:
         echo ********************* Terraform Apply Complete ****************
   
   DeployQEB:
-    name: Deploy to QEB
+    name: Deploy to QEB Policies
     needs: [DeployDev]
     runs-on: ubuntu-latest
     environment: 
@@ -173,7 +173,7 @@ jobs:
         echo ********************* Terraform Apply Complete ****************
     
   DeployStaging:
-    name: Deploy to Staging 
+    name: Deploy to Staging Policies
     needs: [DeployQEB]
     runs-on: ubuntu-latest
     environment: 
@@ -212,7 +212,7 @@ jobs:
         echo ********************* Terraform Apply Complete ****************
   
   DeployPeoLite:
-    name: Deploy to Peo-Lite
+    name: Deploy to Peo-Lite Policies
     needs: [DeployStaging]
     runs-on: ubuntu-latest
     environment: 
@@ -251,7 +251,7 @@ jobs:
         echo ********************* Terraform Apply Complete ****************
   
   DeployPeoDemo:
-    name: Deploy to Peo-Demo
+    name: Deploy to Peo-Demo Policies
     needs: [DeployPeoLite]
     runs-on: ubuntu-latest
     environment: 

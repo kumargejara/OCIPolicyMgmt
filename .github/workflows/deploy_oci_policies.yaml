@@ -42,7 +42,7 @@ jobs:
     needs: [BuildPolicies]
     runs-on: ubuntu-latest
     environment: 
-      name: development
+      name: tenancy
     steps:
       - uses: actions/checkout@v2
       - name: Execute Policy Build Tool For Tenancy Level Policies
@@ -216,7 +216,7 @@ jobs:
     needs: [DeployStaging]
     runs-on: ubuntu-latest
     environment: 
-      name: staging
+      name: peo-lite
     steps:
     - uses: actions/checkout@v2
     - name: Execute Policy Build Tool for Peo-Lite

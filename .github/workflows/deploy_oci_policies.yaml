@@ -270,7 +270,7 @@ jobs:
         mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
         
-    - name: Deploy peo-lite Level Policies
+    - name: Deploy peo-Demo Level Policies
       run: |
         echo *************************************
         cd terraform

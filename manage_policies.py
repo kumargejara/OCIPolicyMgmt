@@ -90,135 +90,116 @@ def check_policy(policy, policylist):
             return True
     return False
 
+def buildvalidation():
+
+    tenancy_policy_schema = get_schema('./schema/tenancy_json_schema.json')
+    compartment_policy_schema = get_schema('./schema/compartment_json_schema.json')
+    tenancy_administrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-Administrator.json')
+    tenancy_billingadministrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-BillingAdministrator.json')
+    tenancy_monitoringadministrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-MonitoringAdministrator.json')
+    tenancy_network_administrator_global_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Network-OCI-NetworkAdminGlobal.json')
+    oci_auditor_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Environments.json')
+    oci_auditor_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Sandbox.json')
+    oci_auditor_production_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Production.json')
+    oci_operator_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Environments.json')
+    oci_operator_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Sandbox.json')
+    oci_operator_production_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Production.json')
+    print("\n**********************************************************************************")
+    print("Policy Data Loaded Successfully From Source Code")
+    print("**********************************************************************************\n")
+    is_valid, msg = validate_json(tenancy_administrator_policy_document, tenancy_policy_schema, "Tenancy OCI-Administrator Schema")
+    print(msg) 
+    is_valid, msg = validate_json(tenancy_billingadministrator_policy_document, tenancy_policy_schema, "Tenancy OCI-BillingAdministrator Schema")
+    print(msg)
+    is_valid, msg = validate_json(tenancy_monitoringadministrator_policy_document, tenancy_policy_schema, "Tenancy OCI-MonitoringAdministrator Schema")
+    print(msg)
+    is_valid, msg = validate_json(tenancy_network_administrator_global_policy_document, tenancy_policy_schema, "Tenancy Network-OCI-NetworkAdmin Schema")
+    print(msg)
+
+    is_valid, msg = validate_json(oci_auditor_environments_policy_document, compartment_policy_schema, "OCI-Auditor Environment Schema")
+    print(msg) 
+    is_valid, msg = validate_json(oci_auditor_sandbox_policy_document, compartment_policy_schema, "OCI-Auditor Sandbox Schema")
+    print(msg)
+    is_valid, msg = validate_json(oci_auditor_production_policy_document, compartment_policy_schema, "OCI-Auditor Production Schema")
+    print(msg)
+
+    is_valid, msg = validate_json(oci_operator_environments_policy_document, compartment_policy_schema, "OCI-Operator Environment Schema")
+    print(msg) 
+    is_valid, msg = validate_json(oci_operator_sandbox_policy_document, compartment_policy_schema, "OCI-Operator Sandbox Schema")
+    print(msg)
+    is_valid, msg = validate_json(oci_operator_production_policy_document, compartment_policy_schema, "OCI-Operator Production Schema")
+    print(msg)
+    print("\n**********************************************************************************")
+    print("Policy Build & Validation Process Completed Successfully")
+    print("**********************************************************************************\n")
+
+def tenancy_deployment():
+    tenancy_administrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-Administrator.json')
+    tenancy_billingadministrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-BillingAdministrator.json')
+    tenancy_monitoringadministrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-MonitoringAdministrator.json')
+    tenancy_network_administrator_global_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Network-OCI-NetworkAdminGlobal.json')
+    tenancy_administrator_policy_list = get_tenancy_policies(tenancy_administrator_policy_document, "oci-tenancy-based-policy-document")
+    tenancy_billingadministrator_policy_list = get_tenancy_policies(tenancy_billingadministrator_policy_document, "oci-tenancy-based-policy-document")
+    tenancy_monitoringadministrator_policy_list = get_tenancy_policies(tenancy_monitoringadministrator_policy_document, "oci-tenancy-based-policy-document")
+    tenancy_network_administrator_global_policy_list = get_tenancy_policies(tenancy_network_administrator_global_policy_document, "oci-tenancy-based-policy-document")
+    tenant_generic_policy_data = '[\n'+tenancy_administrator_policy_list.objtoString()+',\n'+tenancy_billingadministrator_policy_list.objtoString()+',\n'+tenancy_monitoringadministrator_policy_list.objtoString()+'\n]'
+    replace_policy_list_in_tftemplate(tenant_generic_policy_data, os.getcwd()+'/policies/Tenancy/tenancy-generic-policies.tfvars.template')
+    tenant_network_policy_data = '[\n'+tenancy_network_administrator_global_policy_list.objtoString()+'\n]'
+    replace_policy_list_in_tftemplate(tenant_network_policy_data, os.getcwd()+'/policies/Tenancy/tenancy-network-policies.tfvars.template')
+    print("**********************************************************************************")
+
+def non_production_deployment():
+    oci_auditor_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Environments.json')
+    oci_operator_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Environments.json')
+    oci_auditor_environments_policy_list = get_role_policies(oci_auditor_environments_policy_document, "oci-role-based-policy-document", domain, env)
+    oci_operator_environments_policy_list = get_role_policies(oci_operator_environments_policy_document, "oci-role-based-policy-document", domain, env)
+    oci_environments_policy_data = '[\n'+oci_auditor_environments_policy_list.objtoString()+',\n'+oci_operator_environments_policy_list.objtoString()+'\n]'
+    replace_policy_list_in_tftemplate(oci_environments_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+    print("**********************************************************************************")
+
+def sandbox_deployment():
+    oci_auditor_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Sandbox.json')
+    oci_operator_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Sandbox.json')
+    oci_auditor_sandbox_policy_list = get_role_policies(oci_auditor_sandbox_policy_document,  "oci-role-based-policy-document", domain, env)
+    oci_operator_sandbox_policy_list = get_role_policies(oci_operator_sandbox_policy_document, "oci-role-based-policy-document", domain, env)
+    oci_sandbox_policy_data = '[\n'+oci_auditor_sandbox_policy_list.objtoString()+',\n'+oci_operator_sandbox_policy_list.objtoString()+'\n]'
+    replace_policy_list_in_tftemplate(oci_sandbox_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+    print("**********************************************************************************")
+
+def production_deployment():
+    oci_auditor_production_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Production.json')
+    oci_operator_production_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Production.json')
+    oci_auditor_production_policy_list = get_role_policies(oci_auditor_production_policy_document, "oci-role-based-policy-document", domain, env)
+    oci_operator_production_policy_list = get_role_policies(oci_operator_production_policy_document, "oci-role-based-policy-document", domain, env)
+    oci_production_policy_data = '[\n'+oci_auditor_production_policy_list.objtoString()+',\n'+oci_operator_production_policy_list.objtoString()+'\n]'
+    replace_policy_list_in_tftemplate(oci_production_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+    print("**********************************************************************************")
+
 def replace_policy_list_in_tftemplate(policy_data, tf_var_template):
     with FileInput(tf_var_template, inplace=True, backup='.bak') as f:
         for line in f:
             print(line.replace("POLICIES_OBJECT_LIST", policy_data), end='')
 
 
-print("\n**********************************************************************************")
-print("Policy Data Loaded Successfully From Source Code")
-print("**********************************************************************************\n")
-tenancy_policy_schema = get_schema('./schema/tenancy_json_schema.json')
-compartment_policy_schema = get_schema('./schema/compartment_json_schema.json')
+print("**********************************************************************************")
+print("Policy As Code Process Started......")
+print("**********************************************************************************")
 
 domain = sys.argv[1]
 env = sys.argv[2]
+operation = sys.argv[3]
 
-tenancy_administrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-Administrator.json')
-tenancy_billingadministrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-BillingAdministrator.json')
-tenancy_monitoringadministrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-MonitoringAdministrator.json')
-tenancy_network_administrator_global_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Network-OCI-NetworkAdminGlobal.json')
+if (operation.lower()=="build-validation"):
+    buildvalidation()
 
-oci_auditor_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Environments.json')
-oci_auditor_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Sandbox.json')
-oci_auditor_production_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Production.json')
+if (operation.lower()=="tenancy-deployment"):
+    tenancy_deployment()
 
-oci_operator_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Environments.json')
-oci_operator_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Sandbox.json')
-oci_operator_production_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Production.json')
+if (operation.lower()=="non-production-deployment"):
+    non_production_deployment()
 
-print("\n**********************************************************************************")
-print("Policy Schema Loaded Successfully From Json Schema Files")
-print("**********************************************************************************\n")
+if (operation.lower()=="sandbox-deployment"):
+    sandbox_deployment()
 
-
-is_valid, msg = validate_json(tenancy_administrator_policy_document, tenancy_policy_schema, "Tenancy OCI-Administrator Schema")
-print(msg) 
-is_valid, msg = validate_json(tenancy_billingadministrator_policy_document, tenancy_policy_schema, "Tenancy OCI-BillingAdministrator Schema")
-print(msg)
-is_valid, msg = validate_json(tenancy_monitoringadministrator_policy_document, tenancy_policy_schema, "Tenancy OCI-MonitoringAdministrator Schema")
-print(msg)
-is_valid, msg = validate_json(tenancy_network_administrator_global_policy_document, tenancy_policy_schema, "Tenancy Network-OCI-NetworkAdmin Schema")
-print(msg)
-
-is_valid, msg = validate_json(oci_auditor_environments_policy_document, compartment_policy_schema, "OCI-Auditor Environment Schema")
-print(msg) 
-is_valid, msg = validate_json(oci_auditor_sandbox_policy_document, compartment_policy_schema, "OCI-Auditor Sandbox Schema")
-print(msg)
-is_valid, msg = validate_json(oci_auditor_production_policy_document, compartment_policy_schema, "OCI-Auditor Production Schema")
-print(msg)
-
-is_valid, msg = validate_json(oci_operator_environments_policy_document, compartment_policy_schema, "OCI-Operator Environment Schema")
-print(msg) 
-is_valid, msg = validate_json(oci_operator_sandbox_policy_document, compartment_policy_schema, "OCI-Operator Sandbox Schema")
-print(msg)
-is_valid, msg = validate_json(oci_operator_production_policy_document, compartment_policy_schema, "OCI-Operator Production Schema")
-print(msg)
-
-print("\n**********************************************************************************")
-print("Policy Validation Process Completed Successfully")
-print("**********************************************************************************\n")
-
-tenancy_administrator_policy_list = get_tenancy_policies(tenancy_administrator_policy_document, "oci-tenancy-based-policy-document")
-tenancy_billingadministrator_policy_list = get_tenancy_policies(tenancy_billingadministrator_policy_document, "oci-tenancy-based-policy-document")
-tenancy_monitoringadministrator_policy_list = get_tenancy_policies(tenancy_monitoringadministrator_policy_document, "oci-tenancy-based-policy-document")
-tenancy_network_administrator_global_policy_list = get_tenancy_policies(tenancy_network_administrator_global_policy_document, "oci-tenancy-based-policy-document")
-
-print("**********************************************************************************")
-tenant_generic_policy_data = '[\n'+tenancy_administrator_policy_list.objtoString()+',\n'+tenancy_billingadministrator_policy_list.objtoString()+',\n'+tenancy_monitoringadministrator_policy_list.objtoString()+'\n]'
-replace_policy_list_in_tftemplate(tenant_generic_policy_data, os.getcwd()+'/policies/Tenancy/tenancy-generic-policies.tfvars.template')
-tenant_network_policy_data = '[\n'+tenancy_network_administrator_global_policy_list.objtoString()+'\n]'
-replace_policy_list_in_tftemplate(tenant_network_policy_data, os.getcwd()+'/policies/Tenancy/tenancy-network-policies.tfvars.template')
-print("**********************************************************************************")
-
-oci_auditor_environments_policy_list = get_role_policies(oci_auditor_environments_policy_document, "oci-role-based-policy-document", domain, env)
-oci_operator_environments_policy_list = get_role_policies(oci_operator_environments_policy_document, "oci-role-based-policy-document", domain, env)
-oci_environments_policy_data = '[\n'+oci_auditor_environments_policy_list.objtoString()+',\n'+oci_operator_environments_policy_list.objtoString()+'\n]'
-replace_policy_list_in_tftemplate(oci_environments_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
-
-
-print("**********************************************************************************")
-'''oci_auditor_sandbox_policy_list = get_role_policies(oci_auditor_sandbox_policy_document, domain, env)
-print(oci_auditor_sandbox_policy_list)
-print("**********************************************************************************")
-oci_auditor_production_policy_list = get_role_policies(oci_auditor_production_policy_list, oci_auditor_production_policy_document, domain, env)
-print(oci_auditor_production_policy_list)
-print("**********************************************************************************")
-
-
-
-print("**********************************************************************************")
-oci_operator_sandbox_policy_list = get_role_policies(oci_operator_sandbox_policy_list, oci_operator_sandbox_policy_document, domain, env)
-print(oci_operator_sandbox_policy_list)
-print("**********************************************************************************")
-oci_operator_production_policy_list = get_role_policies(oci_operator_production_policy_list, oci_operator_production_policy_document, domain, env)
-print(oci_operator_production_policy_list)
-print("**********************************************************************************")
-
-
-print("**********************************************************************************")
-print("Policy Build Process Completed Successfully")
-print("**********************************************************************************\n")
-
-existing_policy_count=0
-new_policy_count = 0
-new_policy_list = []
-for i in range(len(policy_list)):
-    if check_policy(policy_list[i], existing_policy_list):
-        existing_policy_count = existing_policy_count+1
-    else:
-        new_policy_list.append(policy_list[i])
-        new_policy_count = new_policy_count+1
-
-remove_policy_list = []
-policy_not_changed_count=0
-policy_removed_updated_count = 0
-for k in range(len(existing_policy_list)):
-    if check_policy(existing_policy_list[k], policy_list):
-        policy_not_changed_count = policy_not_changed_count+1
-    else:
-        remove_policy_list.append(existing_policy_list[k])
-        policy_removed_updated_count = policy_removed_updated_count+1
-
-
-write_new_policies(os.getcwd()+'/policies/new_policy_state.json', policy_list)
-print("Policy Summary Report")
-print("**********************************************************************************")
-print(f"Current Policies Not Changed = {policy_not_changed_count}")
-print(f"Current Policies Removed/Altered = {policy_removed_updated_count}")
-print(f"New Policies Will Be Added  = {new_policy_count}")
-print(f"Total Policies List = {existing_policy_count+new_policy_count}")
-print(f"Total Policies List Recheck = {len(policy_list)}")
-print("**********************************************************************************\n")
-replace_policy_list_in_tftemplate(os.getcwd()+'/policies/new_policy_state.json')'''
+if (operation.lower()=="production-deployment"):
+    production_deployment()

@@ -35,7 +35,7 @@ jobs:
       - name: Build & Validate
         run: |
           ls -lta
-          python --version
+          python manage_policies.py tenancy tenancy build-validation
           
   DeployTenancyLevelPolicies:
     name: Deploy Tenancy Policies
@@ -52,7 +52,7 @@ jobs:
           cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
           cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-network-policies.tfvars.template
           cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
-          python manage_policies.py tenancy tenancy
+          python manage_policies.py tenancy tenancy tenancy-deployment
           mv ./policies/Tenancy/tenancy-generic-policies.tfvars.template ./terraform/env/tenancy-generic-policies.tfvars
           mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
           mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
@@ -109,7 +109,7 @@ jobs:
         cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
         cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-network-policies.tfvars.template
         cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
-        python manage_policies.py PEO-Dev peo-dev
+        python manage_policies.py PEO-Dev peo-dev non-production-deployment
         mv ./policies/Tenancy/tenancy-generic-policies.tfvars.template ./terraform/env/tenancy-generic-policies.tfvars
         mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
@@ -148,7 +148,7 @@ jobs:
         cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
         cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-network-policies.tfvars.template
         cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
-        python manage_policies.py PEO-QE peo-qe
+        python manage_policies.py PEO-QE peo-qe non-production-deployment
         mv ./policies/Tenancy/tenancy-generic-policies.tfvars.template ./terraform/env/tenancy-generic-policies.tfvars
         mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
@@ -187,7 +187,7 @@ jobs:
         cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
         cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-network-policies.tfvars.template
         cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
-        python manage_policies.py PEO-SDLC peo-stage
+        python manage_policies.py PEO-SDLC peo-stage non-production-deployment
         mv ./policies/Tenancy/tenancy-generic-policies.tfvars.template ./terraform/env/tenancy-generic-policies.tfvars
         mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
@@ -226,7 +226,7 @@ jobs:
         cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
         cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-network-policies.tfvars.template
         cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
-        python manage_policies.py PEO-LiteR peo-lite
+        python manage_policies.py PEO-LiteR peo-lite non-production-deployment
         mv ./policies/Tenancy/tenancy-generic-policies.tfvars.template ./terraform/env/tenancy-generic-policies.tfvars
         mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
@@ -265,7 +265,7 @@ jobs:
         cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
         cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-network-policies.tfvars.template
         cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
-        python manage_policies.py PEO-Demo peo-demo
+        python manage_policies.py PEO-Demo peo-demo non-production-deployment
         mv ./policies/Tenancy/tenancy-generic-policies.tfvars.template ./terraform/env/tenancy-generic-policies.tfvars
         mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars

@@ -55,8 +55,7 @@
         },
         "dynamic-group-based-policies": {
             "policy": [
-                 "Allow dynamic-group OCI-Auditor-DG-<DOMAIN> to use instances in compartment <ENVIRONMENT>",
-                 "Allow group OCI-Auditor-DG-<DOMAIN> to read api-gateways in compartment <ENVIRONMENT>"
+                 "Allow dynamic-group OCI-Auditor-DG-<DOMAIN> to use instances in compartment <ENVIRONMENT>"
              ]
          },
          "other-compartment-based-policies": {

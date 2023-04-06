@@ -2,7 +2,7 @@
     "oci-role-based-policy-document": {
        "name": "OCI-Auditor-<ENVIRONMENT>_policies",
        "description": "The policy set defined for role OCI-Auditor includes group, and dynamic group based policies",
-       "version": "2.3.0",
+       "version": "2.3.9",
        "role": "OCI-Auditor",
        "environment": "ENVIRONMENT",
        "domain": "DOMAIN",

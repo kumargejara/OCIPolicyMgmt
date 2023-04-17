@@ -46,11 +46,7 @@
                 "Allow group OCI-Auditor-<DOMAIN> to inspect local-peering-gateways in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read nat-gateways in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to inspect service-gateways in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to inspect dns-zones in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to inspect waf-policy in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to read waf-policy in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to inspect api-gateways in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to read api-gateways in compartment <ENVIRONMENT>"
+                "Allow group OCI-Auditor-<DOMAIN> to inspect dns-zones in compartment <ENVIRONMENT>"
             ]
         },
         "dynamic-group-based-policies": {

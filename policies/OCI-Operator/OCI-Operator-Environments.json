@@ -2,7 +2,7 @@
     "oci-role-based-policy-document": {
        "name": "OCI-Operator-<ENVIRONMENT>_policies",
        "description": "The policy set defined for role OCI-Operator includes group, and dynamic group based policies",
-       "version": "2.3.9",
+       "version": "2.5.1",
        "role": "OCI-Operator",
        "environment": "ENVIRONMENT",
        "domain": "DOMAIN",
@@ -36,9 +36,7 @@
                "Allow group OCI-Operator-<DOMAIN> to use auto-scaling-configurations in compartment <ENVIRONMENT>",
                "Allow group OCI-Operator-<DOMAIN> to use instance-pools in compartment <ENVIRONMENT>",
                "Allow group OCI-Operator-<DOMAIN> to use instance-images in compartment <ENVIRONMENT>",
-               "Allow group OCI-Operator-<DOMAIN> to read app-catalog-listing in compartment <ENVIRONMENT>",
-               "Allow group OCI-Operator-<DOMAIN> to use load-balancers in compartment <ENVIRONMENT>",
-               "Allow group OCI-Operator-<DOMAIN> to read announcements in compartment <ENVIRONMENT>"
+               "Allow group OCI-Operator-<DOMAIN> to read app-catalog-listing in compartment <ENVIRONMENT>"
             ]
         },
         "dynamic-group-based-policies": {

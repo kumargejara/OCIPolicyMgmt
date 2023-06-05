@@ -41,10 +41,6 @@
                 "Allow group OCI-Auditor-<DOMAIN> to inspect cluster-node-pools in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to inspect route-tables in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to inspect internet-gateways in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to inspect drg-attachment in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to inspect drg-object in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to inspect local-peering-gateways in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to read nat-gateways in compartment <ENVIRONMENT>"
             ]
         },
         "dynamic-group-based-policies": {

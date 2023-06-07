@@ -15,8 +15,7 @@
                 "Allow group OCI-MonitorAdmin-Global to use metrics in tenancy",
                 "Allow group OCI-MonitorAdmin-Global to manage alarm in tenancy",
                 "Allow group OCI-MonitorAdmin-Global to manage ons-topics in tenancy",
-                "Allow group OCI-MonitorAdmin-Global to use buckets in tenancy",
-                "Allow group OCI-MonitorAdmin-Global to use objects in tenancy"
+                "Allow group OCI-MonitorAdmin-Global to use buckets in tenancy"
             ]
     }
 }

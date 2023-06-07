@@ -35,8 +35,7 @@
                "Allow group OCI-Operator-<DOMAIN> to use instances in compartment <ENVIRONMENT>",
                "Allow group OCI-Operator-<DOMAIN> to use auto-scaling-configurations in compartment <ENVIRONMENT>",
                "Allow group OCI-Operator-<DOMAIN> to use instance-pools in compartment <ENVIRONMENT>",
-               "Allow group OCI-Operator-<DOMAIN> to use instance-images in compartment <ENVIRONMENT>",
-               "Allow group OCI-Operator-<DOMAIN> to read app-catalog-listing in compartment <ENVIRONMENT>"
+               "Allow group OCI-Operator-<DOMAIN> to use instance-images in compartment <ENVIRONMENT>"
             ]
         },
         "dynamic-group-based-policies": {

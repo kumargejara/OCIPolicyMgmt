@@ -1,12 +1,5 @@
 name: oci policy build & deploymnet 
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
-
 jobs:
   BuildPolicies:
     runs-on: ubuntu-latest

@@ -38,9 +38,7 @@
                 "Allow group OCI-Auditor-<DOMAIN> to inspect load-balancers in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to inspect clusters in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to inspect subnets in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to inspect cluster-node-pools in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to inspect route-tables in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to inspect internet-gateways in compartment <ENVIRONMENT>"
+                "Allow group OCI-Auditor-<DOMAIN> to inspect cluster-node-pools in compartment <ENVIRONMENT>"
             ]
         },
         "dynamic-group-based-policies": {

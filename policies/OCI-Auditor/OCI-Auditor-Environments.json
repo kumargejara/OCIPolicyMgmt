@@ -35,8 +35,7 @@
                 "Allow group OCI-Auditor-<DOMAIN> to read backup-policy-assignments in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read db-systems in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to inspect log-groups in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to inspect load-balancers in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to inspect clusters in compartment <ENVIRONMENT>"
+                "Allow group OCI-Auditor-<DOMAIN> to inspect load-balancers in compartment <ENVIRONMENT>"
             ]
         },
         "dynamic-group-based-policies": {

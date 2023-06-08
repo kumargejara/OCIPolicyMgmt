@@ -1,7 +1,7 @@
 {
     "oci-role-based-policy-document": {
        "name": "OCI-Privilege-Administrator-<ENVIRONMENT>-policies-<END-TIME-UTC>",
-       "description": "The policy set defined for role OCI-Auditor includes group, and dynamic group based policies and the is for <PURPOSE>",
+       "description": "The policy set defined for role OCI-Privilege includes group,and dynamic group based policies and the is for <PURPOSE>",
        "version": "2.5.1",
        "role": "OCI-Privilege-Administrator-<ENVIRONMENT>",
        "environment": "<ENVIRONMENT>",
@@ -46,3 +46,5 @@
         }
     }
  }
+
+

@@ -240,7 +240,7 @@ def non_production_privilege_deployment():
     oci_privilege_environments_policy_list = get_privilege_role_policies(oci_privilege_environments_policy_document, "oci-role-based-policy-document", domain, env, oci_privilege_policy_inputs['purpose'], oci_privilege_policy_inputs['start-time-utc'], oci_privilege_policy_inputs['end-time-utc'])
     oci_privilege_environments_policy_data = '[\n'+oci_privilege_environments_policy_list.objtoString()+'\n]'
     replace_policy_list_in_tftemplate(oci_privilege_environments_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
-    name = get_privilege_policy_name(oci_auditor_environments_policy_document, "oci-role-based-policy-document", env, oci_privilege_policy_inputs['end-time-utc'])
+    name = get_privilege_policy_name(oci_privilege_environments_policy_document, "oci-role-based-policy-document", env, oci_privilege_policy_inputs['end-time-utc'])
     replace_policy_name_in_tf(name, os.getcwd()+'/terraform/oci_policies.tf')
     print("**********************************************************************************")
 

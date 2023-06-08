@@ -1,7 +1,7 @@
 {
     "oci-role-based-policy-document": {
        "name": "OCI-Privilege-Administrator-<ENVIRONMENT>-policies-<END-TIME-UTC>",
-       "description": "The policy set is defined for role OCI-Privilege includes group based policies for <PURPOSE>",
+       "description": "The policy set is defined for OCI-Privilege role which includes group based policies for <PURPOSE>",
        "version": "2.5.1",
        "role": "OCI-Privilege-Administrator-<ENVIRONMENT>",
        "environment": "<ENVIRONMENT>",

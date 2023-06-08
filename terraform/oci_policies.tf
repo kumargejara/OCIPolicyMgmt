@@ -1,4 +1,4 @@
-resource "oci_identity_policy" "test_policy" {
+resource "oci_identity_policy" "TF_POLICY_NAME" {
 
     count = length(var.policy_sets)
 

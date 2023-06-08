@@ -84,6 +84,10 @@ def get_role_policies(policy_document, policy_tag, domain, env):
     policySet.policy_statements = policy_list
     return policySet
 
+def get_policy_name(policy_document, policy_tag, env):
+    name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env)
+    return name
+
 def check_policy(policy, policylist):
     for j in range(len(policylist)):
         if policylist[j].lower() == policy.lower():
@@ -201,6 +205,8 @@ def non_production_auditor_deployment():
     oci_auditor_environments_policy_list = get_role_policies(oci_auditor_environments_policy_document, "oci-role-based-policy-document", domain, env)
     oci_auditor_environments_policy_data = '[\n'+oci_auditor_environments_policy_list.objtoString()+'\n]'
     replace_policy_list_in_tftemplate(oci_auditor_environments_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+    name = get_policy_name(oci_auditor_environments_policy_document, "oci-role-based-policy-document", env)
+    replace_policy_name_in_tf(name, os.getcwd()+'/terraform/oci_policies.tf')
     print("**********************************************************************************")
 
 def non_production_operator_deployment():
@@ -208,6 +214,8 @@ def non_production_operator_deployment():
     oci_operator_environments_policy_list = get_role_policies(oci_operator_environments_policy_document, "oci-role-based-policy-document", domain, env)
     oci_operator_environments_policy_data = '[\n'+oci_operator_environments_policy_list.objtoString()+'\n]'
     replace_policy_list_in_tftemplate(oci_operator_environments_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+    name = get_policy_name(oci_operator_environments_policy_document, "oci-role-based-policy-document", env)
+    replace_policy_name_in_tf(name, os.getcwd()+'/terraform/oci_policies.tf')
     print("**********************************************************************************")
 
 def non_production_elevated_deployment():
@@ -263,6 +271,11 @@ def replace_policy_list_in_tftemplate(policy_data, tf_var_template):
     with FileInput(tf_var_template, inplace=True, backup='.bak') as f:
         for line in f:
             print(line.replace("POLICIES_OBJECT_LIST", policy_data), end='')
+
+def replace_policy_name_in_tf(name, tf_file):
+    with FileInput(tf_file, inplace=True) as f:
+        for line in f:
+            print(line.replace("TF_POLICY_NAME", name), end='')
 
 
 print("**********************************************************************************")

@@ -107,7 +107,7 @@ def get_policy_name(policy_document, policy_tag, env):
     return name
 
 def get_privilege_policy_name(policy_document, policy_tag, env, end_time_utc):
-    name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env).replace("<END-TIME-UTC>", end_time_utc.lower())
+    name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env).replace("<END-TIME-UTC>", end_time_utc.lower()).replace(":", "-")
     return name
 
 def check_policy(policy, policylist):

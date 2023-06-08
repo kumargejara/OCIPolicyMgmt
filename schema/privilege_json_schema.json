@@ -1,0 +1,64 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Generated schema for Root",
+    "type": "object",
+    "properties": {
+      "oci-role-based-policy-document": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "environment": {
+            "type": "string"
+          },
+          "domain": {
+            "type": "string"
+          },
+          "start-time-utc": {
+            "type": "string"
+          },
+          "end-time-utc": {
+            "type": "string"
+          },
+          "group-based-policies": {
+            "type": "object",
+            "properties": {
+              "policy": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "policy"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "version",
+          "role",
+          "environment",
+          "domain",
+          "start-time-utc",
+          "end-time-utc",
+          "group-based-policies"
+        ]
+      }
+    },
+    "required": [
+      "oci-role-based-policy-document"
+    ]
+  }

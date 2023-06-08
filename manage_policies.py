@@ -88,7 +88,7 @@ def get_role_policies(policy_document, policy_tag, domain, env):
 def get_privilege_role_policies(policy_document, policy_tag, domain, env, purpose, start_time_utc, end_time_utc):
     policy_list = []
     sub_policy_tag_list = ["group-based-policies"]
-    name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env).replace("<END-TIME-UTC>", end_time_utc)
+    name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env).replace("<END-TIME-UTC>", end_time_utc.lower()).replace(":", "-")
     description = policy_document[policy_tag]['description'].replace("<ENVIRONMENT>", env).replace("<PURPOSE>", purpose)
     version = policy_document[policy_tag]['version']
     for i in range(len(sub_policy_tag_list)):

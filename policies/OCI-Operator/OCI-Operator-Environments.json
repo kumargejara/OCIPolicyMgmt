@@ -30,8 +30,7 @@
                "Allow group OCI-Operator-<DOMAIN> to use file-family in compartment <ENVIRONMENT>",
                "Allow group OCI-Operator-<DOMAIN> to read mount-targets in compartment <ENVIRONMENT>",
                "Allow group OCI-Operator-<DOMAIN> to use volume-family in compartment <ENVIRONMENT>",
-               "Allow group OCI-Operator-<DOMAIN> to use instance-family in compartment <ENVIRONMENT>",
-               "Allow group OCI-Operator-<DOMAIN> to use instance-console-connection in compartment <ENVIRONMENT>"
+               "Allow group OCI-Operator-<DOMAIN> to use instance-family in compartment <ENVIRONMENT>"
             ]
         },
         "dynamic-group-based-policies": {

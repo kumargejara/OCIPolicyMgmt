@@ -52,6 +52,7 @@ def validate_json(json_data, json_schema, schemaType):
     message = "Given Json Policy data is Valid with "+ schemaType
     return True, message
 
+
 def get_tenancy_policies(policy_document, policy_tag):
     policy_list = []
     name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env)
@@ -84,6 +85,23 @@ def get_role_policies(policy_document, policy_tag, domain, env):
     policySet.policy_statements = policy_list
     return policySet
 
+def get_privilege_role_policies(policy_document, policy_tag, domain, env, purpose, start_time_utc, end_time_utc):
+    policy_list = []
+    sub_policy_tag_list = ["group-based-policies"]
+    name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env).replace("<END-TIME-UTC>", end_time_utc)
+    description = policy_document[policy_tag]['description'].replace("<ENVIRONMENT>", env).replace("<PURPOSE>", purpose)
+    version = policy_document[policy_tag]['version']
+    for i in range(len(sub_policy_tag_list)):
+        for policy in policy_document[policy_tag][sub_policy_tag_list[i]]['policy']:
+            policy = policy.replace("<DOMAIN>", domain).replace("<ENVIRONMENT>", env).replace("<START_TIME_UTC>", start_time_utc).replace("<END_TIME_UTC>", end_time_utc)
+            policy_list.append(policy)
+    
+    policySet = PolicySetObj()
+    policySet.policy_name = name
+    policySet.policy_description = description + ', version=' + version
+    policySet.policy_statements = policy_list
+    return policySet
+
 def get_policy_name(policy_document, policy_tag, env):
     name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env)
     return name
@@ -96,7 +114,7 @@ def check_policy(policy, policylist):
 
 def tenancy_build_validation():
 
-    tenancy_policy_schema = get_schema('./schema/tenancy_json_schema.json')
+    tenancy_policy_schema = get_schema(os.getcwd()+'/schema/tenancy_json_schema.json')
     tenancy_administrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-Administrator.json')
     tenancy_billingadministrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-BillingAdministrator.json')
     tenancy_monitoringadministrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-MonitoringAdministrator.json')
@@ -120,7 +138,7 @@ def tenancy_build_validation():
 
 def auditor_build_validation():
 
-    compartment_policy_schema = get_schema('./schema/compartment_json_schema.json')
+    compartment_policy_schema = get_schema(os.getcwd()+'/schema/compartment_json_schema.json')
     oci_auditor_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Environments.json')
     oci_auditor_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Sandbox.json')
     oci_auditor_production_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Production.json')
@@ -142,7 +160,7 @@ def auditor_build_validation():
 
 def operator_build_validation():
 
-    compartment_policy_schema = get_schema('./schema/compartment_json_schema.json')
+    compartment_policy_schema = get_schema(os.getcwd()+'/schema/compartment_json_schema.json')
     oci_operator_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Environments.json')
     oci_operator_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Sandbox.json')
     oci_operator_production_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Production.json')
@@ -162,26 +180,20 @@ def operator_build_validation():
     print("Operator Policy Build & Validation Process Completed Successfully")
     print("**********************************************************************************\n")
 
-def elevated_build_validation():
+def privilege_build_validation():
 
-    compartment_policy_schema = get_schema('./schema/compartment_json_schema.json')
-    oci_operator_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Environments.json')
-    oci_operator_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Sandbox.json')
-    oci_operator_production_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Production.json')
+    privilege_policy_schema = get_schema(os.getcwd()+'/schema/privilege_json_schema.json')
+    oci_privilege_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Privilege/OCI-Privilege-Administrator-Environment.json')
 
     print("\n**********************************************************************************")
-    print("Operator Policy Data Loaded Successfully From Source Code")
+    print("Privilege Policy Data Loaded Successfully From Source Code")
     print("**********************************************************************************\n")
     
-    is_valid, msg = validate_json(oci_operator_environments_policy_document, compartment_policy_schema, "OCI-Operator Environment Schema")
+    is_valid, msg = validate_json(oci_privilege_environments_policy_document, privilege_policy_schema, "OCI-Privilege Environment Schema")
     print(msg) 
-    is_valid, msg = validate_json(oci_operator_sandbox_policy_document, compartment_policy_schema, "OCI-Operator Sandbox Schema")
-    print(msg)
-    is_valid, msg = validate_json(oci_operator_production_policy_document, compartment_policy_schema, "OCI-Operator Production Schema")
-    print(msg)
 
     print("\n**********************************************************************************")
-    print("Operator Policy Build & Validation Process Completed Successfully")
+    print("Privilege Policy Build & Validation Process Completed Successfully")
     print("**********************************************************************************\n")
 
 
@@ -218,11 +230,12 @@ def non_production_operator_deployment():
     replace_policy_name_in_tf(name, os.getcwd()+'/terraform/oci_policies.tf')
     print("**********************************************************************************")
 
-def non_production_elevated_deployment():
-    oci_elevated_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Environments.json')
-    oci_elevated_environments_policy_list = get_role_policies(oci_elevated_environments_policy_document, "oci-role-based-policy-document", domain, env)
-    oci_elevated_environments_policy_data = '[\n'+oci_elevated_environments_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_elevated_environments_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+def non_production_privilege_deployment():
+    oci_privilege_policy_inputs = get_json_data(os.getcwd()+'/policies/OCI-Privilege/OCI-Privilege-Administrator-Environment-Inputs.json')
+    oci_privilege_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Privilege/OCI-Privilege-Administrator-Environment.json')
+    oci_privilege_environments_policy_list = get_privilege_role_policies(oci_privilege_environments_policy_document, "oci-role-based-policy-document", domain, env, oci_privilege_policy_inputs['purpose'], oci_privilege_policy_inputs['start-time-utc'], oci_privilege_policy_inputs['end-time-utc'])
+    oci_privilege_environments_policy_data = '[\n'+oci_privilege_environments_policy_list.objtoString()+'\n]'
+    replace_policy_list_in_tftemplate(oci_privilege_environments_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
     print("**********************************************************************************")
 
 def sandbox_auditor_deployment():
@@ -260,13 +273,6 @@ def production_operator_deployment():
     replace_policy_list_in_tftemplate(oci_operator_production_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
     print("**********************************************************************************")
 
-def production_elevated_deployment():
-    oci_elevated_elevated_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Sandbox.json')
-    oci_elevated_elevated_policy_list = get_role_policies(oci_elevated_elevated_policy_document,  "oci-role-based-policy-document", domain, env)
-    oci_elevated_elevated_policy_data = '[\n'+oci_elevated_elevated_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_elevated_elevated_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
-    print("**********************************************************************************")
-
 def replace_policy_list_in_tftemplate(policy_data, tf_var_template):
     with FileInput(tf_var_template, inplace=True, backup='.bak') as f:
         for line in f:
@@ -295,8 +301,8 @@ if (operation.lower()=="auditor-build-validation"):
 if (operation.lower()=="operator-build-validation"):
     operator_build_validation()
 
-if (operation.lower()=="elevated-build-validation"):
-    elevated_build_validation()
+if (operation.lower()=="privilege_build-validation"):
+    privilege_build_validation()
 
 if (operation.lower()=="tenancy-deployment"):
     tenancy_deployment()
@@ -307,8 +313,8 @@ if (operation.lower()=="non-production-auditor-deployment"):
 if (operation.lower()=="non-production-operator-deployment"):
     non_production_operator_deployment()
 
-if (operation.lower()=="non-production-elevated-deployment"):
-    non_production_elevated_deployment()
+if (operation.lower()=="non-production-privilege-deployment"):
+    non_production_privilege_deployment()
 
 if (operation.lower()=="sandbox-auditor-deployment"):
     sandbox_auditor_deployment()
@@ -325,5 +331,3 @@ if (operation.lower()=="production-auditor-deployment"):
 if (operation.lower()=="production-operator-deployment"):
     production_operator_deployment()
 
-if (operation.lower()=="production-elevated-deployment"):
-    production_elevated_deployment()

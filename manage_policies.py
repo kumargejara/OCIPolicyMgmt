@@ -286,8 +286,6 @@ def non_production_privilege_deployment():
     oci_privilege_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Privilege/OCI-Privilege-Administrator-Environment.json')
     oci_privilege_environments_policy_list = get_privilege_role_policies(oci_privilege_policy_inputs, oci_privilege_environments_policy_document, "oci-role-based-policy-document", domain, env)
     replace_policy_list_in_tftemplate(oci_privilege_environments_policy_list, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
-    name = get_privilege_policy_name(oci_privilege_environments_policy_document, "oci-role-based-policy-document", env, oci_privilege_policy_inputs['end-time-utc'])
-    replace_policy_name_in_tf(name, os.getcwd()+'/terraform/oci_policies.tf')
     print("**********************************************************************************")
 
 def sandbox_auditor_deployment():

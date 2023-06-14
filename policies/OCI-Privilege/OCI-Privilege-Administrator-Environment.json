@@ -12,7 +12,6 @@
             "policy": [
                 "Allow group OCI-Privilege-Administrator-<GROUP_ID>-<DOMAIN> to read authentication-policies in compartment <ENVIRONMENT> where all {request.utc-timestamp after '<START_TIME_UTC>', request.utc-timestamp before '<END_TIME_UTC>'}",
                 "Allow group OCI-Privilege-Administrator-<GROUP_ID>-<DOMAIN> to read compartments  in compartment <ENVIRONMENT> where all {request.utc-timestamp after '<START_TIME_UTC>', request.utc-timestamp before '<END_TIME_UTC>'}",
-                "Allow group OCI-Privilege-Administrator-<GROUP_ID>-<DOMAIN> to read credentials in compartment <ENVIRONMENT> where all {request.utc-timestamp after '<START_TIME_UTC>', request.utc-timestamp before '<END_TIME_UTC>'}",
                 "Allow group OCI-Privilege-Administrator-<GROUP_ID>-<DOMAIN> to read groups in compartment <ENVIRONMENT> where all {request.utc-timestamp after '<START_TIME_UTC>', request.utc-timestamp before '<END_TIME_UTC>'}",
                 "Allow group OCI-Privilege-Administrator-<GROUP_ID>-<DOMAIN> to read policies in compartment <ENVIRONMENT> where all {request.utc-timestamp after '<START_TIME_UTC>', request.utc-timestamp before '<END_TIME_UTC>'}",
                 "Allow group OCI-Privilege-Administrator-<GROUP_ID>-<DOMAIN> to manage instances in compartment <ENVIRONMENT> where all {request.utc-timestamp after '<START_TIME_UTC>', request.utc-timestamp before '<END_TIME_UTC>'}",

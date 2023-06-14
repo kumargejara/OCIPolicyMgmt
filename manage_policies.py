@@ -153,7 +153,7 @@ def get_policy_name(policy_document, policy_tag, env):
     name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env)
     return name
 
-def get_privilege_policy_name(policy_document, policy_tag, env, end_time_utc):
+def get_privilege_policy_name(policy_document, policy_tag, env, domain):
     name = policy_document[policy_tag]['name'].replace("<DOMAIN>", domain).replace("<ENVIRONMENT>", env).replace("-<GROUP_ID>", "").replace("-<END-TIME-UTC>", "")
     return name
 
@@ -286,6 +286,8 @@ def non_production_privilege_deployment():
     oci_privilege_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Privilege/OCI-Privilege-Administrator-Environment.json')
     oci_privilege_environments_policy_list = get_privilege_role_policies(oci_privilege_policy_inputs, oci_privilege_environments_policy_document, "oci-role-based-policy-document", domain, env)
     replace_policy_list_in_tftemplate(oci_privilege_environments_policy_list, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+    name = get_privilege_policy_name(oci_privilege_environments_policy_document, "oci-role-based-policy-document", env, domain)
+    replace_policy_name_in_tf(name, os.getcwd()+'/terraform/oci_policies.tf')
     print("**********************************************************************************")
 
 def sandbox_auditor_deployment():

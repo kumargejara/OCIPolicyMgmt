@@ -50,6 +50,8 @@ jobs:
     - name: Execute Policy Build Tool PEO-Dev
       run: |
         echo *************************************
+        pip install oci-cli
+        pip install oci
         ls -lt
         cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
         python manage_policies.py PEO-Dev peo-dev non-production-privilege-deployment
@@ -85,6 +87,8 @@ jobs:
      - name: Execute Policy Build Tool PEO-QEB
        run: |
         echo *************************************
+        pip install oci-cli
+        pip install oci
         ls -lt
         cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
         python manage_policies.py PEO-QE peo-qe non-production-privilege-deployment
@@ -121,6 +125,8 @@ jobs:
       run: |
         echo *************************************
         ls -lt
+        pip install oci-cli
+        pip install oci
         cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
         python manage_policies.py PEO-SDLC peo-stage non-production-privilege-deployment
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars

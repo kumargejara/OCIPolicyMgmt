@@ -38,7 +38,6 @@ jobs:
           ls -lta
           python manage_policies.py privilege privilege privilege-build-validation
           
-      
   DeployDev:
     name: Deploy Dev Privilege Policies
     needs: [BuildPolicies]
@@ -136,8 +135,8 @@ jobs:
         python manage_policies.py PEO-QE peo-qe non-production-privilege-deployment
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
         
-     - name: Deploy PEO-QEB Level Policies
-       run: |
+    - name: Deploy PEO-QEB Level Policies
+      run: |
         echo *************************************
         cd terraform
         rm -rf .terraform
@@ -154,7 +153,7 @@ jobs:
         echo ********************* Terraform Init Complete ****************
         terraform apply -var-file=./env/oci_environments_policies.tfvars -auto-approve
         echo ********************* Terraform Apply Complete ****************
-    
+
   DeployStaging:
     name: Deploy Staging Privilege Policies
     needs: [DeployQEB]

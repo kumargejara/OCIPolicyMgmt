@@ -52,6 +52,8 @@ jobs:
         echo *************************************
         pip install oci-cli
         pip install oci
+        oci --version
+        oci iam group list --name "OCI-Privilege-Administrator-5-PEO-Dev"
         ls -lt
         cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
         python manage_policies.py PEO-Dev peo-dev non-production-privilege-deployment

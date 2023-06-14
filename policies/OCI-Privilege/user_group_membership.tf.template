@@ -1,0 +1,10 @@
+resource "oci_identity_user_group_membership" "user_group_membership<INDEX>" {
+    count = length(var.user_ids_<INDEX>)
+    group_id = OCI_IDENTITY_GROUP_ID
+    user_id = var.user_ids_<INDEX>[count.index]
+}
+
+variable "user_ids_<INDEX>" {
+  type    = list(string)
+  default = OCI_IDENTITY_USER_ID_LIST
+}

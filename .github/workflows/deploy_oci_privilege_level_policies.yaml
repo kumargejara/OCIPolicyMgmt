@@ -47,7 +47,7 @@ jobs:
       name: development
     steps:
     - uses: actions/checkout@v2
-    - name: Execute Policy Build Tool PEO-Dev
+    - name: Execute Policy Build For PEO-Dev
       run: |
         echo *************************************
         ls -lta
@@ -70,9 +70,10 @@ jobs:
         python --version
         pip install oci-cli
         pip install oci
-        oci --version
-        oci iam group list --name "OCI-Privilege-Administrator-5-PEO-Dev"
-        ls -lt
+    
+    - name: Build PEO-Dev Policies Configuration
+      run: |
+        echo *************************************        
         cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
         python manage_policies.py PEO-Dev peo-dev non-production-privilege-deployment
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars

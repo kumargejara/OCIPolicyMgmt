@@ -104,13 +104,34 @@ jobs:
     environment: 
       name: qeb
     steps:
-     - uses: actions/checkout@v2
-     - name: Execute Policy Build Tool PEO-QEB
+    - uses: actions/checkout@v2
+    - name: Execute Policy Build For PEO-QEB
        run: |
         echo *************************************
+        ls -lta
+        mkdir /home/runner/.oci
+        cat config
+        sed -i "s/OCI_USER_ID/${{vars.OCI_USER_ID}}/g" "config"
+        sed -i "s/OCI_FINGER_PRINT_ID/${{vars.OCI_FINGER_PRINT_ID}}/g" "config"
+        sed -i "s/OCI_TENANCY_ID/${{vars.OCI_TENANCY_ID}}/g" "config"
+        sed -i "s/OCI_REGION/${{vars.OCI_REGION}}/g" "config"
+        cat config
+        sudo apt update && sudo apt upgrade -y
+        sudo apt install python3
         pip install oci-cli
         pip install oci
-        ls -lt
+        wget https://releases.hashicorp.com/terraform/1.4.1/terraform_1.4.1_linux_amd64.zip
+        sudo unzip terraform_1.4.1_linux_amd64.zip -d /usr/local/bin <<< "y"
+        oci setup repair-file-permissions --file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config
+        oci setup repair-file-permissions --file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/oci_api_key.pem
+        cp /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config /home/runner/.oci/config
+        python --version
+        pip install oci-cli
+        pip install oci
+      
+    - name: Build PEO-QE Policies Configuration
+      run: |
+        echo *************************************  
         cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
         python manage_policies.py PEO-QE peo-qe non-production-privilege-deployment
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
@@ -142,12 +163,33 @@ jobs:
       name: staging
     steps:
     - uses: actions/checkout@v2
-    - name: Execute Policy Build Tool PEO-Stage
+    - name: Execute Policy Build For PEO-Stage
       run: |
         echo *************************************
-        ls -lt
+        ls -lta
+        mkdir /home/runner/.oci
+        cat config
+        sed -i "s/OCI_USER_ID/${{vars.OCI_USER_ID}}/g" "config"
+        sed -i "s/OCI_FINGER_PRINT_ID/${{vars.OCI_FINGER_PRINT_ID}}/g" "config"
+        sed -i "s/OCI_TENANCY_ID/${{vars.OCI_TENANCY_ID}}/g" "config"
+        sed -i "s/OCI_REGION/${{vars.OCI_REGION}}/g" "config"
+        cat config
+        sudo apt update && sudo apt upgrade -y
+        sudo apt install python3
         pip install oci-cli
         pip install oci
+        wget https://releases.hashicorp.com/terraform/1.4.1/terraform_1.4.1_linux_amd64.zip
+        sudo unzip terraform_1.4.1_linux_amd64.zip -d /usr/local/bin <<< "y"
+        oci setup repair-file-permissions --file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config
+        oci setup repair-file-permissions --file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/oci_api_key.pem
+        cp /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config /home/runner/.oci/config
+        python --version
+        pip install oci-cli
+        pip install oci
+
+    - name: Build PEO-Stage Policies Configuration
+      run: |
+        echo ************************************* 
         cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
         python manage_policies.py PEO-SDLC peo-stage non-production-privilege-deployment
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
@@ -172,17 +214,40 @@ jobs:
         echo ********************* Terraform Apply Complete ****************
   
   DeployPeoLite:
-    name: Deploy Peo-Lite Privilege Policies
+    name: Deploy Peo-LiteR Privilege Policies
     needs: [DeployStaging]
     runs-on: ubuntu-latest
     environment: 
       name: peo-lite
     steps:
     - uses: actions/checkout@v2
-    - name: Execute Policy Build Tool for Peo-Lite
+    - name: Execute Policy Build Tool for Peo-LiteR
       run: |
         echo *************************************
-        ls -lt
+        ls -lta
+        mkdir /home/runner/.oci
+        cat config
+        sed -i "s/OCI_USER_ID/${{vars.OCI_USER_ID}}/g" "config"
+        sed -i "s/OCI_FINGER_PRINT_ID/${{vars.OCI_FINGER_PRINT_ID}}/g" "config"
+        sed -i "s/OCI_TENANCY_ID/${{vars.OCI_TENANCY_ID}}/g" "config"
+        sed -i "s/OCI_REGION/${{vars.OCI_REGION}}/g" "config"
+        cat config
+        sudo apt update && sudo apt upgrade -y
+        sudo apt install python3
+        pip install oci-cli
+        pip install oci
+        wget https://releases.hashicorp.com/terraform/1.4.1/terraform_1.4.1_linux_amd64.zip
+        sudo unzip terraform_1.4.1_linux_amd64.zip -d /usr/local/bin <<< "y"
+        oci setup repair-file-permissions --file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config
+        oci setup repair-file-permissions --file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/oci_api_key.pem
+        cp /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config /home/runner/.oci/config
+        python --version
+        pip install oci-cli
+        pip install oci
+
+    - name: Build PEO-LiteR Policies Configuration
+      run: |
+        echo ************************************* 
         cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
         python manage_policies.py PEO-LiteR peo-lite non-production-privilege-deployment
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
@@ -217,7 +282,30 @@ jobs:
     - name: Execute Policy Build Tool for Peo-Demo
       run: |
         echo *************************************
-        ls -lt
+        ls -lta
+        mkdir /home/runner/.oci
+        cat config
+        sed -i "s/OCI_USER_ID/${{vars.OCI_USER_ID}}/g" "config"
+        sed -i "s/OCI_FINGER_PRINT_ID/${{vars.OCI_FINGER_PRINT_ID}}/g" "config"
+        sed -i "s/OCI_TENANCY_ID/${{vars.OCI_TENANCY_ID}}/g" "config"
+        sed -i "s/OCI_REGION/${{vars.OCI_REGION}}/g" "config"
+        cat config
+        sudo apt update && sudo apt upgrade -y
+        sudo apt install python3
+        pip install oci-cli
+        pip install oci
+        wget https://releases.hashicorp.com/terraform/1.4.1/terraform_1.4.1_linux_amd64.zip
+        sudo unzip terraform_1.4.1_linux_amd64.zip -d /usr/local/bin <<< "y"
+        oci setup repair-file-permissions --file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config
+        oci setup repair-file-permissions --file /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/oci_api_key.pem
+        cp /home/runner/work/OCIPolicyMgmt/OCIPolicyMgmt/config /home/runner/.oci/config
+        python --version
+        pip install oci-cli
+        pip install oci
+
+    - name: Build PEO-Demo Policies Configuration
+      run: |
+        echo ************************************* 
         cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
         python manage_policies.py PEO-Demo peo-demo non-production-privilege-deployment
         mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars

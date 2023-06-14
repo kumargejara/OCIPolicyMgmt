@@ -2,7 +2,7 @@
     "oci-role-based-policy-document": {
        "name": "OCI-Auditor-<ENVIRONMENT>_policies",
        "description": "The policy set defined for role OCI-Auditor includes group, and dynamic group based policies",
-       "version": "2.5.1",
+       "version": "2.5.9",
        "role": "OCI-Auditor",
        "environment": "ENVIRONMENT",
        "domain": "DOMAIN",
@@ -24,7 +24,6 @@
                 "Allow group OCI-Auditor-<DOMAIN> to read buckets in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read file-systems in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read export-sets in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to read ons-topics in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read ons-subscriptions in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read cloudevents-rules in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read objectstorage-namespaces in compartment <ENVIRONMENT>",

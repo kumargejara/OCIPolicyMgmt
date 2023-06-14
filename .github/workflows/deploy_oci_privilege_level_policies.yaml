@@ -106,7 +106,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Execute Policy Build For PEO-QEB
-       run: |
+      run: |
         echo *************************************
         ls -lta
         mkdir /home/runner/.oci

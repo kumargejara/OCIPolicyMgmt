@@ -41,6 +41,29 @@ def get_json_data(file_name):
         json_data = json.load(file)
     return json_data
 
+def getOCIIDForGroup(name):
+        os.system('oci iam group list --name "'+name+'" >'+os.getcwd()+'/policies/OCI-Privilege/'+name+'.json')
+        oci_group_json = get_json_data(os.getcwd()+'/policies/OCI-Privilege/'+name+'.json')
+        group_oci_id = oci_group_json["data"][0]
+        return group_oci_id["id"]
+
+def getOCIID(name):
+    os.system('oci iam user list --all > '+os.getcwd()+'/policies/OCI-Privilege/all_users.json')
+    oci_user_json = get_json_data(os.getcwd()+'/policies/OCI-Privilege/all_users.json')
+    for k in range(len(oci_user_json["data"])):
+        user_record = oci_user_json["data"][k]
+        if (user_record["email"]==name):
+            return user_record["id"]
+    return "null"
+
+def getOCIIDforUserIds(userid_list):
+    data = '['
+    for i in range(0, len(userid_list)):    
+        data = data +'"'+getOCIID(userid_list[i])+'",'
+    data = data + ']'
+    return data.replace(',]', "]")
+
+
 def validate_json(json_data, json_schema, schemaType):
     try:
         validate(instance=json_data, schema=json_schema)
@@ -85,22 +108,46 @@ def get_role_policies(policy_document, policy_tag, domain, env):
     policySet.policy_statements = policy_list
     return policySet
 
-def get_privilege_role_policies(policy_document, policy_tag, domain, env, purpose, start_time_utc, end_time_utc):
-    policy_list = []
+def replace_user_group_ids_in_tf(group_id, user_id_list, policy_group_id, tf_template_file, new_tf_file):
+    new_tf_file = new_tf_file.replace(".tf", policy_group_id+".tf")
+    print(new_tf_file)
+    os.system('cp '+tf_template_file+' '+new_tf_file)
+    with FileInput(new_tf_file, inplace=True) as f:
+        for line in f:
+            print(line.replace("OCI_IDENTITY_GROUP_ID", '"'+getOCIIDForGroup(group_id)+'"').replace("<INDEX>", policy_group_id).replace("OCI_IDENTITY_USER_ID_LIST", getOCIIDforUserIds(user_id_list)), end='')
+
+def get_privilege_role_policies(oci_privilege_policy_inputs, policy_document, policy_tag, domain, env):
     sub_policy_tag_list = ["group-based-policies"]
-    name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env).replace("<END-TIME-UTC>", end_time_utc.lower()).replace(":", "-")
-    description = policy_document[policy_tag]['description'].replace("<ENVIRONMENT>", env).replace("<PURPOSE>", purpose)
-    version = policy_document[policy_tag]['version']
-    for i in range(len(sub_policy_tag_list)):
-        for policy in policy_document[policy_tag][sub_policy_tag_list[i]]['policy']:
-            policy = policy.replace("<DOMAIN>", domain).replace("<ENVIRONMENT>", env).replace("<START_TIME_UTC>", start_time_utc).replace("<END_TIME_UTC>", end_time_utc)
-            policy_list.append(policy)
+    policySetList = '[\n'
+    for k in range(len(oci_privilege_policy_inputs["policy_deployment_list"])):
+        policy_input = oci_privilege_policy_inputs["policy_deployment_list"][k]
+        policy_list = []
+        if (policy_input["start-time-utc"]!="not_active"):
+            start_time_utc = policy_input["start-time-utc"]
+            end_time_utc = policy_input["end-time-utc"]
+            policy_group_id = policy_input["policy_group_id"]
+            purpose = policy_input["purpose"]
+            user_list = policy_input["user_email_id"]
+            group = policy_document[policy_tag]['role'].replace("<DOMAIN>", domain).replace("<GROUP_ID>", policy_group_id)
+            name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env).replace("<GROUP_ID>", policy_group_id).replace("<DOMAIN>", domain).replace("<END-TIME-UTC>", end_time_utc.lower()).replace(":", "-")
+            description = policy_document[policy_tag]['description'].replace("<ENVIRONMENT>", env).replace("<PURPOSE>", purpose)
+            version = policy_document[policy_tag]['version']
+            oci_user_group_tf_template = os.getcwd()+'/policies/OCI-Privilege/user_group_membership.tf.template'
+            oci_user_group_tf_file = os.getcwd()+'/terraform/user_group_membership.tf'
+            replace_user_group_ids_in_tf(group, user_list, policy_group_id, oci_user_group_tf_template, oci_user_group_tf_file)
+            for i in range(len(sub_policy_tag_list)):
+                for policy in policy_document[policy_tag][sub_policy_tag_list[i]]['policy']:
+                    policy = policy.replace("<DOMAIN>", domain).replace("<GROUP_ID>", policy_group_id).replace("<ENVIRONMENT>", env).replace("<START_TIME_UTC>", start_time_utc).replace("<END_TIME_UTC>", end_time_utc)
+                    policy_list.append(policy)
     
-    policySet = PolicySetObj()
-    policySet.policy_name = name
-    policySet.policy_description = description + ', version=' + version
-    policySet.policy_statements = policy_list
-    return policySet
+            policySet = PolicySetObj()
+            policySet.policy_name = name
+            policySet.policy_description = description + ', version=' + version
+            policySet.policy_statements = policy_list
+            policySetList = policySetList+policySet.objtoString()+','
+
+    policySetList = policySetList+'\n]'
+    return policySetList.replace(",\n]", "\n]")
 
 def get_policy_name(policy_document, policy_tag, env):
     name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env)
@@ -237,9 +284,8 @@ def non_production_operator_deployment():
 def non_production_privilege_deployment():
     oci_privilege_policy_inputs = get_json_data(os.getcwd()+'/policies/OCI-Privilege/OCI-Privilege-Administrator-Environment-Inputs.json')
     oci_privilege_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Privilege/OCI-Privilege-Administrator-Environment.json')
-    oci_privilege_environments_policy_list = get_privilege_role_policies(oci_privilege_environments_policy_document, "oci-role-based-policy-document", domain, env, oci_privilege_policy_inputs['purpose'], oci_privilege_policy_inputs['start-time-utc'], oci_privilege_policy_inputs['end-time-utc'])
-    oci_privilege_environments_policy_data = '[\n'+oci_privilege_environments_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_privilege_environments_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+    oci_privilege_environments_policy_list = get_privilege_role_policies(oci_privilege_policy_inputs, oci_privilege_environments_policy_document, "oci-role-based-policy-document", domain, env)
+    replace_policy_list_in_tftemplate(oci_privilege_environments_policy_list, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
     name = get_privilege_policy_name(oci_privilege_environments_policy_document, "oci-role-based-policy-document", env, oci_privilege_policy_inputs['end-time-utc'])
     replace_policy_name_in_tf(name, os.getcwd()+'/terraform/oci_policies.tf')
     print("**********************************************************************************")
@@ -258,7 +304,7 @@ def sandbox_operator_deployment():
     replace_policy_list_in_tftemplate(oci_operator_sandbox_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
     print("**********************************************************************************")
 
-def sandbox_elevated_deployment():
+def sandbox_privilege_deployment():
     oci_elevated_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Sandbox.json')
     oci_elevated_sandbox_policy_list = get_role_policies(oci_elevated_sandbox_policy_document,  "oci-role-based-policy-document", domain, env)
     oci_elevated_sandbox_policy_data = '[\n'+oci_elevated_sandbox_policy_list.objtoString()+'\n]'
@@ -328,12 +374,11 @@ if (operation.lower()=="sandbox-auditor-deployment"):
 if (operation.lower()=="sandbox-operator-deployment"):
     sandbox_operator_deployment()
 
-if (operation.lower()=="sandbox-elevated-deployment"):
-    sandbox_elevated_deployment()
+if (operation.lower()=="sandbox-privilege-deployment"):
+    sandbox_privilege_deployment()
 
 if (operation.lower()=="production-auditor-deployment"):
     production_auditor_deployment()
 
 if (operation.lower()=="production-operator-deployment"):
     production_operator_deployment()
-

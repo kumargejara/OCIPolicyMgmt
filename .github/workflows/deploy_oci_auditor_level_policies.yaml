@@ -51,9 +51,8 @@ jobs:
       run: |
         echo *************************************
         ls -lt
-        cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
+        cp ./terraform/env.tfvars.template.backup ./terraform/env/oci_environments_policies.tfvars
         python manage_policies.py PEO-Dev peo-dev non-production-auditor-deployment
-        mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
         
     - name: Deploy PEO-Dev Level Policies
       run: |
@@ -86,9 +85,8 @@ jobs:
        run: |
         echo *************************************
         ls -lt
-        cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
+        cp ./terraform/env.tfvars.template.backup ./terraform/env/oci_environments_policies.tfvars
         python manage_policies.py PEO-QE peo-qe non-production-auditor-deployment
-        mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
         
      - name: Deploy PEO-QEB Level Policies
        run: |
@@ -121,10 +119,9 @@ jobs:
       run: |
         echo *************************************
         ls -lt
-        cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
+        cp ./terraform/env.tfvars.template.backup ./terraform/env/oci_environments_policies.tfvars
         python manage_policies.py PEO-SDLC peo-stage non-production-auditor-deployment
-        mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
-        
+                
     - name: Deploy PEO-Stage Level Policies
       run: |
         echo *************************************
@@ -156,9 +153,8 @@ jobs:
       run: |
         echo *************************************
         ls -lt
-        cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
-        python manage_policies.py PEO-LiteR peo-lite non-production-auditor-deployment
-        mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
+        cp ./terraform/env.tfvars.template.backup ./terraform/env/oci_environments_policies.tfvars
+        python manage_policies.py PEO-LiteR peo-lite non-production-auditor-deploymentment
         
     - name: Deploy peo-lite Level Policies
       run: |
@@ -191,9 +187,8 @@ jobs:
       run: |
         echo *************************************
         ls -lt
-        cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
+        cp ./terraform/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
         python manage_policies.py PEO-Demo peo-demo non-production-auditor-deployment
-        mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
         
     - name: Deploy peo-Demo Level Policies
       run: |

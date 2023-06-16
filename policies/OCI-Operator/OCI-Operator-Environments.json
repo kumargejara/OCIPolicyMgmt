@@ -14,7 +14,6 @@
                "Allow group OCI-Operator-<DOMAIN> to inspect alarms in compartment <ENVIRONMENT>",
                "Allow group OCI-Operator-<DOMAIN> to read metrics in compartment <ENVIRONMENT>",
                "Allow group OCI-Operator-<DOMAIN> to use ons-topics in compartment <ENVIRONMENT>",
-               "Allow group OCI-Operator-<DOMAIN> to use streams in compartment <ENVIRONMENT>",
                "Allow group OCI-Operator-<DOMAIN> to use ons-subscriptions in compartment <ENVIRONMENT>",
                "Allow group OCI-Operator-<DOMAIN> to use cloud-shell in compartment <ENVIRONMENT>",
                "Allow group OCI-Operator-<DOMAIN> to use repos in compartment <ENVIRONMENT>",

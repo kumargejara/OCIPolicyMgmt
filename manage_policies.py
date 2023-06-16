@@ -42,10 +42,10 @@ def get_json_data(file_name):
     return json_data
 
 def getOCIIDForGroup(name):
-        os.system('oci iam group list --name "'+name+'" >'+os.getcwd()+'/policies/OCI-Privilege/'+name+'.json')
-        oci_group_json = get_json_data(os.getcwd()+'/policies/OCI-Privilege/'+name+'.json')
-        group_oci_id = oci_group_json["data"][0]
-        return group_oci_id["id"]
+    os.system('oci iam group list --name "'+name+'" >'+os.getcwd()+'/policies/OCI-Privilege/'+name+'.json')
+    oci_group_json = get_json_data(os.getcwd()+'/policies/OCI-Privilege/'+name+'.json')
+    group_oci_id = oci_group_json["data"][0]
+    return group_oci_id["id"]
 
 def getOCIID(name):
     os.system('oci iam user list --all > '+os.getcwd()+'/policies/OCI-Privilege/all_users.json')
@@ -132,7 +132,7 @@ def get_privilege_role_policies(oci_privilege_policy_inputs, policy_document, po
             name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env).replace("<GROUP_ID>", policy_group_id).replace("<DOMAIN>", domain).replace("<END-TIME-UTC>", end_time_utc.lower()).replace(":", "-")
             description = policy_document[policy_tag]['description'].replace("<ENVIRONMENT>", env).replace("<PURPOSE>", purpose)
             version = policy_document[policy_tag]['version']
-            oci_user_group_tf_template = os.getcwd()+'/policies/OCI-Privilege/user_group_membership.tf.template'
+            oci_user_group_tf_template = os.getcwd()+'/terraform/env/user_group_membership.tf.template'
             oci_user_group_tf_file = os.getcwd()+'/terraform/user_group_membership.tf'
             replace_user_group_ids_in_tf(group, user_list, policy_group_id, oci_user_group_tf_template, oci_user_group_tf_file)
             for i in range(len(sub_policy_tag_list)):
@@ -166,21 +166,21 @@ def check_policy(policy, policylist):
 def tenancy_build_validation():
 
     tenancy_policy_schema = get_schema(os.getcwd()+'/schema/tenancy_json_schema.json')
-    tenancy_administrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-Administrator.json')
-    tenancy_billingadministrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-BillingAdministrator.json')
-    tenancy_monitoringadministrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-MonitoringAdministrator.json')
-    tenancy_network_administrator_global_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Network-OCI-NetworkAdminGlobal.json')
+    tenancy_administrator_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Tenancy/OCI-Tenancy-Administrator.json')
+    tenancy_billing_admin_master_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Tenancy/OCI-Tenancy-BillingAdminMaster.json')
+    tenancy_monitoring_admin_global_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Tenancy/OCI-Tenancy-MonitoringAdminGlobal.json')
+    tenancy_network_admin_global_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Tenancy/OCI-Tenancy-NetworkAdminGlobal.json')
     
     print("\n**********************************************************************************")
     print("Tenancy Policy Data Loaded Successfully From Source Code")
     print("**********************************************************************************\n")
-    is_valid, msg = validate_json(tenancy_administrator_policy_document, tenancy_policy_schema, "Tenancy OCI-Administrator Schema")
+    is_valid, msg = validate_json(tenancy_administrator_policy_document, tenancy_policy_schema, "OCI-Tenancy-Administrator Schema")
     print(msg) 
-    is_valid, msg = validate_json(tenancy_billingadministrator_policy_document, tenancy_policy_schema, "Tenancy OCI-BillingAdministrator Schema")
+    is_valid, msg = validate_json(tenancy_billing_admin_master_policy_document, tenancy_policy_schema, "OCI-Tenancy-BillingAdmin-Master Schema")
     print(msg)
-    is_valid, msg = validate_json(tenancy_monitoringadministrator_policy_document, tenancy_policy_schema, "Tenancy OCI-MonitoringAdministrator Schema")
+    is_valid, msg = validate_json(tenancy_monitoring_admin_global_policy_document, tenancy_policy_schema, "OCI-Tenancy-MonitoringAdmin-Global Schema")
     print(msg)
-    is_valid, msg = validate_json(tenancy_network_administrator_global_policy_document, tenancy_policy_schema, "Tenancy Network-OCI-NetworkAdmin Schema")
+    is_valid, msg = validate_json(tenancy_network_admin_global_policy_document, tenancy_policy_schema, "OCI-Tenancy-NetworkAdmin-Global Schema")
     print(msg)
 
     print("\n**********************************************************************************")
@@ -249,25 +249,25 @@ def privilege_build_validation():
 
 
 def tenancy_deployment():
-    tenancy_administrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-Administrator.json')
-    tenancy_billingadministrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-BillingAdministrator.json')
-    tenancy_monitoringadministrator_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Tenancy-OCI-MonitoringAdministrator.json')
-    tenancy_network_administrator_global_policy_document = get_json_data(os.getcwd()+'/policies/Tenancy/Network-OCI-NetworkAdminGlobal.json')
+    tenancy_administrator_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Tenancy/OCI-Tenancy-Administrator.json')
+    tenancy_billing_admin_master_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Tenancy/OCI-Tenancy-BillingAdminMaster.json')
+    tenancy_monitoring_admin_global_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Tenancy/OCI-Tenancy-MonitoringAdminGlobal.json')
+    tenancy_network_admin_global_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Tenancy/OCI-Tenancy-NetworkAdminGlobal.json')
     tenancy_administrator_policy_list = get_tenancy_policies(tenancy_administrator_policy_document, "oci-tenancy-based-policy-document")
-    tenancy_billingadministrator_policy_list = get_tenancy_policies(tenancy_billingadministrator_policy_document, "oci-tenancy-based-policy-document")
-    tenancy_monitoringadministrator_policy_list = get_tenancy_policies(tenancy_monitoringadministrator_policy_document, "oci-tenancy-based-policy-document")
-    tenancy_network_administrator_global_policy_list = get_tenancy_policies(tenancy_network_administrator_global_policy_document, "oci-tenancy-based-policy-document")
-    tenant_generic_policy_data = '[\n'+tenancy_administrator_policy_list.objtoString()+',\n'+tenancy_billingadministrator_policy_list.objtoString()+',\n'+tenancy_monitoringadministrator_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(tenant_generic_policy_data, os.getcwd()+'/policies/Tenancy/tenancy-generic-policies.tfvars.template')
-    tenant_network_policy_data = '[\n'+tenancy_network_administrator_global_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(tenant_network_policy_data, os.getcwd()+'/policies/Tenancy/tenancy-network-policies.tfvars.template')
+    tenancy_billing_admin_master_policy_list = get_tenancy_policies(tenancy_billing_admin_master_policy_document, "oci-tenancy-based-policy-document")
+    tenancy_monitoring_admin_global_policy_list = get_tenancy_policies(tenancy_monitoring_admin_global_policy_document, "oci-tenancy-based-policy-document")
+    tenancy_network_admin_global_policy_list = get_tenancy_policies(tenancy_network_admin_global_policy_document, "oci-tenancy-based-policy-document")
+    tenant_generic_policy_data = '[\n'+tenancy_administrator_policy_list.objtoString()+',\n'+tenancy_billing_admin_master_policy_list.objtoString()+',\n'+tenancy_monitoring_admin_global_policy_list.objtoString()+'\n]'
+    replace_policy_list_in_tftemplate(tenant_generic_policy_data, os.getcwd()+'/terraform/env/tenancy-generic-policies.tfvars.template')
+    tenant_network_policy_data = '[\n'+tenancy_network_admin_global_policy_list.objtoString()+'\n]'
+    replace_policy_list_in_tftemplate(tenant_network_policy_data, os.getcwd()+'/terraform/env/tenancy-network-policies.tfvars.template')
     print("**********************************************************************************")
 
 def non_production_auditor_deployment():
     oci_auditor_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Environments.json')
     oci_auditor_environments_policy_list = get_role_policies(oci_auditor_environments_policy_document, "oci-role-based-policy-document", domain, env)
     oci_auditor_environments_policy_data = '[\n'+oci_auditor_environments_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_auditor_environments_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+    replace_policy_list_in_tftemplate(oci_auditor_environments_policy_data, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
     name = get_policy_name(oci_auditor_environments_policy_document, "oci-role-based-policy-document", env)
     replace_policy_name_in_tf(name, os.getcwd()+'/terraform/oci_policies.tf')
     print("**********************************************************************************")
@@ -276,7 +276,7 @@ def non_production_operator_deployment():
     oci_operator_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Environments.json')
     oci_operator_environments_policy_list = get_role_policies(oci_operator_environments_policy_document, "oci-role-based-policy-document", domain, env)
     oci_operator_environments_policy_data = '[\n'+oci_operator_environments_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_operator_environments_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+    replace_policy_list_in_tftemplate(oci_operator_environments_policy_data, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
     name = get_policy_name(oci_operator_environments_policy_document, "oci-role-based-policy-document", env)
     replace_policy_name_in_tf(name, os.getcwd()+'/terraform/oci_policies.tf')
     print("**********************************************************************************")
@@ -285,7 +285,7 @@ def non_production_privilege_deployment():
     oci_privilege_policy_inputs = get_json_data(os.getcwd()+'/policies/OCI-Privilege/OCI-Privilege-Administrator-Environment-Inputs.json')
     oci_privilege_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Privilege/OCI-Privilege-Administrator-Environment.json')
     oci_privilege_environments_policy_list = get_privilege_role_policies(oci_privilege_policy_inputs, oci_privilege_environments_policy_document, "oci-role-based-policy-document", domain, env)
-    replace_policy_list_in_tftemplate(oci_privilege_environments_policy_list, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+    replace_policy_list_in_tftemplate(oci_privilege_environments_policy_list, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
     name = get_privilege_policy_name(oci_privilege_environments_policy_document, "oci-role-based-policy-document", env, domain)
     replace_policy_name_in_tf(name, os.getcwd()+'/terraform/oci_policies.tf')
     print("**********************************************************************************")
@@ -294,35 +294,35 @@ def sandbox_auditor_deployment():
     oci_auditor_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Sandbox.json')
     oci_auditor_sandbox_policy_list = get_role_policies(oci_auditor_sandbox_policy_document,  "oci-role-based-policy-document", domain, env)
     oci_auditor_sandbox_policy_data = '[\n'+oci_auditor_sandbox_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_auditor_sandbox_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+    replace_policy_list_in_tftemplate(oci_auditor_sandbox_policy_data, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
     print("**********************************************************************************")
 
 def sandbox_operator_deployment():
     oci_operator_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Sandbox.json')
     oci_operator_sandbox_policy_list = get_role_policies(oci_operator_sandbox_policy_document, "oci-role-based-policy-document", domain, env)
     oci_operator_sandbox_policy_data = '[\n'+oci_operator_sandbox_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_operator_sandbox_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+    replace_policy_list_in_tftemplate(oci_operator_sandbox_policy_data, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
     print("**********************************************************************************")
 
 def sandbox_privilege_deployment():
     oci_elevated_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Sandbox.json')
     oci_elevated_sandbox_policy_list = get_role_policies(oci_elevated_sandbox_policy_document,  "oci-role-based-policy-document", domain, env)
     oci_elevated_sandbox_policy_data = '[\n'+oci_elevated_sandbox_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_elevated_sandbox_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+    replace_policy_list_in_tftemplate(oci_elevated_sandbox_policy_data, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
     print("**********************************************************************************")
 
 def production_auditor_deployment():
     oci_auditor_production_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Production.json')
     oci_auditor_production_policy_list = get_role_policies(oci_auditor_production_policy_document, "oci-role-based-policy-document", domain, env)
     oci_auditor_production_policy_data = '[\n'+oci_auditor_production_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_auditor_production_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+    replace_policy_list_in_tftemplate(oci_auditor_production_policy_data, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
     print("**********************************************************************************")
 
 def production_operator_deployment():
     oci_operator_production_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Production.json')
     oci_operator_production_policy_list = get_role_policies(oci_operator_production_policy_document, "oci-role-based-policy-document", domain, env)
     oci_operator_production_policy_data = '[\n'+oci_operator_production_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_operator_production_policy_data, os.getcwd()+'/policies/oci_environments_policies.tfvars.template')
+    replace_policy_list_in_tftemplate(oci_operator_production_policy_data, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
     print("**********************************************************************************")
 
 def replace_policy_list_in_tftemplate(policy_data, tf_var_template):

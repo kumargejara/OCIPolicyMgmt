@@ -258,9 +258,9 @@ def tenancy_deployment():
     tenancy_monitoring_admin_global_policy_list = get_tenancy_policies(tenancy_monitoring_admin_global_policy_document, "oci-tenancy-based-policy-document")
     tenancy_network_admin_global_policy_list = get_tenancy_policies(tenancy_network_admin_global_policy_document, "oci-tenancy-based-policy-document")
     tenant_generic_policy_data = '[\n'+tenancy_administrator_policy_list.objtoString()+',\n'+tenancy_billing_admin_master_policy_list.objtoString()+',\n'+tenancy_monitoring_admin_global_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(tenant_generic_policy_data, os.getcwd()+'/terraform/env/tenancy-generic-policies.tfvars.template')
+    replace_policy_list_in_tftemplate(tenant_generic_policy_data, os.getcwd()+'/terraform/env/tenancy-generic-policies.tfvars')
     tenant_network_policy_data = '[\n'+tenancy_network_admin_global_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(tenant_network_policy_data, os.getcwd()+'/terraform/env/tenancy-network-policies.tfvars.template')
+    replace_policy_list_in_tftemplate(tenant_network_policy_data, os.getcwd()+'/terraform/env/tenancy-network-policies.tfvars')
     print("**********************************************************************************")
 
 def non_production_auditor_deployment():

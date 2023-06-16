@@ -22,7 +22,6 @@
             "Allow group OCI-Administrator-PEO-Dev to read all-resources in tenancy",
             "Allow group OCI-Administrator-PEO-Dev to use cloud-shell in tenancy",
             "Allow group OCI-Administrator-PEO-LiteR to use tag-namespaces in tenancy",
-            "Allow group OCI-Administrator-PEO-LiteR to read all-resources in tenancy",
             "Allow group OCI-Administrator-PEO-LiteR to use cloud-shell in tenancy",
             "Allow group OCI-Administrator-PEO-Prod to use tag-namespaces in tenancy",
             "Allow group OCI-Administrator-PEO-Prod to read all-resources in tenancy",

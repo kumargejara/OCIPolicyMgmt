@@ -154,7 +154,8 @@ jobs:
         echo *************************************
         ls -lt
         cp ./terraform/env/env.tfvars.template.backup ./terraform/env/oci_environments_policies.tfvars
-        python manage_policies.py PEO-LiteR peo-lite non-production-auditor-deploymentment
+        python manage_policies.py PEO-LiteR peo-lite non-production-auditor-deployment
+        pwd
         cat ./terraform/env/oci_environments_policies.tfvars
         
     - name: Deploy peo-lite Level Policies

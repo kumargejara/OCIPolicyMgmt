@@ -18,7 +18,6 @@
                 "Allow group OCI-Auditor-<DOMAIN> to read volumes in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read volume-backups in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read boot-volume-backups in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to read vcns in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read network-security-groups in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read security-lists in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read buckets in compartment <ENVIRONMENT>",

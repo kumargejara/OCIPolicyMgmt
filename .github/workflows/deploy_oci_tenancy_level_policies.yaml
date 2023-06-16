@@ -50,8 +50,8 @@ jobs:
         run: |
           echo *************************************
           ls -lt
-          cp ./terraform/env.tfvars.template.backup ./terraform/env/tenancy-generic-policies.tfvars
-          cp ./terraform/env.tfvars.template.backup ./terraform/env/tenancy-network-policies.tfvars
+          cp ./terraform/env/env.tfvars.template.backup ./terraform/env/tenancy-generic-policies.tfvars
+          cp ./terraform/env/env.tfvars.template.backup ./terraform/env/tenancy-network-policies.tfvars
           python manage_policies.py tenancy tenancy tenancy-deployment
     
       - name: Deploy Tenancy Level Generic Policies

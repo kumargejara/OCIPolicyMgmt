@@ -12,7 +12,6 @@
             "Allow group OCI-Administrator-EngTools to use cloud-shell in tenancy",
             "Allow group OCI-Administrator-Infrastructure-Prod to use tag-namespaces in tenancy",
             "Allow group OCI-Administrator-Infrastructure-Prod to read all-resources in tenancy",
-            "Allow group OCI-Administrator-Infrastructure-Prod to use cloud-shell in tenancy",
             "Allow group OCI-Administrator-Migration to use tag-namespaces in tenancy",
             "Allow group OCI-Administrator-Migration to read all-resources in tenancy",
             "Allow group OCI-Administrator-Migration to use cloud-shell in tenancy",

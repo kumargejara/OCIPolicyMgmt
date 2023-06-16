@@ -19,7 +19,6 @@
                 "Allow group OCI-Auditor-<DOMAIN> to read volume-backups in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read security-lists in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read buckets in compartment <ENVIRONMENT>",
-                "Allow group OCI-Auditor-<DOMAIN> to read file-systems in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read export-sets in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read ons-subscriptions in compartment <ENVIRONMENT>",
                 "Allow group OCI-Auditor-<DOMAIN> to read cloudevents-rules in compartment <ENVIRONMENT>",

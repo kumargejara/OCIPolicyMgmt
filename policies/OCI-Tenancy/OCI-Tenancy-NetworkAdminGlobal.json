@@ -11,7 +11,6 @@
                 "Allow group OCI-NetworkAdmin-Global to manage load-balancers in compartment network",
                 "Allow group OCI-NetworkAdmin-Global to manage instances in compartment network",
                 "Allow group OCI-NetworkAdmin-Global to manage volume-family in compartment network",
-                "Allow group OCI-NetworkAdmin-Global to manage buckets in compartment network",
                 "Allow group OCI-NetworkAdmin-Global to manage objects in compartment network"
             ]
     }

@@ -155,6 +155,7 @@ jobs:
         ls -lt
         cp ./terraform/env/env.tfvars.template.backup ./terraform/env/oci_environments_policies.tfvars
         python manage_policies.py PEO-LiteR peo-lite non-production-auditor-deploymentment
+        cat ./env/oci_environments_policies.tfvars
         
     - name: Deploy peo-lite Level Policies
       run: |
@@ -171,6 +172,7 @@ jobs:
         export TF_VAR_tenancy_ocid=${{ vars.OCI_TENANCY_ID }}
         export TF_VAR_compartment_ocid=${{ vars.OCI_COMPARTMENT_ID }}
         terraform init -backend-config=./env/oci-auditor-policies-peo-lite-backend.conf
+        cat ./env/oci_environments_policies.tfvars
         echo ********************* Terraform Init Complete ****************
         terraform apply -var-file=./env/oci_environments_policies.tfvars -auto-approve
         echo ********************* Terraform Apply Complete ****************
@@ -189,6 +191,7 @@ jobs:
         ls -lt
         cp ./terraform/env/env.tfvars.template.backup ./terraform/env/oci_environments_policies.tfvars
         python manage_policies.py PEO-Demo peo-demo non-production-auditor-deployment
+        cat ./env/oci_environments_policies.tfvars
         
     - name: Deploy peo-Demo Level Policies
       run: |

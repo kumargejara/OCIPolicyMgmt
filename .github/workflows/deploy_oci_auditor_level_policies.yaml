@@ -187,7 +187,7 @@ jobs:
       run: |
         echo *************************************
         ls -lt
-        cp ./terraform/env/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
+        cp ./terraform/env/env.tfvars.template.backup ./terraform/env/oci_environments_policies.tfvars
         python manage_policies.py PEO-Demo peo-demo non-production-auditor-deployment
         
     - name: Deploy peo-Demo Level Policies

@@ -3,7 +3,7 @@ name: oci tenancy level policy build & deploymnet
 on:
   push:
     paths:
-      - 'policies/Tenancy/**'
+      - 'policies/OCI-Tenancy/**'
       - '!docs/**'
       - '!*.md'
   workflow_dispatch:
@@ -50,11 +50,9 @@ jobs:
         run: |
           echo *************************************
           ls -lt
-          cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-generic-policies.tfvars.template
-          cp ./policies/env.tfvars.template.backup ./policies/Tenancy/tenancy-network-policies.tfvars.template
+          cp ./terraform/env.tfvars.template.backup ./terraform/env/tenancy-generic-policies.tfvars
+          cp ./terraform/env.tfvars.template.backup ./terraform/env/tenancy-network-policies.tfvars
           python manage_policies.py tenancy tenancy tenancy-deployment
-          mv ./policies/Tenancy/tenancy-generic-policies.tfvars.template ./terraform/env/tenancy-generic-policies.tfvars
-          mv ./policies/Tenancy/tenancy-network-policies.tfvars.template ./terraform/env/tenancy-network-policies.tfvars
     
       - name: Deploy Tenancy Level Generic Policies
         run: |
@@ -92,4 +90,3 @@ jobs:
           echo ********************* Terraform Init Complete ****************
           terraform apply -var-file=./env/tenancy-network-policies.tfvars -auto-approve
           echo ********************* Terraform Apply Complete ****************
-    

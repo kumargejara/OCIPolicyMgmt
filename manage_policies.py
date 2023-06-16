@@ -269,7 +269,7 @@ def non_production_auditor_deployment():
     oci_auditor_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Environments.json')
     oci_auditor_environments_policy_list = get_role_policies(oci_auditor_environments_policy_document, "oci-role-based-policy-document", domain, env)
     oci_auditor_environments_policy_data = '[\n'+oci_auditor_environments_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_auditor_environments_policy_data, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
+    replace_policy_list_in_tftemplate(oci_auditor_environments_policy_data, os.getcwd()+'/terraform/env/oci_environments_policies.tfvars')
     name = get_policy_name(oci_auditor_environments_policy_document, "oci-role-based-policy-document", env)
     replace_policy_name_in_tf(name, os.getcwd()+'/terraform/oci_policies.tf')
     print("**********************************************************************************")
@@ -278,7 +278,7 @@ def non_production_operator_deployment():
     oci_operator_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Environments.json')
     oci_operator_environments_policy_list = get_role_policies(oci_operator_environments_policy_document, "oci-role-based-policy-document", domain, env)
     oci_operator_environments_policy_data = '[\n'+oci_operator_environments_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_operator_environments_policy_data, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
+    replace_policy_list_in_tftemplate(oci_operator_environments_policy_data, os.getcwd()+'/terraform/env/oci_environments_policies.tfvars')
     name = get_policy_name(oci_operator_environments_policy_document, "oci-role-based-policy-document", env)
     replace_policy_name_in_tf(name, os.getcwd()+'/terraform/oci_policies.tf')
     print("**********************************************************************************")

@@ -287,7 +287,7 @@ def non_production_privilege_deployment():
     oci_privilege_policy_inputs = get_json_data(os.getcwd()+'/policies/OCI-Privilege/OCI-Privilege-Administrator-Environment-Inputs.json')
     oci_privilege_environments_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Privilege/OCI-Privilege-Administrator-Environment.json')
     oci_privilege_environments_policy_list = get_privilege_role_policies(oci_privilege_policy_inputs, oci_privilege_environments_policy_document, "oci-role-based-policy-document", domain, env)
-    replace_policy_list_in_tftemplate(oci_privilege_environments_policy_list, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
+    replace_policy_list_in_tftemplate(oci_privilege_environments_policy_list, os.getcwd()+'/terraform/env/oci_environments_policies.tfvars')
     name = get_privilege_policy_name(oci_privilege_environments_policy_document, "oci-role-based-policy-document", env, domain)
     replace_policy_name_in_tf(name, os.getcwd()+'/terraform/oci_policies.tf')
     print("**********************************************************************************")
@@ -296,35 +296,35 @@ def sandbox_auditor_deployment():
     oci_auditor_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Sandbox.json')
     oci_auditor_sandbox_policy_list = get_role_policies(oci_auditor_sandbox_policy_document,  "oci-role-based-policy-document", domain, env)
     oci_auditor_sandbox_policy_data = '[\n'+oci_auditor_sandbox_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_auditor_sandbox_policy_data, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
+    replace_policy_list_in_tftemplate(oci_auditor_sandbox_policy_data, os.getcwd()+'/terraform/env/oci_environments_policies.tfvars')
     print("**********************************************************************************")
 
 def sandbox_operator_deployment():
     oci_operator_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Sandbox.json')
     oci_operator_sandbox_policy_list = get_role_policies(oci_operator_sandbox_policy_document, "oci-role-based-policy-document", domain, env)
     oci_operator_sandbox_policy_data = '[\n'+oci_operator_sandbox_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_operator_sandbox_policy_data, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
+    replace_policy_list_in_tftemplate(oci_operator_sandbox_policy_data, os.getcwd()+'/terraform/env/oci_environments_policies.tfvars')
     print("**********************************************************************************")
 
 def sandbox_privilege_deployment():
     oci_elevated_sandbox_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Sandbox.json')
     oci_elevated_sandbox_policy_list = get_role_policies(oci_elevated_sandbox_policy_document,  "oci-role-based-policy-document", domain, env)
     oci_elevated_sandbox_policy_data = '[\n'+oci_elevated_sandbox_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_elevated_sandbox_policy_data, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
+    replace_policy_list_in_tftemplate(oci_elevated_sandbox_policy_data, os.getcwd()+'/terraform/env/oci_environments_policies.tfvars')
     print("**********************************************************************************")
 
 def production_auditor_deployment():
     oci_auditor_production_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Auditor/OCI-Auditor-Production.json')
     oci_auditor_production_policy_list = get_role_policies(oci_auditor_production_policy_document, "oci-role-based-policy-document", domain, env)
     oci_auditor_production_policy_data = '[\n'+oci_auditor_production_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_auditor_production_policy_data, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
+    replace_policy_list_in_tftemplate(oci_auditor_production_policy_data, os.getcwd()+'/terraform/env/oci_environments_policies.tfvars')
     print("**********************************************************************************")
 
 def production_operator_deployment():
     oci_operator_production_policy_document = get_json_data(os.getcwd()+'/policies/OCI-Operator/OCI-Operator-Production.json')
     oci_operator_production_policy_list = get_role_policies(oci_operator_production_policy_document, "oci-role-based-policy-document", domain, env)
     oci_operator_production_policy_data = '[\n'+oci_operator_production_policy_list.objtoString()+'\n]'
-    replace_policy_list_in_tftemplate(oci_operator_production_policy_data, os.getcwd()+'./terraform/env/oci_environments_policies.tfvars')
+    replace_policy_list_in_tftemplate(oci_operator_production_policy_data, os.getcwd()+'/terraform/env/oci_environments_policies.tfvars')
     print("**********************************************************************************")
 
 def replace_policy_list_in_tftemplate(policy_data, tf_var_template):

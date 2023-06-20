@@ -73,9 +73,8 @@ jobs:
     - name: Build PEO-Dev Policies Configuration
       run: |
         echo *************************************        
-        cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
+        cp ./terraform/env/env.tfvars.template.backup ./terraform/env/oci_environments_policies.tfvars
         python manage_policies.py PEO-Dev peo-dev non-production-privilege-deployment
-        mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
         
     - name: Deploy PEO-Dev Level Policies
       run: |
@@ -131,9 +130,8 @@ jobs:
     - name: Build PEO-QE Policies Configuration
       run: |
         echo *************************************  
-        cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
+        cp ./terraform/env/env.tfvars.template.backup ./terraform/env/oci_environments_policies.tfvars
         python manage_policies.py PEO-QE peo-qe non-production-privilege-deployment
-        mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
         
     - name: Deploy PEO-QEB Level Policies
       run: |
@@ -189,9 +187,8 @@ jobs:
     - name: Build PEO-Stage Policies Configuration
       run: |
         echo ************************************* 
-        cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
+        cp ./terraform/env/env.tfvars.template.backup ./terraform/env/oci_environments_policies.tfvars
         python manage_policies.py PEO-SDLC peo-stage non-production-privilege-deployment
-        mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
         
     - name: Deploy PEO-Stage Level Policies
       run: |
@@ -247,9 +244,8 @@ jobs:
     - name: Build PEO-LiteR Policies Configuration
       run: |
         echo ************************************* 
-        cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
+        cp ./terraform/env/env.tfvars.template.backup ./terraform/env/oci_environments_policies.tfvars
         python manage_policies.py PEO-LiteR peo-lite non-production-privilege-deployment
-        mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
         
     - name: Deploy peo-lite Level Policies
       run: |
@@ -305,9 +301,8 @@ jobs:
     - name: Build PEO-Demo Policies Configuration
       run: |
         echo ************************************* 
-        cp ./policies/env.tfvars.template.backup ./policies/oci_environments_policies.tfvars.template
+        cp ./terraform/env/env.tfvars.template.backup ./terraform/env/oci_environments_policies.tfvars
         python manage_policies.py PEO-Demo peo-demo non-production-privilege-deployment
-        mv ./policies/oci_environments_policies.tfvars.template ./terraform/env/oci_environments_policies.tfvars
         
     - name: Deploy peo-Demo Level Policies
       run: |

@@ -125,19 +125,14 @@ def get_privilege_role_policies(oci_privilege_policy_inputs, policy_document, po
         if (policy_input["start-time-utc"]!="not_active"):
             start_time_utc = policy_input["start-time-utc"]
             end_time_utc = policy_input["end-time-utc"]
-            policy_group_id = policy_input["policy_group_id"]
             purpose = policy_input["purpose"]
-            user_list = policy_input["user_email_id"]
-            group = policy_document[policy_tag]['role'].replace("<DOMAIN>", domain).replace("<GROUP_ID>", policy_group_id)
-            name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env).replace("<GROUP_ID>", policy_group_id).replace("<DOMAIN>", domain).replace("<END-TIME-UTC>", end_time_utc.lower()).replace(":", "-")
+            group = policy_document[policy_tag]['role'].replace("<DOMAIN>", domain)
+            name = policy_document[policy_tag]['name'].replace("<ENVIRONMENT>", env).replace("<DOMAIN>", domain).replace("<END-TIME-UTC>", end_time_utc.lower()).replace(":", "-")
             description = policy_document[policy_tag]['description'].replace("<ENVIRONMENT>", env).replace("<PURPOSE>", purpose)
             version = policy_document[policy_tag]['version']
-            oci_user_group_tf_template = os.getcwd()+'/terraform/env/user_group_membership.tf.template'
-            oci_user_group_tf_file = os.getcwd()+'/terraform/user_group_membership.tf'
-            replace_user_group_ids_in_tf(group, user_list, policy_group_id, oci_user_group_tf_template, oci_user_group_tf_file)
             for i in range(len(sub_policy_tag_list)):
                 for policy in policy_document[policy_tag][sub_policy_tag_list[i]]['policy']:
-                    policy = policy.replace("<DOMAIN>", domain).replace("<GROUP_ID>", policy_group_id).replace("<ENVIRONMENT>", env).replace("<START_TIME_UTC>", start_time_utc).replace("<END_TIME_UTC>", end_time_utc)
+                    policy = policy.replace("<DOMAIN>", domain).replace("<ENVIRONMENT>", env).replace("<START_TIME_UTC>", start_time_utc).replace("<END_TIME_UTC>", end_time_utc)
                     policy_list.append(policy)
     
             policySet = PolicySetObj()
@@ -154,7 +149,7 @@ def get_policy_name(policy_document, policy_tag, env):
     return name
 
 def get_privilege_policy_name(policy_document, policy_tag, env, domain):
-    name = policy_document[policy_tag]['name'].replace("<DOMAIN>", domain).replace("<ENVIRONMENT>", env).replace("-<GROUP_ID>", "").replace("-<END-TIME-UTC>", "")
+    name = policy_document[policy_tag]['name'].replace("<DOMAIN>", domain).replace("<ENVIRONMENT>", env).replace("-<END-TIME-UTC>", "")
     return name
 
 def check_policy(policy, policylist):
